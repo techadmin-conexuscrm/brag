@@ -1,8 +1,8 @@
 # Conexus — Brand Kit for Video
 
-Source: *Conexus Brand Book v1.0* (2026-10-31). Colors were confirmed against the
-live product (`ConexusCRM-FE/src/index.css`) and sampled from the shipped logo files.
-Every Conexus video made with `/brag` follows this file.
+Source of truth: [`Conexus_Brand_Book.html`](Conexus_Brand_Book.html) — *Conexus Brand Book v1.0*
+(2026-10-31). Open it in a browser for the full visual book. Colors match the live product
+(`ConexusCRM-FE/src/index.css`). Every Conexus video made with `/brag` follows this file.
 
 **Tagline:** Customer relationships, connected.
 
@@ -31,85 +31,104 @@ Short, plain sentences. Concrete numbers and outcomes. No buzzwords, no hype.
 
 ## Logo
 
-Files in `logos/`:
+Files in `logos/` (transparent PNGs; full logos are 1524×224, marks 184×224):
 
-| File | Use |
-|---|---|
-| `logo-full-color.png` | Full logo on light backgrounds (navy wordmark, blue + black flag E) |
-| `logo-dark-bg.png` | Full logo on dark / navy backgrounds (bright blue + cyan + white) |
-| `mark-full-color.png` | Mark only, light backgrounds — tight spaces, avatars |
-| `mark-dark-bg.png` | Mark only, dark backgrounds |
-| `favicon.svg` | Favicon |
-| `logo.svg` | Current shipped logo.svg (embeds a raster image) |
+| File | Variation | Use on |
+|---|---|---|
+| `logo-full-color.png` | Full color — Navy wordmark, Signal Blue + black flag E | Light backgrounds |
+| `logo-dark-bg.png` | Light-blue — Bright Blue wordmark, Cyan + white flag E | Dark backgrounds |
+| `logo-reversed-white.png` | Reversed white | Navy / brand-blue / dark backgrounds |
+| `logo-mono-black.png` | Mono black (Ink `#0F172A`) | One-color, light backgrounds |
+| `mark-full-color.png` | The mark (flag E), full color | Light — tight spaces, avatars |
+| `mark-dark-bg.png` | The mark, light-blue | Dark backgrounds |
+| `mark-white.png` | The mark, white | App-icon tiles on Navy or Conexus Blue |
+| `favicon.svg` | Favicon (black mark in a white circle) | Browser tabs |
+| `logo.svg` | Current shipped logo.svg (embeds a raster image) | Reference only |
 
-Still needed from the brand pack: mono black, reversed white, light-blue variants and
-high-res (1200px) exports — see `conexus-logo-pack.zip`.
+There is no true vector logo yet. The 1524px PNGs are sharp up to ~1500px wide on screen,
+which covers 1080p video; for 4K or very large scale-ups we need a real SVG export.
 
 **Rules**
 - Clear space: at least ½× the logo height on all sides.
 - Minimum size: full logo 150px wide; mark 24px. In tiny spaces use the mark.
 - Never stretch, recolor, rotate or add effects (glow, shadow, bevel) to the logo.
-- Never put the dark-background logo on a light background, or either logo on a
+- Never put the dark-background logo on a light background, or any logo on a
   low-contrast background.
 - The wordmark is custom lettering — never retype "Conexus" in Geist as a logo.
-  Animate the supplied file (fade, slide, mask reveal), don't rebuild it.
+  Animate the supplied files (fade, slide, mask reveal); don't rebuild them.
 
 ## Color
 
-**Navy anchors the brand; blue leads action.**
+**Navy anchors the brand; blue leads action in-product.**
 
-Logo colors
-| Name | Hex | Where |
+Logo colors — light backgrounds
+| Name | Hex | Role |
 |---|---|---|
-| Conexus Navy | `#0F2288` | Wordmark on light |
-| Flag Blue | `#0962C0` | Top banner of the E on light |
-| Ink Black | `#000000` | Lower banners of the E on light |
-| Bright Blue | `#1E90FF` | Wordmark on dark |
-| Cyan | `#00CFFF` | Top banner of the E on dark |
-| White | `#FFFFFF` | Lower banners of the E on dark |
+| Conexus Navy | `#0F2288` | Wordmark (light bg) |
+| Signal Blue | `#0962C0` | Logo flag (light bg) |
+| Logo Black | `#000000` | Lower flags |
 
-Product colors
-| Name | Hex | Use |
+Logo colors — dark backgrounds
+| Name | Hex | Role |
 |---|---|---|
-| Conexus Blue | `#2563EB` | Primary action, highlights, CTAs |
-| Blue Hover | `#1D4ED8` | Pressed / emphasis |
-| Blue Soft | `#EFF6FF` | Tinted panels |
-| Ink | `#0F172A` | Headline / body text on light |
-| Slate | `#334155` | Secondary text |
-| Muted | `#64748B` | Captions, labels |
-| Background | `#F8FAFC` | Light canvas |
-| Border | `#E5E7EB` | Dividers, card outlines |
-| Dark canvas | `#080C16` (`hsl(222 47% 6%)`) | Dark-mode background |
+| Bright Blue | `#1D8FFF` | Wordmark (dark bg) |
+| Cyan | `#00CFFF` | Logo flag (dark bg) |
 
-Status (use only for meaning)
-| Success `#059669` | Warning `#B45309` | Info `#7C3AED` | Destructive `#DC2626` |
+Brand / product blues
+| Name | Hex | Role |
+|---|---|---|
+| Conexus Blue | `#2563EB` | Product UI — primary, links, CTAs |
+| Blue Deep | `#1D4ED8` | Hover / pressed |
+| Blue 500 | `#3B82F6` | Dark-mode primary |
+| Blue 400 | `#60A5FA` | Highlights |
+| Blue Soft | `#EFF6FF` | Tints, selected |
+
+Neutrals & ink
+| Name | Hex | Role |
+|---|---|---|
+| Ink | `#0F172A` | Primary text |
+| Slate 700 | `#334155` | Secondary text |
+| Slate 500 | `#64748B` | Muted text |
+| Border | `#E5E7EB` | Borders |
+| Muted | `#F1F5F9` | Muted surfaces |
+| Surface | `#F8FAFC` | App background |
+| White | `#FFFFFF` | Cards |
+
+Status & semantic — use only for meaning
+| Success `#059669` — confirmed, paid | Warning `#B45309` — pending, overdue | Info / Violet `#7C3AED` — informational | Destructive `#DC2626` — errors, delete |
 |---|---|---|---|
 
 Data / chart palette, in order: `#2563EB`, `#7C3AED`, `#059669`, `#B45309`, `#334155`
 
-**Balance:** roughly 70% neutral, 22% ink, 8% blue. Blue is the accent, not the canvas —
-except for full-bleed navy title / end cards. Navy and Conexus Blue on white both pass AA.
+**Balance:** Neutral 70% · Ink 22% · Blue 8%. Blue is the accent, not the canvas —
+except for full-bleed Navy title / end cards. Conexus Navy and Conexus Blue on white both
+pass AA. On dark backgrounds use the Bright Blue / Cyan logo (or reversed white).
+
+Dark canvas for video (product dark mode): `#080C16`.
 
 ## Typography
 
-- **Geist** — all headlines, captions and on-screen copy.
-  Display 700 · Headings 600 · Body 400.
-- **Geist Mono** (500) — numbers, money, IDs, code: `$48,250` · `#INV-4821` · `+12.4%`.
-  Use tabular figures so counting-up numbers don't jitter.
+- **Geist** — primary typeface for product UI and marketing: all headlines, captions and
+  on-screen copy. Display 700 · Heading 1–3 600 · Body 400.
+- **Geist Mono** (500) — numbers, money, IDs, code: `$1,240.00` · `#INV-4821` · `+12.4%`.
+  Tabular figures keep columns aligned and stop counting-up numbers from jittering.
 - Both are free (SIL OFL): https://vercel.com/font
+- The logo wordmark is custom lettering and a fixed asset — never reset it in Geist.
 
 ## UI look (for product shots and mock screens)
 
-- Corner radius: 4 / 6 / **8 (default)** / 12 / 14 px
-- Clean white cards on `#F8FAFC`, 1px `#E5E7EB` borders, soft low elevation.
-- Example stat card: label "Revenue", value `$48,250` in Geist Mono, delta `+12.4%` in success green.
+- Corner radius: sm 4 · md 6 · **lg 8 (default)** · xl 12 · 2xl 14 px
+- Clean white cards on `#F8FAFC`, 1px `#E5E7EB` borders, soft low elevation (3 levels).
+- Buttons: Primary (Conexus Blue), Secondary, Outline.
+- Example stat card: label "Revenue", value `$48,250` in Geist Mono, delta `+12.4%` in Success green.
 - Prefer real screenshots / recordings of the ConexusCRM app over invented UI.
 
 ## Video defaults
 
 - Open or close on the logo with clear space; end card = logo + tagline
   "Customer relationships, connected." (+ URL / CTA when we have one).
-- Navy (`#0F2288`) or dark canvas for title and end cards, using the dark-background logo.
+- Navy (`#0F2288`) title and end cards with the reversed-white logo, or the dark canvas
+  with the light-blue logo.
 - Light, airy product scenes with Conexus Blue as the only accent.
 - Motion: confident and smooth, forward (left → right) like the flag E. No glitch,
   shake or neon effects.
