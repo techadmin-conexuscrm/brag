@@ -39,7 +39,7 @@
   .qr span:not(:first-child){text-align:right}
   .ar{display:flex;align-items:center;gap:12px;padding:0 16px;height:70px;border-top:1px solid var(--border);font-size:22px}
   .ar:first-of-type{border-top:none}
-  .ar .n{width:200px;font-weight:600;flex:none}
+  .ar .n{width:236px;font-weight:600;flex:none}
   .ar .btns{margin-left:auto;display:flex;gap:6px}
   .ar.card{position:static;box-shadow:none;border-radius:0;background:#EFF6FF;box-shadow:inset 5px 0 0 var(--blue)}
   .addon{position:absolute;right:60px;top:200px;height:52px;padding:0 20px;border-radius:999px;background:#fff;color:var(--navy);font-size:22px;font-weight:700;display:flex;align-items:center;gap:8px}
@@ -64,11 +64,11 @@
   .ref{left:60px;width:960px;top:690px;padding:0;overflow:hidden}
   .ref .ar{height:auto;padding:20px 24px;flex-wrap:wrap;row-gap:14px;border-top:none}
   .err{width:100%;font-size:22px;font-weight:600;color:#B91C1C;line-height:1.35;background:#FEF2F2;border-radius:10px;padding:10px 14px}
-  .act{left:60px;width:960px;top:1010px;height:490px;padding:20px 24px}
+  .act{left:60px;width:960px;top:1010px;height:450px;padding:20px 24px}
   .act .hd{display:flex;align-items:center;gap:10px}
   .act .hd .tb{height:42px;padding:0 14px;border-radius:10px;font-size:20px;font-weight:600;color:var(--slate);display:flex;align-items:center;border:1.5px solid var(--border)}
   .act .hd .tb.on{background:var(--navy);color:#fff;border-color:var(--navy)}
-  .act .sub{font-size:19px;color:var(--muted);margin:10px 0 4px}
+  .act .sb2{font-size:19px;color:var(--muted);margin:10px 0 4px}
   .ev{display:flex;align-items:center;gap:14px;padding:11px 0;border-top:1px solid var(--border)}
   .ev .dot{position:static;width:14px;height:14px;border-radius:50%;flex:none}
   .ev .w{font-size:23px;font-weight:600;color:var(--ink)} .ev .d{font-size:19px;color:var(--muted)}
@@ -99,7 +99,7 @@
       <div class="hd"><b>Agents</b><span>Blue rows are collecting a card right now.</span></div>
       <div class="ar"><span class="n">Yuji Itadori</span><span id="Ay"></span><span class="btns"><span class="mbtn">🎧 Listen</span><span class="mbtn">Whisper</span><span class="mbtn">Barge in</span></span></div>
       <div class="ar card"><span class="n">Nobara Kugisaki</span><span id="An"></span><span class="ccard" id="Anc"></span></div>
-      <div class="ar"><span class="n">Megumi Fushiguro</span><span id="Am"></span></div>
+      <div class="ar"><span class="n">Megumi Fushiguro</span><span id="Am"></span><span class="btns" id="Amb"><span class="mbtn">🎧 Listen</span><span class="mbtn">Whisper</span><span class="mbtn">Barge in</span></span></div>
       <div class="ar"><span class="n">Maki Zenin</span><span id="Az"></span></div>
     </div>
   </div>
@@ -114,14 +114,14 @@
   </div>
   <div class="card dia" id="Bdia">
     <svg width="960" height="600" style="position:absolute;left:0;top:0" id="Bsvg">
-      <line x1="230" y1="360" x2="730" y2="360" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
-      <text x="480" y="345" text-anchor="middle" font-family="Poppins" font-size="19" font-weight="600" fill="#64748B">LIVE CALL</text>
-      <line id="Lsa" x1="480" y1="150" x2="250" y2="310" stroke-width="6" stroke-linecap="round"/>
-      <line id="Lsc" x1="480" y1="150" x2="710" y2="310" stroke-width="6" stroke-linecap="round"/>
+      <line x1="230" y1="305" x2="730" y2="305" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
+      <text x="480" y="290" text-anchor="middle" font-family="Poppins" font-size="19" font-weight="600" fill="#64748B">LIVE CALL</text>
+      <line id="Lsa" x1="425" y1="72" x2="250" y2="252" stroke-width="6" stroke-linecap="round"/>
+      <line id="Lsc" x1="535" y1="72" x2="710" y2="252" stroke-width="6" stroke-linecap="round"/>
     </svg>
-    <div class="node" style="left:480px;top:24px"><div class="av" style="background:#B45309;width:100px;height:100px;font-size:34px">KN</div><div class="nm" style="margin-top:6px">Kento Nanami</div><div class="rl">Supervisor</div></div>
-    <div class="node" style="left:200px;top:300px"><div class="av" style="background:#E11D48">YI</div><div class="nm">Yuji Itadori</div><div class="rl">Agent</div><span class="hear" id="Bha"></span></div>
-    <div class="node" style="left:760px;top:300px"><div class="av" style="background:#7C3AED">AT</div><div class="nm">Aoi Todo</div><div class="rl">Customer</div><span class="hear" id="Bhc"></span></div>
+    <div class="node" style="left:480px;top:14px"><div class="av" style="background:#B45309;width:100px;height:100px;font-size:34px">KN</div><div class="nm" style="margin-top:6px">Kento Nanami</div><div class="rl">Supervisor</div></div>
+    <div class="node" style="left:200px;top:250px"><div class="av" style="background:#E11D48">YI</div><div class="nm">Yuji Itadori</div><div class="rl">Agent</div><span class="hear" id="Bha"></span></div>
+    <div class="node" style="left:760px;top:250px"><div class="av" style="background:#7C3AED">AT</div><div class="nm">Aoi Todo</div><div class="rl">Customer</div><span class="hear" id="Bhc"></span></div>
     <div class="mlabel" id="Bml"></div>
   </div>
   <div class="cursor" id="Bcur"><svg viewBox="0 0 24 24" width="56" height="56"><path d="M4 2 L4 20 L9 15 L12.5 22 L15.5 20.6 L12 13.8 L19 13.8 Z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
@@ -139,7 +139,7 @@
   </div>
   <div class="card act" id="Cact">
     <div class="hd"><span class="tb" id="Ctm">Missed calls</span><span class="tb on">Agent activity</span></div>
-    <div class="sub">Everything your agents do, as it happens.</div>
+    <div class="sb2">Everything your agents do, as it happens.</div>
     <div id="Cev"></div>
   </div>
   <div class="cursor" id="Ccur"><svg viewBox="0 0 24 24" width="56" height="56"><path d="M4 2 L4 20 L9 15 L12.5 22 L15.5 20.6 L12 13.8 L19 13.8 Z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
@@ -174,7 +174,7 @@ window.renderChapter = function (t) {
   enter($('Ah'), t, A + 0.05, 0.5, 40);
   enter($('Aadd'), t, wt('l1', 'dialer') - 0.1, 0.4, 0, 0.3);
   enter($('Awb'), t, A + 0.2, 0.5, 50);
-  const tAns = A + 2.4; // a Sales caller gets answered by Megumi
+  const tAns = wt('l1b', 'statuses'); // a Sales caller gets answered by Megumi
   const answered = t >= tAns;
   $('Aw').textContent = answered ? '2' : '3';
   $('Aq1w').textContent = answered ? '1' : '2';
@@ -186,8 +186,9 @@ window.renderChapter = function (t) {
   $('Ay').innerHTML = pill('call', 'On a call', 161 + e);
   $('An').innerHTML = pill('call', 'On a call', 65 + e);
   $('Anc').textContent = '🔒 Collecting card · ' + clock(14 + e);
-  $('Am').innerHTML = t < tAns - 0.8 ? pill('ready', 'Ready', 32 + e) : t < tAns ? pill('ring', 'Ringing', null) : pill('call', 'On a call', t - tAns);
+  $('Am').innerHTML = t < tAns - 0.7 ? pill('ready', 'Ready', 32 + e) : t < tAns ? pill('ring', 'Ringing', null) : pill('call', 'On a call', t - tAns);
   $('Az').innerHTML = pill('wrap', 'Wrap-up', 18 + e);
+  $('Amb').style.opacity = easeOut(prog(t, tAns, 0.3));
   [['Aq', 'queue'], ['Aag', 'agent']].forEach(([id, w]) => {
     const p = prog(t, wt('l1', w) - 0.05, 0.7); const k = Math.sin(Math.PI * p);
     $(id).style.boxShadow = k > 0 ? `0 0 0 ${5 * k}px rgba(47,140,244,${0.5 * k})` : '';

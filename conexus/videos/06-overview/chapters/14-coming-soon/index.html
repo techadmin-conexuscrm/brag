@@ -1,1 +1,229 @@
-<!doctype html><html><head><script src="out/timeline.js"></script></head><body><section class="scene" id="A"></section><div id="cap"></div><script src="../../shared/runtime.js"></script><script>window.renderChapter=function(){}</script></body></html>
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/base.css">
+<script src="out/timeline.js"></script>
+<script src="../../shared/gifs.js"></script>
+<style>
+  svg.i{display:inline-block;vertical-align:middle;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .soontop{position:absolute;top:204px}
+  .box{position:absolute;left:60px;width:960px;top:690px;height:810px}
+  .rc{position:absolute;left:0;right:0;overflow:hidden;background:#fff;border-radius:22px;box-shadow:0 2px 4px rgba(15,23,42,.06),0 24px 60px rgba(15,23,42,.16)}
+  .rc .hd{height:112px;display:flex;align-items:center;gap:20px;padding:0 28px}
+  .rc .ico{width:66px;height:66px;border-radius:18px;display:flex;align-items:center;justify-content:center;color:#fff;flex:none}
+  .rc .tt{font-size:32px;font-weight:700;color:var(--ink);line-height:1.15}
+  .rc .ds{font-size:22px;color:var(--muted)}
+  .rc .hd .soon{margin-left:auto}
+  .rc .bd{padding:0 28px 28px}
+  .prev{font-size:20px;font-weight:600;color:#B45309;letter-spacing:.08em;text-transform:uppercase;margin-top:14px}
+  /* AI calling */
+  .lane{display:flex;align-items:center;gap:18px;height:140px;padding:0 22px;border:2px solid var(--border);border-radius:18px;margin-top:16px}
+  .lane .av{width:66px;height:66px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:700;flex:none}
+  .lane .nm{font-size:28px;font-weight:700;color:var(--ink)} .lane .st{font-size:22px;color:var(--muted)}
+  .wave{margin-left:auto;display:flex;align-items:center;gap:5px;height:70px}
+  .wave span{width:8px;border-radius:4px}
+  /* GIFs */
+  .cm{display:flex;gap:16px;align-items:flex-start;margin-top:4px}
+  .cm .av{width:58px;height:58px;border-radius:50%;background:#EA580C;color:#fff;font-size:21px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none}
+  .cm .who{font-size:23px;font-weight:700;color:var(--ink)} .cm .who span{font-weight:500;color:var(--muted);font-size:19px;margin-left:8px}
+  .cm .tx{font-size:25px;color:var(--ink)}
+  .picker{display:flex;gap:16px;margin-top:18px;padding:14px;border-radius:16px;background:#F1F5F9}
+  .picker canvas{width:282px;height:176px;border-radius:12px;display:block}
+  .composer{margin-top:16px;height:66px;border:2px solid var(--border);border-radius:14px;display:flex;align-items:center;padding:0 12px 0 20px;font-size:23px;color:#94A3B8}
+  .gifbtn{margin-left:auto;height:44px;padding:0 14px;border-radius:10px;border:2px solid #CBD5E1;font-size:20px;font-weight:800;color:var(--slate);display:flex;align-items:center}
+  /* keypad */
+  .kp{display:flex;gap:30px;margin-top:6px}
+  .keys{display:grid;grid-template-columns:repeat(3,88px);gap:10px;flex:none}
+  .key{height:74px;border-radius:14px;background:#F1F5F9;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:var(--ink)}
+  .sec{flex:1;border:2px solid #FDE68A;background:#FFFBEB;border-radius:18px;padding:18px 22px}
+  .sec .h{display:flex;align-items:center;gap:10px;font-size:25px;font-weight:700;color:#78350F}
+  .srow{display:flex;align-items:center;gap:12px;margin-top:22px;font-size:22px;color:var(--slate);white-space:nowrap}
+  .srow .k{width:150px;color:var(--muted)}
+  .srow b{color:var(--ink)}
+  .pd{display:flex;gap:5px}.pd i{width:15px;height:15px;border-radius:50%;background:#E2E8F0;display:block}.pd i.on{background:#B45309}
+  /* B */
+  .fc{position:absolute;left:60px;width:960px;overflow:hidden;background:#fff;border-radius:22px;box-shadow:0 2px 4px rgba(15,23,42,.06),0 24px 60px rgba(15,23,42,.16)}
+  .fc .hd{height:104px;display:flex;align-items:center;gap:20px;padding:0 28px;border-bottom:1px solid var(--border)}
+  .fc .ico{width:62px;height:62px;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#fff;flex:none}
+  .fc .tt{font-size:31px;font-weight:700;color:var(--ink);line-height:1.15} .fc .ds{font-size:22px;color:var(--muted)}
+  .fc .hd .soon{margin-left:auto}
+  .sms{padding:20px 30px;display:flex;flex-direction:column;gap:14px}
+  .bub{max-width:640px;border-radius:22px;padding:14px 22px;font-size:25px;line-height:1.35}
+  .bub.out{align-self:flex-end;background:var(--blue);color:#fff;border-bottom-right-radius:6px}
+  .bub.in{align-self:flex-start;background:#F1F5F9;color:var(--ink);border-bottom-left-radius:6px}
+  .bub .m{font-size:17px;opacity:.75;margin-top:2px}
+  .sd{display:flex;gap:22px;padding:22px 28px}
+  .sheet{flex:1.25;border:1px solid var(--border);border-radius:12px;overflow:hidden;position:relative}
+  .sheet table{border-collapse:collapse;width:100%;font-size:23px}
+  .sheet td{border:1px solid #E5E7EB;height:58px;padding:0 10px;white-space:nowrap;color:var(--ink)}
+  .sheet tr:first-child td{background:#F8FAFC;color:var(--muted);font-weight:600;font-size:18px}
+  .sheet td.rn{background:#F8FAFC;color:var(--muted);width:34px;text-align:center;font-size:17px}
+  .tagname{position:absolute;padding:2px 9px;border-radius:6px 6px 6px 0;color:#fff;font-size:16px;font-weight:700;white-space:nowrap}
+  .doc{flex:1;border:1px solid var(--border);border-radius:12px;padding:18px 20px;position:relative}
+  .doc .dt{font-size:24px;font-weight:700;color:var(--ink)}
+  .doc .ln{height:12px;border-radius:6px;background:#E2E8F0;margin-top:14px}
+  .doc .typed{font-size:22px;line-height:1.35;color:var(--ink);margin-top:12px;min-height:60px}
+  .pres{display:flex;margin-left:12px}.pres span{width:42px;height:42px;border-radius:50%;border:3px solid #fff;color:#fff;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-left:-10px}
+  /* C */
+  .grid{position:absolute;left:60px;right:60px;top:690px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .tile{height:196px;background:#fff;border-radius:22px;padding:24px;box-shadow:0 10px 30px rgba(15,23,42,.14);display:flex;flex-direction:column;justify-content:space-between}
+  .tile .r{display:flex;align-items:center;justify-content:space-between}
+  .tile .ico{width:60px;height:60px;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#fff}
+  .tile .t{font-size:29px;font-weight:700;color:var(--navy);line-height:1.15}
+  .tile .soon{height:38px;font-size:18px;padding:0 14px}
+  .tile.more{background:rgba(255,255,255,.14);border:3px dashed rgba(255,255,255,.7);box-shadow:none}
+  .tile.more .t{color:#fff}
+</style>
+</head>
+<body>
+<section class="scene bg-blue" id="A">
+  <div class="chtag light">14 · Coming soon</div>
+  <span class="soon soontop" style="left:372px">★ Coming soon</span>
+  <div class="eyebrow" style="color:#fff">On the roadmap</div>
+  <div class="headline" id="Ah"><span style="color:#fff">What's</span><span class="l2" style="color:var(--navy)">coming next.</span></div>
+  <div class="box" id="Abox">
+    <div class="rc" id="R0"><div class="hd"><div class="ico" style="background:var(--violet)" id="R0i"></div><div><div class="tt">AI calling</div><div class="ds">AI that takes and makes calls</div></div><span class="soon">Coming soon</span></div>
+      <div class="bd" id="R0b">
+        <div class="lane"><div class="av" style="background:#7C3AED">FE</div><div><div class="nm">Fern</div><div class="st">On a call with Sein</div></div><div class="wave" id="W0"></div></div>
+        <div class="lane" style="border-color:#DDD6FE;background:#FAF5FF"><div class="av" style="background:linear-gradient(135deg,#7C3AED,#2563EB)" id="AIav"></div><div><div class="nm">AI agent</div><div class="st">On a call with Eisen</div></div><div class="wave" id="W1"></div></div>
+        <div class="prev">Preview · not live yet</div>
+      </div></div>
+    <div class="rc" id="R1"><div class="hd"><div class="ico" style="background:#EA580C;font-size:21px;font-weight:800">GIF</div><div><div class="tt">GIFs in team chat</div><div class="ds">Celebrate every big sale</div></div><span class="soon">Coming soon</span></div>
+      <div class="bd" id="R1b">
+        <div class="cm"><div class="av">ST</div><div><div class="who">Stark <span>9:41 AM</span></div><div class="tx">Just closed Übel's upgrade!</div></div></div>
+        <div class="picker" id="Gpick"><canvas width="564" height="352" data-k="sold"></canvas><canvas width="564" height="352" data-k="bell"></canvas><canvas width="564" height="352" data-k="letsgo"></canvas></div>
+        <div class="composer">Message #closers<span class="gifbtn" id="Ggb">GIF</span></div>
+      </div></div>
+    <div class="rc" id="R2"><div class="hd"><div class="ico" style="background:#B45309" id="R2i"></div><div><div class="tt">Secure keypad payment</div><div class="ds">The customer keys the card in</div></div><span class="soon">Coming soon</span></div>
+      <div class="bd" id="R2b">
+        <div class="kp"><div class="keys" id="Kkeys"></div>
+          <div class="sec"><div class="h" id="Kh"></div>
+            <div class="srow"><span class="k">Card number</span><span class="pd" id="Kdots"></span></div>
+            <div class="srow"><span class="k">Agent hears</span><b id="Ksil"></b></div>
+            <div class="srow"><span class="k">Recording</span><b>No card digits</b></div>
+            <div class="srow"><span class="k">Saved as</span><b>Gateway token + last 4</b></div>
+          </div></div>
+      </div></div>
+  </div>
+</section>
+
+<section class="scene bg-light" id="B">
+  <span class="soon soontop" style="left:72px">★ Coming soon</span>
+  <div class="eyebrow" style="color:var(--accent)">Also on the way</div>
+  <div class="headline sm" id="Bh"><span style="color:var(--navy)">Texts, sheets</span><span class="l2" style="color:var(--accent)">and docs.</span></div>
+  <div class="fc" id="F0" style="top:690px;height:370px">
+    <div class="hd"><div class="ico" style="background:var(--success)" id="F0i"></div><div><div class="tt">Customer texting (SMS)</div><div class="ds">Text customers from Conexus</div></div><span class="soon">Coming soon</span></div>
+    <div class="sms">
+      <div class="bub out" id="S0">Hi Eisen, it's Fern. Your Starter Kit ships today!<div class="m">Fern · 10:12 AM</div></div>
+      <div class="bub in" id="S1">Perfect, thank you!<div class="m">Eisen · 10:13 AM</div></div>
+    </div>
+  </div>
+  <div class="fc" id="F1" style="top:1080px;height:420px">
+    <div class="hd"><div class="ico" style="background:var(--blue)" id="F1i"></div><div><div class="tt">Conexus Sheets &amp; Docs</div><div class="ds">Edited together, live</div></div><div class="pres"><span style="background:#0D9488">FR</span><span style="background:#2563EB">HI</span></div><span class="soon">Coming soon</span></div>
+    <div class="sd">
+      <div class="sheet" id="Ssheet"><table id="Stbl"></table><div class="tagname" id="Stag" style="background:#0D9488">Frieren</div></div>
+      <div class="doc"><div class="dt">Floor playbook</div><div class="ln" style="width:92%"></div><div class="ln" style="width:78%"></div><div class="typed" id="Dtyped"></div><div class="ln" style="width:64%"></div><div class="tagname" id="Dtag" style="background:#2563EB">Himmel</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="scene bg-blue" id="C">
+  <span class="soon soontop" style="left:72px">★ Coming soon</span>
+  <div class="eyebrow" style="color:#fff">The roadmap</div>
+  <div class="headline" id="Ch"><span style="color:#fff">And more</span><span class="l2" style="color:var(--navy)">on the way.</span></div>
+  <div class="grid" id="Cgrid"></div>
+</section>
+
+<div id="cap"></div>
+<script src="../../shared/runtime.js"></script>
+<script>
+const P = {
+  spark: '<path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>',
+  card: '<rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/>',
+  lock: '<rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  mute: '<path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="m22 9-6 6"/><path d="m16 9 6 6"/>',
+  msg: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+  sheet: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M12 3v18"/>',
+  plus: '<path d="M5 12h14"/><path d="M12 5v14"/>',
+};
+const ic = (n, s = 28, sw = 2) => `<svg class="i" width="${s}" height="${s}" viewBox="0 0 24 24" style="stroke-width:${sw}">${P[n]}</svg>`;
+
+// A
+$('R0i').innerHTML = ic('spark', 36); $('AIav').innerHTML = ic('spark', 32); $('R2i').innerHTML = ic('card', 36);
+['W0','W1'].forEach(w => $(w).innerHTML = Array.from({ length: 22 }, () => '<span></span>').join(''));
+const KEYS = ['1','2','3','4','5','6','7','8','9','*','0','#'];
+$('Kkeys').innerHTML = KEYS.map((k, i) => `<div class="key" id="K${i}">${k}</div>`).join('');
+$('Kh').innerHTML = ic('lock', 26, 2.4) + 'Secure entry in progress';
+$('Kdots').innerHTML = Array.from({ length: 16 }, (_, i) => `<i id="D${i}"></i>`).join('');
+$('Ksil').innerHTML = `<span style="display:inline-flex;align-items:center;gap:8px">${ic('mute', 24)}Silence</span>`;
+const SEQ = [3, 0, 0, 0, 4, 7, 1, 8, 2, 5, 6, 10, 3, 1, 7, 8]; // key indexes pressed, one per card digit
+// B
+$('F0i').innerHTML = ic('msg', 34); $('F1i').innerHTML = ic('sheet', 34);
+const ROWS = [['', 'Agent', 'Callbacks', 'Booked'], ['1', 'Fern', '18', '7'], ['2', 'Stark', '22', '9'], ['3', 'Frieren', '', '']];
+$('Stbl').innerHTML = ROWS.map((r, i) => '<tr>' + r.map((c, j) => `<td class="${j === 0 ? 'rn' : ''}" id="c${i}${j}">${c}</td>`).join('') + '</tr>').join('');
+// C
+const TILES = [['AI calling', 'var(--violet)', ic('spark', 32)], ['GIFs in team chat', '#EA580C', '<b style="font-size:19px">GIF</b>'], ['Secure keypad payment', '#B45309', ic('card', 32)], ['Customer texting (SMS)', 'var(--success)', ic('msg', 30)], ['Conexus Sheets & Docs', 'var(--blue)', ic('sheet', 30)]];
+$('Cgrid').innerHTML = TILES.map(([n, c, i], k) => `<div class="tile" id="T${k}"><div class="r"><div class="ico" style="background:${c}">${i}</div><span class="soon">Coming soon</span></div><div class="t">${n.replace('&', '&amp;')}</div></div>`).join('')
+  + `<div class="tile more" id="T5"><div class="r"><div class="ico" style="background:rgba(255,255,255,.22)">${ic('plus', 34, 2.6)}</div></div><div class="t">And more on the way…</div></div>`;
+
+function waves(id, t, col, ph) { [...$(id).children].forEach((el, i) => { el.style.height = (10 + 54 * Math.abs(Math.sin(i * 0.8 + t * 6 + ph) * Math.cos(i * 0.27 - t * 2.4 + ph))) + 'px'; el.style.background = col; }); }
+
+window.renderChapter = function (t) {
+  const A = SC.A.s, B = SC.B.s, C = SC.C.s;
+  // ---------- A: roadmap accordion ----------
+  enter($('Ah'), t, A + 0.05, 0.5, 40);
+  const H0 = 112, G = 18, HE = 810 - 2 * H0 - 2 * G;
+  const t1 = wt('l1', 'coming') + 0.15, t2 = wt('l2', 'gifs') - 0.2, t3 = wt('l3', 'secure') - 0.2;
+  const p1 = easeInOut(prog(t, t1, 0.45)), p2 = easeInOut(prog(t, t2, 0.45)), p3 = easeInOut(prog(t, t3, 0.45));
+  const e = [p1 * (1 - p2), p2 * (1 - p3), p3];
+  let y = 0;
+  e.forEach((v, i) => {
+    const el = $('R' + i), h = H0 + (HE - H0) * v;
+    el.style.top = y + 'px'; el.style.height = h + 'px'; y += h + G;
+    $('R' + i + 'b').style.opacity = clamp(v * 1.6 - 0.6);
+    el.style.boxShadow = v > 0.5 ? '0 0 0 4px #FDE68A,0 24px 60px rgba(15,23,42,.22)' : '';
+    enter(el, t, A + 0.25 + i * 0.12, 0.4, 30);
+  });
+  waves('W0', t, '#2563EB', 0); waves('W1', t, '#7C3AED', 1.7);
+  // GIF picker: stickers animate, one gets picked
+  const pick = wt('l2', 'big') - 0.1;
+  $('Gpick').querySelectorAll('canvas').forEach((cv, i) => { if (e[1] > 0.02) drawGif(cv, cv.dataset.k, t + i * 0.37); cv.style.outline = (i === 0 && t > pick) ? '5px solid #2563EB' : 'none'; cv.style.transform = `scale(${i === 0 && t > pick ? 1 + 0.04 * Math.sin(Math.PI * prog(t, pick, 0.3)) : 1})`; });
+  $('Ggb').style.background = e[1] > 0.5 ? '#DBEAFE' : 'transparent'; $('Ggb').style.color = e[1] > 0.5 ? '#1D4ED8' : 'var(--slate)';
+  // keypad: one key per digit, the agent sees only a count
+  const k0 = wt('l3', 'customers') - 0.1, k1 = wt('l3', 'agent');
+  const n = Math.floor(clamp((t - k0) / (k1 - k0)) * 16);
+  KEYS.forEach((_, i) => { const on = n > 0 && n <= 16 && t < k1 + 0.1 && SEQ[n - 1] === i && ((t - k0) / (k1 - k0) * 16) % 1 < 0.7; $('K' + i).style.background = on ? '#FDE68A' : '#F1F5F9'; $('K' + i).style.borderColor = on ? '#B45309' : 'var(--border)'; });
+  for (let i = 0; i < 16; i++) $('D' + i).className = i < n ? 'on' : '';
+  const sil = prog(t, wt('l3', 'silence') - 0.1, 0.5);
+  $('Ksil').style.transform = `scale(${1 + 0.1 * Math.sin(Math.PI * sil)})`;
+
+  // ---------- B: SMS + Sheets & Docs flip in ----------
+  enter($('Bh'), t, B + 0.05, 0.5, 40);
+  const f0 = wt('l4', 'texting') - 0.15, f1 = wt('l5', 'building') - 0.1;
+  [[ 'F0', f0 ], [ 'F1', f1 ]].forEach(([id, s]) => { const p = prog(t, s, 0.55); const el = $(id); el.style.opacity = easeOut(clamp(p * 2)); el.style.transform = `perspective(1600px) rotateX(${(1 - easeOut(p)) * -70}deg)`; el.style.transformOrigin = '50% 0%'; });
+  enter($('S0'), t, wt('l4', 'sms') - 0.1, 0.35, 20, 0.08);
+  enter($('S1'), t, wt('l4', 'next') - 0.05, 0.35, 20, 0.08);
+  // Frieren types into the sheet, Himmel into the doc
+  const ty = wt('l5', 'sheets'), ty2 = wt('l5', 'edit');
+  const v1 = typed('16', t, ty + 0.3, 0.5), v2 = typed('6', t, ty + 1.2, 0.3);
+  $('c32').textContent = v1; $('c33').textContent = v2;
+  const onB = t >= ty + 1.1;
+  const cell = $(onB ? 'c33' : 'c32');
+  ['c32', 'c33'].forEach(id => $(id).style.boxShadow = 'none');
+  if (t >= ty) cell.style.boxShadow = 'inset 0 0 0 3px #0D9488';
+  $('Stag').style.left = (cell.offsetLeft) + 'px'; $('Stag').style.top = (cell.offsetTop + cell.offsetHeight - 2) + 'px'; $('Stag').style.borderRadius = '0 6px 6px 6px';
+  $('Stag').style.opacity = t >= ty ? 1 : 0;
+  $('Dtyped').innerHTML = typed('Open every call with the customer’s name.', t, ty2 - 0.6, 1.4) + (t >= ty2 - 0.6 ? '<span style="display:inline-block;width:3px;height:24px;background:#2563EB;vertical-align:middle;margin-left:2px"></span>' : '');
+  $('Dtag').style.left = '20px'; $('Dtag').style.top = '218px'; $('Dtag').style.opacity = t >= ty2 - 0.6 ? 1 : 0;
+
+  // ---------- C: everything on the board ----------
+  enter($('Ch'), t, C + 0.05, 0.5, 40);
+  for (let i = 0; i < 6; i++) enter($('T' + i), t, C + 0.15 + i * 0.1, 0.4, 30, 0.08);
+  const pm = prog(t, wt('l6', 'more'), 0.6);
+  $('T5').style.background = `rgba(255,255,255,${0.14 + 0.12 * Math.sin(Math.PI * pm)})`;
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/base.css">
+<script src="out/timeline.js"></script>
+<style>
+  .win{left:60px;right:60px;overflow:hidden}
+  .ohead{height:88px;display:flex;align-items:center;gap:16px;padding:0 30px;border-bottom:1px solid var(--border)}
+  .ohead .oid{font-size:32px;font-weight:700;color:var(--ink)}
+  .ohead .cn{font-size:24px;color:var(--muted)}
+  .ohead .chip{margin-left:auto}
+  .tabs{height:66px;display:flex;align-items:flex-end;gap:30px;padding:0 30px;border-bottom:1px solid var(--border)}
+  .tabs span{font-size:22px;font-weight:600;color:var(--muted);padding-bottom:16px;border-bottom:4px solid transparent}
+  .tabs span.on{color:var(--blue);border-bottom-color:var(--blue)}
+  .grid{display:grid;align-items:center;padding:0 30px}
+  .chip{white-space:nowrap}
+  .th{height:56px;font-size:19px;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--border)}
+  .td{height:84px;font-size:25px;color:var(--ink);border-bottom:1px solid #F1F5F9}
+  /* tracking stepper */
+  .stepper{position:relative;height:150px;margin:0 30px}
+  .stepper .rail{position:absolute;left:60px;right:60px;top:40px;height:8px;border-radius:4px;background:#E2E8F0}
+  .stepper .fill{position:absolute;left:60px;top:40px;height:8px;border-radius:4px;background:var(--success)}
+  .stepper .st{position:absolute;top:22px;width:160px;margin-left:-80px;text-align:center}
+  .stepper .st i{display:block;width:44px;height:44px;border-radius:50%;margin:0 auto;background:#fff;border:4px solid #CBD5E1;font-style:normal;color:#fff;font-size:22px;font-weight:800;line-height:36px}
+  .stepper .st.ok i{background:var(--success);border-color:var(--success)}
+  .stepper .st b{display:block;margin-top:10px;font-size:22px;font-weight:600;color:var(--muted);line-height:1.15}
+  .stepper .st.ok b{color:var(--ink)}
+  /* activity timeline */
+  .acts{left:60px;right:60px;padding:24px 30px}
+  .acts .tt{font-size:26px;font-weight:700;color:var(--ink);margin-bottom:6px}
+  .act{display:flex;gap:20px;align-items:flex-start;padding:11px 0;position:relative}
+  .act .ic{width:52px;height:52px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff;font-weight:700}
+  .act .t1{font-size:25px;color:var(--ink);line-height:1.3} .act .t1 b{font-weight:700}
+  .act .t2{font-size:22px;color:var(--muted);margin-top:2px}
+  /* B */
+  .flt{display:inline-flex;align-items:center;height:44px;padding:0 16px;border-radius:999px;background:#EEF2FF;color:var(--navy);font-size:21px;font-weight:600}
+  .gwpill{display:inline-flex;align-items:center;height:46px;padding:0 16px;border-radius:12px;font-size:23px;font-weight:600;color:var(--ink);white-space:nowrap}
+  .desc{font-size:25px;font-weight:600;color:var(--ink);padding:4px 12px;border-radius:10px;white-space:nowrap}
+  .callout{position:absolute;display:flex;align-items:center;gap:10px;height:52px;padding:0 20px;border-radius:999px;background:var(--navy);color:#fff;font-size:23px;font-weight:600;white-space:nowrap}
+  /* C */
+  .dots{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800;color:var(--slate);letter-spacing:1px}
+  .menu{position:absolute;width:250px;background:#fff;border-radius:16px;border:1px solid var(--border);box-shadow:0 18px 50px rgba(15,23,42,.22);padding:8px;z-index:5}
+  .menu div{height:56px;display:flex;align-items:center;gap:14px;padding:0 16px;border-radius:10px;font-size:24px;color:var(--ink)}
+  .menu div.hi{background:#F1F5F9}
+  .scrim{position:absolute;left:0;right:0;top:0;bottom:0;background:rgba(15,23,42,.35);z-index:6}
+  .dlg{position:absolute;left:120px;right:120px;top:770px;padding:30px 34px;background:#fff;border-radius:22px;box-shadow:0 30px 80px rgba(15,23,42,.35);z-index:7}
+  .dlg .dt{font-size:30px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:12px}
+  .dlg .fl{font-size:22px;font-weight:600;color:var(--slate);margin:20px 0 8px}
+  .dlg .in{height:68px;border:2px solid #CBD5E1;border-radius:12px;display:flex;align-items:center;padding:0 18px;font-size:27px;color:var(--ink);gap:10px}
+  .dlg .in .pre{color:#94A3B8}
+  .dlg .ft{display:flex;justify-content:flex-end;gap:14px;margin-top:26px}
+  .dlg .btn{height:60px;font-size:24px}
+  .guard{display:flex;align-items:center;gap:12px;margin:14px 30px 0;height:56px;padding:0 18px;border-radius:12px;background:var(--blue-soft);color:#1D4ED8;font-size:22px;font-weight:600}
+  .mini{padding:22px 26px}
+  .mini .k{font-size:21px;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+  .mini .v{font-size:26px;font-weight:700;color:var(--ink);margin-top:8px;line-height:1.25}
+  .mini .s{font-size:22px;color:var(--muted);margin-top:4px}
+  .toast{position:absolute;right:60px;top:1418px;height:78px;padding:0 28px;border-radius:16px;background:#fff;border:1px solid var(--border);box-shadow:0 16px 40px rgba(15,23,42,.2);display:flex;align-items:center;gap:14px;font-size:25px;font-weight:600;color:var(--ink);z-index:8}
+</style>
+</head>
+<body>
+<!-- A: where's my order? -->
+<section class="scene bg-light" id="A">
+  <div class="chtag dark">10 · Customer service</div>
+  <div class="eyebrow" style="color:var(--accent)">After the sale</div>
+  <div class="headline" id="Ah"><span style="color:var(--navy)">“Where's my</span><span class="l2" style="color:var(--accent)">order?”</span></div>
+  <div class="card win" id="Aw" style="top:690px;height:440px">
+    <div class="ohead"><span class="oid">Order <span class="mono">O-048190</span></span><span class="cn">Henry Henderson</span><span class="chip ok">Completed</span></div>
+    <div class="tabs"><span>Order Details</span><span>Transactions</span><span class="on">Fulfillments</span><span>Emails</span><span>Activities</span></div>
+    <div class="grid th" style="grid-template-columns:270px 200px 1fr"><span>Status</span><span>Plugin</span><span>Tracking Number</span></div>
+    <div class="grid td" style="grid-template-columns:270px 200px 1fr" id="Arow"><span><span class="chip" id="Ast">Pending Shipment</span></span><span>ShipStation</span><span class="mono" id="Atn" style="font-size:24px">-</span></div>
+    <div class="stepper" id="Astep">
+      <div class="rail"></div><div class="fill" id="Afill"></div>
+    </div>
+  </div>
+  <div class="card acts" id="Aa" style="top:1152px;height:372px">
+    <div class="tt">Activities · Henry Henderson</div>
+    <div class="act" id="Aa0"><span class="ic" style="background:#059669">✓</span><div><div class="t1"><b>System</b> fulfillment status changed</div><div class="t2">Pending Shipment → Shipped · ShipStation · 9:42 AM</div></div></div>
+    <div class="act" id="Aa1"><span class="ic" style="background:#0EA5E9">⇢</span><div><div class="t1"><b>System</b> assigned tracking number to order</div><div class="t2">Order O-048190 · UPS · 9:42 AM</div></div></div>
+    <div class="act" id="Aa2"><span class="ic" style="background:#7C3AED">✉</span><div><div class="t1"><b>Email sent</b> · “Your order has shipped”</div><div class="t2">To henry.henderson@mail.com · 9:42 AM</div></div></div>
+  </div>
+  <svg class="cursor" id="Acur" viewBox="0 0 24 24"><path d="M4 2l16 9.5-7 1.6L9.8 20z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</section>
+
+<!-- B: billing descriptors -->
+<section class="scene bg-blue" id="B">
+  <div class="eyebrow" style="color:#fff">Billing questions</div>
+  <div class="headline" id="Bh"><span style="color:#fff">“Who charged</span><span class="l2" style="color:var(--navy)">me?”</span></div>
+  <div class="card win" id="Bt" style="top:690px;height:300px">
+    <div class="ohead"><span class="oid" style="font-size:28px">Transaction Details</span><span class="flt" style="margin-left:auto">Customer: Sylvia Sherwood</span></div>
+    <div class="grid th" style="grid-template-columns:190px 240px 150px 1fr"><span>Order ID</span><span>Date &amp; Time</span><span>Amount</span><span>Gateway</span></div>
+    <div class="grid td" style="grid-template-columns:190px 240px 150px 1fr;height:96px;border-bottom:none"><span class="mono">O-048177</span><span style="font-size:23px">Oct 28, 2:16 PM</span><span class="mono">$59.90</span><span><span class="gwpill" id="Bgp">Eden Supply · NMI</span></span></div>
+  </div>
+  <div class="card win" id="Bg" style="top:1030px;height:400px">
+    <div class="ohead"><span class="oid" style="font-size:28px">Gateways</span></div>
+    <div class="grid th" style="grid-template-columns:1fr 400px"><span>Name</span><span>Descriptor</span></div>
+    <div class="grid td" id="Br1" style="grid-template-columns:1fr 400px"><span>Eden Supply · NMI</span><span><span class="desc mono" id="Bd1">EDENSUPPLY*SHOP</span></span></div>
+    <div class="grid td" id="Br2" style="grid-template-columns:1fr 400px"><span>Eden Supply · Authorize.net</span><span><span class="desc mono">EDEN ACADEMY SUPPLY</span></span></div>
+    <div class="grid td" id="Br3" style="grid-template-columns:1fr 400px;border-bottom:none"><span>Eden Supply · Revolv3</span><span><span class="desc mono">EAS*STATIONERY</span></span></div>
+  </div>
+  <div class="callout" id="Bco" style="right:80px;top:1000px">Billing descriptor</div>
+</section>
+
+<!-- C: refunds -->
+<section class="scene bg-light" id="C">
+  <div class="eyebrow" style="color:var(--accent)">Refunds</div>
+  <div class="headline" id="Ch"><span style="color:var(--navy)">Refund it,</span><span class="l2" style="color:var(--accent)">just once.</span></div>
+  <div class="card win" id="Cw" style="top:690px;height:470px;overflow:visible">
+    <div class="ohead"><span class="oid">Order <span class="mono">O-048201</span></span><span class="cn">Damian Desmond</span><span class="chip ok" id="Cst">Completed</span></div>
+    <div class="tabs"><span>Order Details</span><span class="on">Transactions</span><span>Fulfillments</span><span>Emails</span></div>
+    <div class="grid th" style="grid-template-columns:230px 120px 130px 130px 1fr 60px"><span>Transaction ID</span><span>Type</span><span>Amount</span><span>Currency</span><span>Status</span><span></span></div>
+    <div class="grid td" style="grid-template-columns:230px 120px 130px 130px 1fr 60px"><span class="mono" style="font-size:23px">10489345721</span><span>Sale</span><span class="mono" style="font-weight:600">64.90</span><span style="font-weight:600">USD</span><span><span class="chip ok">Completed</span></span><span class="dots" id="Cdots">⋯</span></div>
+    <div class="grid td" id="Crow2" style="grid-template-columns:230px 120px 130px 130px 1fr 60px;border-bottom:none"><span class="mono" style="font-size:23px">10489351188</span><span>Refund</span><span class="mono" style="font-weight:600">64.90</span><span style="font-weight:600">USD</span><span><span class="chip ok">Completed</span></span><span></span></div>
+    <div class="guard" id="Cg"><svg width="28" height="28" viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.4 9.3-8 11-4.6-1.7-8-6-8-11V5z" fill="#2563EB"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Same refund again within 2 minutes is refused</div>
+    <div class="menu" id="Cm" style="right:24px;top:310px"><div>↻&nbsp; Retry</div><div id="Cmr">⤓&nbsp; Refund</div></div>
+  </div>
+  <div class="scrim" id="Cs"></div>
+  <div class="dlg" id="Cd">
+    <div class="dt"><span style="color:var(--blue)">⤓</span> Refund Transaction</div>
+    <div class="fl">Refund Amount</div><div class="in mono"><span class="pre">$</span><span id="Camt"></span></div>
+    <div class="fl">Refund Reason</div><div class="in"><span id="Crsn"></span></div>
+    <div class="ft"><span class="btn ghost">Cancel</span><span class="btn" id="Cbtn">Refund Transaction</span></div>
+  </div>
+  <div class="card mini" id="Ce" style="left:60px;width:465px;top:1190px;height:210px">
+    <div class="k">✉ Email sent</div><div class="v">“Your refund for O-048201”</div><div class="s">To damian.desmond@mail.com</div></div>
+  <div class="card mini" id="Cr" style="left:555px;width:465px;top:1190px;height:210px">
+    <div class="k">Refund Summary · Today</div><div class="v"><span id="Crn">13</span> refunds</div><div class="s mono" id="Cra" style="font-size:26px;color:var(--ink);font-weight:600">$812.40</div></div>
+  <div class="toast" id="Ct"><svg width="30" height="30" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#059669"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Refund processed successfully</div>
+  <svg class="cursor" id="Ccur" viewBox="0 0 24 24"><path d="M4 2l16 9.5-7 1.6L9.8 20z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</section>
+
+<div id="cap"></div>
+<script src="../../shared/runtime.js"></script>
+<script>
+const show = (el, o) => { el.style.opacity = o; el.style.visibility = o > 0.001 ? 'visible' : 'hidden'; };
+// fulfillment statuses, in order (BE fulfillment_status enum)
+const STEPS = ['Hold', 'Pending', 'Pending<br>Shipment', 'Shipped', 'Delivered'];
+const SX = i => 60 + i * (900 - 120) / 4;   // stepper x positions inside a 900px-wide box
+$('Astep').insertAdjacentHTML('beforeend', STEPS.map((s, i) => `<div class="st" id="Ast${i}" style="left:${SX(i)}px"><i>✓</i><b>${s}</b></div>`).join(''));
+const TRACK = '1Z84F2A00318462290';
+
+window.renderChapter = function (t) {
+  const A = SC.A.s, B = SC.B.s, C = SC.C.s;
+
+  // ---------- A: shipping ----------
+  enter($('Ah'), t, A + 0.05, 0.5, 40);
+  const tOpen = wt('l1', 'opens');
+  enter($('Aw'), t, tOpen - 0.15, 0.5, 60);
+  const tShip = wt('l1', 'shipped');
+  // stepper: done up to Pending Shipment, then fills to Shipped on the word
+  const reach = 2 + easeInOut(prog(t, tShip - 0.25, 0.5));
+  $('Afill').style.width = (SX(reach) - 60) + 'px';
+  STEPS.forEach((s, i) => { $('Ast' + i).className = 'st' + (i <= Math.floor(reach + 1e-6) ? ' ok' : ''); });
+  const shipped = t >= tShip;
+  $('Ast').textContent = shipped ? 'Shipped' : 'Pending Shipment';
+  $('Ast').className = 'chip ' + (shipped ? 'ok' : 'warn');
+  $('Ast').style.transform = `scale(${shipped ? 0.9 + 0.1 * backOut(prog(t, tShip, 0.35)) : 1})`;
+  const tTrk = wt('l1', 'tracking');
+  const tn = typed(TRACK, t, tTrk - 0.1, 0.5);
+  $('Atn').textContent = tn || '-';
+  enter($('Aa'), t, wt('l2', 'the') - 0.1, 0.45, 50);
+  enter($('Aa0'), t, wt('l2', 'the') + 0.05, 0.35, 24);
+  enter($('Aa1'), t, wt('l2', 'tracking') - 0.05, 0.35, 24);
+  enter($('Aa2'), t, wt('l2', 'email') + 0.05, 0.35, 24);
+  cursor($('Acur'), t, [[A + 0.6, 900, 1300], [tOpen - 0.05, 600, 800]], [tOpen]);
+  if (t > tOpen + 0.3) $('Acur').style.opacity = 1 - easeOut(prog(t, tOpen + 0.3, 0.3));
+
+  // ---------- B: billing descriptor ----------
+  enter($('Bh'), t, B + 0.05, 0.5, 40);
+  enter($('Bt'), t, wt('l3', 'charge') - 0.2, 0.45, 60);
+  const tGw = wt('l3', 'checks');
+  const g = easeOut(prog(t, tGw - 0.1, 0.3));
+  $('Bgp').style.background = `rgba(254,240,138,${g})`;
+  enter($('Bg'), t, tGw, 0.45, 60);
+  [['Br1', 0], ['Br2', 0.08], ['Br3', 0.16]].forEach(([id, d]) => enter($(id), t, tGw + 0.15 + d, 0.3, 20));
+  const tDs = wt('l3', 'billing');
+  const h = easeOut(prog(t, tDs - 0.05, 0.3));
+  $('Br1').style.background = `rgba(254,240,138,${0.55 * h})`;
+  $('Bd1').style.boxShadow = `0 0 0 ${3 * h}px #CA8A04`;
+  $('Bd1').style.background = `rgba(255,255,255,${h})`;
+  enter($('Bco'), t, tDs + 0.1, 0.35, 16, 0.1);
+
+  // ---------- C: refund ----------
+  enter($('Ch'), t, C + 0.05, 0.5, 40);
+  enter($('Cw'), t, C + 0.15, 0.5, 60);
+  const tDots = wt('l4', 'order') - 0.05;           // open the row's actions
+  const tRef = wt('l4', 'transactions') + 0.05;     // pick "Refund"
+  const tGo = wt('l4', 'double') - 0.1;             // press "Refund Transaction"
+  const tDone = wt('l4', 'click');
+  show($('Cm'), Math.min(easeOut(prog(t, tDots + 0.05, 0.15)), 1 - easeOut(prog(t, tRef + 0.1, 0.12))));
+  $('Cmr').className = t >= tRef - 0.25 && t < tRef + 0.1 ? 'hi' : '';
+  const dl = Math.min(easeOut(prog(t, tRef + 0.15, 0.25)), 1 - easeOut(prog(t, tGo + 0.2, 0.2)));
+  show($('Cd'), dl); show($('Cs'), dl);
+  $('Cd').style.transform = `scale(${0.96 + 0.04 * easeOut(prog(t, tRef + 0.15, 0.3))})`;
+  $('Camt').textContent = typed('64.90', t, tRef + 0.35, 0.35);
+  $('Crsn').textContent = typed('Arrived damaged', t, tRef + 0.7, tGo - tRef - 0.85);
+  $('Cbtn').style.filter = (t >= tGo && t < tGo + 0.18) ? 'brightness(.8)' : 'none';
+  enter($('Crow2'), t, tDone, 0.35, 20);
+  enter($('Ct'), t, tDone - 0.05, 0.35, 30);
+  enter($('Cg'), t, wt('l4', 'never') - 0.1, 0.35, 16);
+  const refunded = t >= tDone + 0.15;
+  $('Cst').textContent = refunded ? 'Refunded' : 'Completed';
+  $('Cst').className = 'chip ' + (refunded ? 'bad' : 'ok');
+  // dots: x≈940, row y≈ 690+88+66+56+42
+  cursor($('Ccur'), t, [[C + 0.6, 760, 1300], [tDots - 0.1, 952, 950], [tRef - 0.35, 952, 950], [tRef - 0.1, 830, 1085], [tGo - 0.35, 830, 1085], [tGo - 0.05, 800, 1150]], [tDots, tRef, tGo]);
+  if (t > tGo + 0.4) $('Ccur').style.opacity = 1 - easeOut(prog(t, tGo + 0.4, 0.3));
+  enter($('Ce'), t, wt('l5', 'email') - 0.1, 0.4, 40);
+  const tRep = wt('l5', 'rolls');
+  enter($('Cr'), t, tRep - 0.1, 0.4, 40);
+  const rp = easeOut(prog(t, wt('l5', 'summary') - 0.2, 0.6));
+  $('Crn').textContent = rp >= 0.5 ? '14' : '13';
+  $('Cra').textContent = money(812.40 + 64.90 * rp);
+};
+</script>
+</body>
+</html>

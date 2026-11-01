@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/base.css">
+<script src="out/timeline.js"></script>
+<style>
+  .chip{white-space:nowrap}
+  .win{left:60px;right:60px;overflow:hidden}
+  .whead{height:84px;display:flex;align-items:center;gap:14px;padding:0 30px;border-bottom:1px solid var(--border)}
+  .whead .tt{font-size:28px;font-weight:700;color:var(--ink)}
+  .src{display:inline-flex;align-items:center;height:42px;padding:0 14px;border-radius:10px;background:#F1F5F9;color:var(--slate);font-size:21px;font-weight:700}
+  .cust{padding:16px 30px 6px;font-size:25px;color:var(--ink);font-weight:600}
+  .cust span{font-size:22px;color:var(--muted);font-weight:400;margin-left:10px}
+  .it{display:flex;align-items:center;padding:8px 30px;font-size:25px;color:var(--slate)}
+  .it .p{margin-left:auto;color:var(--ink);font-weight:600}
+  .cfoot{display:flex;align-items:center;gap:14px;margin:12px 30px 0;padding-top:14px;border-top:1px solid var(--border);font-size:23px;color:var(--muted)}
+  .cfoot .tot{margin-left:auto;font-size:28px;font-weight:700;color:var(--ink)}
+  .poll{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;height:60px;padding:0 26px;border-radius:999px;background:var(--navy);color:#fff;font-size:24px;font-weight:600;white-space:nowrap}
+  .grid{display:grid;align-items:center;padding:0 30px}
+  .th{height:54px;font-size:19px;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--border)}
+  .td{height:96px;font-size:25px;color:var(--ink)}
+  .callbtn{width:56px;height:56px;border-radius:50%;background:var(--success);display:flex;align-items:center;justify-content:center}
+  .user{display:flex;align-items:center;gap:10px;font-size:24px;white-space:nowrap}
+  .user .avatar{width:44px;height:44px;font-size:17px}
+  .calling{left:60px;right:60px;height:92px;border-radius:20px;background:var(--pill);display:flex;align-items:center;gap:16px;padding:0 30px;color:#fff;box-shadow:0 18px 50px rgba(8,16,70,.35)}
+  .calling .live{width:16px;height:16px;border-radius:50%;background:#34D399;box-shadow:0 0 0 6px rgba(52,211,153,.25)}
+  .calling .k{font-size:22px;font-weight:600;color:#A7F3D0;letter-spacing:.06em;text-transform:uppercase}
+  .calling .w{font-size:30px;font-weight:700}
+  .calling .tm{margin-left:auto;font-size:26px;color:#C7D2FE}
+  /* B: flow */
+  .lab{position:absolute;left:72px;font-size:22px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .chips{position:absolute;left:60px;right:60px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .sc{height:76px;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:25px;font-weight:700;color:var(--navy);box-shadow:0 6px 18px rgba(15,23,42,.10);border:2px solid #E0E7FF;white-space:nowrap}
+  .sc.out{border-color:#BBF7D0;color:#065F46}
+  .hub{left:140px;right:140px;padding:26px 30px}
+  .hub img{width:330px;display:block;margin:0 auto}
+  .feed{position:relative;height:66px;margin-top:18px;overflow:hidden}
+  .fr{position:absolute;left:0;right:0;height:62px;border-radius:12px;background:#F8FAFC;display:flex;align-items:center;gap:12px;padding:0 16px;font-size:22px;color:var(--ink)}
+  .fr .src{height:36px;font-size:19px;margin-left:auto}
+  .arrow{position:absolute;left:50%;width:4px;margin-left:-2px;background:repeating-linear-gradient(180deg,#94A3B8 0 10px,transparent 10px 18px)}
+  .arrow::after{content:"";position:absolute;left:50%;bottom:-6px;margin-left:-11px;border-left:11px solid transparent;border-right:11px solid transparent;border-top:14px solid #94A3B8}
+  .back{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;height:66px;padding:0 26px;border-radius:999px;background:var(--success-soft);border:2px solid #A7F3D0;color:var(--success);font-size:24px;font-weight:700;white-space:nowrap}
+</style>
+</head>
+<body>
+<!-- A: abandoned Shopify cart becomes a call -->
+<section class="scene bg-blue" id="A">
+  <div class="chtag light">11 · Abandoned carts become calls</div>
+  <div class="eyebrow" style="color:#fff">Shopify carts</div>
+  <div class="headline" id="Ah"><span style="color:#fff">Left at</span><span class="l2" style="color:var(--navy)">checkout?</span></div>
+  <div class="card win" id="Ac" style="top:690px;height:330px">
+    <div class="whead"><span class="tt">Eden Academy Supply Co.</span><span class="src" style="margin-left:auto">Shopify checkout</span></div>
+    <div class="cust">Sylvia Sherwood<span>sylvia.sherwood@mail.com</span></div>
+    <div class="it">Stella Star Planner<span class="p mono">$24.00</span></div>
+    <div class="it">Fountain Pen Set<span class="p mono">$31.00</span></div>
+    <div class="cfoot"><span id="Acs" class="chip info">Checkout started 2:05 PM</span><span class="tot mono">$55.00</span></div>
+  </div>
+  <div class="poll" id="Ap" style="top:1046px"><svg width="28" height="28" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="#7FE3F5" stroke-width="2.4" fill="none"/><path d="M12 7v5l3 2" stroke="#7FE3F5" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>Checked every 15 minutes</div>
+  <div class="card win" id="Ao" style="top:1130px;height:250px">
+    <div class="whead"><span class="tt">Orders</span><span class="chip warn" style="margin-left:auto">Status: Abandoned</span></div>
+    <div class="grid th" style="grid-template-columns:170px 235px 100px 190px 1fr"><span>Order ID</span><span>Customer</span><span>Phone</span><span>Status</span><span>Assigned User</span></div>
+    <div class="grid td" id="Arow" style="grid-template-columns:170px 235px 100px 190px 1fr"><span class="mono" style="font-size:23px">O-048236</span><span>Sylvia Sherwood</span><span><span class="callbtn" id="Acb"><svg width="28" height="28" viewBox="0 0 24 24"><path d="M6.6 10.8a15 15 0 006.6 6.6l2.2-2.2a1 1 0 011-.25 11.4 11.4 0 003.6.6 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.6 3.6a1 1 0 01-.25 1z" fill="#fff"/></svg></span></span><span><span class="chip warn" id="Ast">Abandoned</span></span><span class="user" id="Aus"><span class="avatar" style="background:#DB2777">YF</span>Yor Forger</span></div>
+  </div>
+  <div class="calling" id="Acall" style="position:absolute;top:1410px"><span class="live"></span><span class="k">Calling</span><span class="w">Sylvia Sherwood</span><span class="tm">Yor Forger</span></div>
+  <svg class="cursor" id="Acur" viewBox="0 0 24 24"><path d="M4 2l16 9.5-7 1.6L9.8 20z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</section>
+
+<!-- B: every source in, fulfillment out -->
+<section class="scene bg-light" id="B">
+  <div class="eyebrow" style="color:var(--accent)">Order intake</div>
+  <div class="headline" id="Bh"><span style="color:var(--navy)">Your stores,</span><span class="l2" style="color:var(--accent)">one CRM.</span></div>
+  <div class="lab" style="top:668px">Orders in</div>
+  <div class="chips" id="Bin" style="top:712px"></div>
+  <div class="arrow" id="Ba1" style="top:890px;height:44px"></div>
+  <div class="card hub" id="Bhub" style="top:952px;height:206px">
+    <img src="../../shared/assets/logo-full-color.png" alt="">
+    <div class="feed" id="Bfeed"></div>
+  </div>
+  <div class="arrow" id="Ba2" style="top:1172px;height:44px"></div>
+  <div class="lab" style="top:1228px">Fulfillment out</div>
+  <div class="chips" id="Bout" style="top:1272px"></div>
+  <div class="back" id="Bbk" style="top:1384px"><svg width="28" height="28" viewBox="0 0 24 24"><path d="M9 14L4 9l5-5" stroke="#059669" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 9h10a6 6 0 010 12h-3" stroke="#059669" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg>Tracking number back · <span class="mono" style="font-size:22px">1Z84F2A00318462290</span></div>
+</section>
+
+<div id="cap"></div>
+<script src="../../shared/runtime.js"></script>
+<script>
+const show = (el, o) => { el.style.opacity = o; el.style.visibility = o > 0.001 ? 'visible' : 'hidden'; };
+const IN = ['Shopify', 'WooCommerce', 'ClickBank', 'Konnektive', 'SamCart', 'CartPanda', 'BuyGoods', 'Digistore24'];
+const OUT = ['ShipStation', 'ShipOffers', 'JetPack', 'PBS Fulfillment'];
+$('Bin').innerHTML = IN.map((n, i) => `<div class="sc" id="Bi${i}">${n}</div>`).join('');
+$('Bout').innerHTML = OUT.map((n, i) => `<div class="sc out" id="Bo${i}"${n.length > 12 ? ' style="font-size:22px"' : ''}>${n}</div>`).join('');
+// orders arriving in the hub (fictional demo data)
+const FEED = [['O-048237', 'Damian Desmond', 'WooCommerce'], ['O-048238', 'Becky Blackbell', 'ClickBank'], ['O-048239', 'Henry Henderson', 'SamCart']];
+$('Bfeed').innerHTML = FEED.map((r, i) => `<div class="fr" id="Bf${i}"><span class="mono" style="font-weight:600">${r[0]}</span><span>${r[1]}</span><span class="src">${r[2]}</span></div>`).join('');
+
+window.renderChapter = function (t) {
+  const A = SC.A.s, B = SC.B.s;
+
+  // ---------- A ----------
+  enter($('Ah'), t, A + 0.05, 0.5, 40);
+  enter($('Ac'), t, A + 0.2, 0.5, 60);
+  const tLeave = wt('l1', 'leaves');
+  const left = t >= tLeave;
+  $('Acs').textContent = left ? 'No order after 60 min' : 'Checkout started 2:05 PM';
+  $('Acs').className = 'chip ' + (left ? 'warn' : 'info');
+  $('Ac').style.opacity = String(Math.min(Number($('Ac').style.opacity), 1 - 0.35 * easeOut(prog(t, wt('l1', 'lands'), 0.4))));
+  const tLand = wt('l1', 'lands') - 0.05;
+  enter($('Ao'), t, tLand, 0.5, 60);
+  const tAb = wt('l1', 'abandoned');
+  $('Ast').style.transform = `scale(${0.85 + 0.15 * backOut(prog(t, tAb - 0.1, 0.35))})`;
+  $('Ast').style.opacity = easeOut(prog(t, tAb - 0.1, 0.2));
+  enter($('Ap'), t, wt('l2', 'checked') - 0.1, 0.4, 20);
+  $('Ap').style.transform += ' translateX(-50%)';
+  enter($('Aus'), t, wt('l2', 'assigned') - 0.05, 0.35, 16);
+  const tCall = wt('l2', 'agent') - 0.1;
+  $('Acb').style.transform = `scale(${t >= tCall && t < tCall + 0.15 ? 0.88 : 1})`;
+  enter($('Acall'), t, tCall + 0.2, 0.4, 30);
+  // phone button ≈ x 60+30+170+235+28 = 523, y 1130+84+54+48 = 1316
+  cursor($('Acur'), t, [[wt('l2', 'checked'), 860, 1480], [tCall - 0.1, 524, 1308]], [tCall]);
+  if (t > tCall + 0.5) $('Acur').style.opacity = 1 - easeOut(prog(t, tCall + 0.5, 0.3));
+
+  // ---------- B ----------
+  enter($('Bh'), t, B + 0.05, 0.5, 40);
+  const tFlow = wt('l3', 'flow');
+  const inAt = [B + 0.25, wt('l3', 'woocommerce'), wt('l3', 'clickbank'), wt('l3', 'more'), wt('l3', 'samcart'), wt('l3', 'more') + 0.08, wt('l3', 'more') + 0.16, wt('l3', 'more') + 0.24];
+  IN.forEach((n, i) => enter($('Bi' + i), t, inAt[i] - 0.1, 0.35, 24, 0.12));
+  enter($('Ba1'), t, B + 0.4, 0.4, 10);
+  enter($('Bhub'), t, B + 0.35, 0.45, 40);
+  // feed: each new order slides in on its source's name
+  const fAt = [wt('l3', 'woocommerce'), wt('l3', 'clickbank'), wt('l3', 'samcart')];
+  FEED.forEach((r, i) => {
+    const pin = easeOut(prog(t, fAt[i], 0.3));
+    const pout = i < FEED.length - 1 ? easeOut(prog(t, fAt[i + 1], 0.3)) : 0;
+    const el = $('Bf' + i);
+    el.style.transform = `translateY(${(1 - pin) * 66 - pout * 66}px)`;
+    el.style.opacity = pin * (1 - pout);
+  });
+  enter($('Ba2'), t, wt('l4', 'fulfillment') - 0.1, 0.4, 10);
+  const outAt = [wt('l4', 'shipstation'), wt('l4', 'others'), wt('l4', 'others') + 0.1, wt('l4', 'others') + 0.2];
+  OUT.forEach((n, i) => enter($('Bo' + i), t, outAt[i] - 0.1, 0.35, 24, 0.12));
+  enter($('Bbk'), t, wt('l4', 'tracking') - 0.1, 0.4, -20);
+  $('Bbk').style.transform += ' translateX(-50%)';
+};
+</script>
+</body>
+</html>

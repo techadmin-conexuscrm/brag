@@ -1,26 +1,140 @@
 {
-  "voice": "af_heart",
-  "speed": 1.0,
-  "cast": "Jujutsu Kaisen: Kento Nanami (supervisor); Yuji Itadori, Megumi Fushiguro, Nobara Kugisaki, Maki Zenin (agents); customers Aoi Todo, Toge Inumaki, Kasumi Miwa",
-  "lines": [
-    {"id": "l1", "scene": "A", "text": "With the dialer add-on, supervisors watch every queue and agent live.", "say": "With the dialer add-on, supervisors watch every queue and agent, live.", "emph": ["queue", "live."], "gap": 0.35},
-    {"id": "l2", "scene": "B", "text": "Listen in, whisper to the agent, or barge into the call.", "say": "Listen in, whisper to the agent, or barge into the call.", "emph": ["whisper", "barge"], "gap": 0.35},
-    {"id": "l3", "scene": "C", "text": "Nobody can listen in while a customer enters card details.", "say": "Nobody can listen in while a customer enters card details.", "emph": ["Nobody", "card"], "gap": 0.15},
-    {"id": "l4", "scene": "C", "text": "Missed calls and every agent action are logged as they happen.", "say": "Missed calls, and every agent action, are logged as they happen.", "emph": ["logged"], "gap": 0.6}
-  ],
-  "sfx": [
-    {"at": "l1:supervisors", "offset": 0.3, "kind": "pluck", "notes": [76]},
-    {"at": "l1:queue", "kind": "tick"},
-    {"at": "l1:agent", "kind": "tick"},
-    {"at": "l2:listen", "offset": -0.05, "kind": "click"},
-    {"at": "l2:whisper", "offset": -0.05, "kind": "click"},
-    {"at": "l2:barge", "offset": -0.05, "kind": "click"},
-    {"at": "l2:barge", "offset": 0.25, "kind": "bell", "notes": [76, 81], "level": 0.1},
-    {"at": "l3:listen", "offset": -0.05, "kind": "click"},
-    {"at": "l3:card", "kind": "thud", "level": 0.22},
-    {"at": "l4:missed", "kind": "tick"},
-    {"at": "l4:every", "kind": "tick"},
-    {"at": "l4:action", "kind": "tick"},
-    {"at": "l4:logged", "kind": "pluck", "notes": [81]}
-  ]
+ "voice": "af_heart",
+ "speed": 1.0,
+ "cast": "Jujutsu Kaisen: Kento Nanami (supervisor); Yuji Itadori, Megumi Fushiguro, Nobara Kugisaki, Maki Zenin (agents); customers Aoi Todo, Toge Inumaki, Kasumi Miwa",
+ "lines": [
+  {
+   "id": "l1",
+   "scene": "A",
+   "text": "With the dialer add-on, supervisors watch every queue and agent live.",
+   "say": "With the dialer add-on, supervisors watch every queue and agent, live.",
+   "emph": [
+    "queue",
+    "live."
+   ],
+   "gap": 0.15
+  },
+  {
+   "id": "l1b",
+   "scene": "A",
+   "text": "Wait times and agent statuses update as they change.",
+   "say": "Wait times and agent statuses update as they change.",
+   "emph": [
+    "statuses"
+   ],
+   "gap": 0.35
+  },
+  {
+   "id": "l2",
+   "scene": "B",
+   "text": "Listen in, whisper to the agent, or barge into the call.",
+   "say": "Listen in, whisper to the agent, or barge into the call.",
+   "emph": [
+    "whisper",
+    "barge"
+   ],
+   "gap": 0.35
+  },
+  {
+   "id": "l3",
+   "scene": "C",
+   "text": "Nobody can listen in while a customer enters card details.",
+   "say": "Nobody can listen in while a customer enters card details.",
+   "emph": [
+    "Nobody",
+    "card"
+   ],
+   "gap": 0.15
+  },
+  {
+   "id": "l4",
+   "scene": "C",
+   "text": "Missed calls and every agent action are logged as they happen.",
+   "say": "Missed calls, and every agent action, are logged as they happen.",
+   "emph": [
+    "logged"
+   ],
+   "gap": 0.6
+  }
+ ],
+ "sfx": [
+  {
+   "at": "l1:supervisors",
+   "offset": 0.3,
+   "kind": "pluck",
+   "notes": [
+    76
+   ]
+  },
+  {
+   "at": "l1:queue",
+   "kind": "tick"
+  },
+  {
+   "at": "l1:agent",
+   "kind": "tick"
+  },
+  {
+   "at": "l1b:statuses",
+   "offset": -0.1,
+   "kind": "pluck",
+   "notes": [
+    81
+   ]
+  },
+  {
+   "at": "l2:listen",
+   "offset": -0.05,
+   "kind": "click"
+  },
+  {
+   "at": "l2:whisper",
+   "offset": -0.05,
+   "kind": "click"
+  },
+  {
+   "at": "l2:barge",
+   "offset": -0.05,
+   "kind": "click"
+  },
+  {
+   "at": "l2:barge",
+   "offset": 0.25,
+   "kind": "bell",
+   "notes": [
+    76,
+    81
+   ],
+   "level": 0.1
+  },
+  {
+   "at": "l3:listen",
+   "offset": -0.05,
+   "kind": "click"
+  },
+  {
+   "at": "l3:card",
+   "kind": "thud",
+   "level": 0.22
+  },
+  {
+   "at": "l4:missed",
+   "kind": "tick"
+  },
+  {
+   "at": "l4:every",
+   "kind": "tick"
+  },
+  {
+   "at": "l4:action",
+   "kind": "tick"
+  },
+  {
+   "at": "l4:logged",
+   "kind": "pluck",
+   "notes": [
+    81
+   ]
+  }
+ ]
 }

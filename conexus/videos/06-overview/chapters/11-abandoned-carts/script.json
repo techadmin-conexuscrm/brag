@@ -1,0 +1,27 @@
+{
+ "voice": "af_heart",
+ "speed": 1.0,
+ "cast": "Spy x Family: Yor Forger (agent); customers Sylvia Sherwood, Damian Desmond, Becky Blackbell, Henry Henderson. Store: Eden Academy Supply Co. (fictional)",
+ "lines": [
+  {"id": "l1", "scene": "A", "text": "When a Shopify shopper leaves at checkout, the cart lands in Conexus as an abandoned order.", "say": "When a Shopify shopper leaves at checkout, the cart lands in Conexus as an abandoned order.", "emph": ["checkout,", "abandoned"], "gap": 0.15},
+  {"id": "l2", "scene": "A", "text": "Carts are checked every 15 minutes and assigned to an agent to call back.", "say": "Carts are checked every fifteen minutes and assigned to an agent to call back.", "emph": ["15", "call"], "gap": 0.35},
+  {"id": "l3", "scene": "B", "text": "Orders also flow in from WooCommerce, ClickBank, SamCart and more.", "say": "Orders also flow in from WooCommerce, ClickBank, SamCart, and more.", "emph": ["WooCommerce,", "more."], "gap": 0.15},
+  {"id": "l4", "scene": "B", "text": "Fulfillment goes out to ShipStation and others, and tracking comes back.", "say": "Fulfillment goes out to ShipStation and others, and tracking comes back.", "emph": ["ShipStation", "tracking"], "gap": 0.6}
+ ],
+ "sfx": [
+  {"at": "l1:leaves", "kind": "thud", "level": 0.15},
+  {"at": "l1:lands", "kind": "pluck", "notes": [76, 81]},
+  {"at": "l1:abandoned", "kind": "tick"},
+  {"at": "l2:checked", "kind": "tick"},
+  {"at": "l2:assigned", "kind": "pluck", "notes": [79]},
+  {"at": "l2:agent", "offset": -0.1, "kind": "click"},
+  {"at": "l2:call", "kind": "bell", "notes": [81, 88], "level": 0.12},
+  {"at": "l3:orders", "kind": "pluck", "notes": [69]},
+  {"at": "l3:woocommerce", "kind": "pluck", "notes": [72]},
+  {"at": "l3:clickbank", "kind": "pluck", "notes": [76]},
+  {"at": "l3:samcart", "kind": "pluck", "notes": [79]},
+  {"at": "l3:more", "kind": "pluck", "notes": [81, 84]},
+  {"at": "l4:shipstation", "kind": "pluck", "notes": [84]},
+  {"at": "l4:tracking", "kind": "bell", "notes": [81, 88], "level": 0.12}
+ ]
+}

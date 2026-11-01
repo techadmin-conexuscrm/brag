@@ -47,5 +47,144 @@
    "gap": 0.6
   }
  ],
- "sfx": []
+ "sfx": [
+  {
+   "at": "l1:encrypted",
+   "offset": 0.1,
+   "kind": "click",
+   "level": 0.14
+  },
+  {
+   "at": "l1:encrypted",
+   "offset": 0.15,
+   "kind": "bell",
+   "notes": [
+    69,
+    76
+   ],
+   "level": 0.12,
+   "decay": 1.6
+  },
+  {
+   "at": "l1:saved",
+   "offset": -0.2,
+   "kind": "pluck",
+   "notes": [
+    76
+   ]
+  },
+  {
+   "at": "l1:kept",
+   "kind": "typing",
+   "count": 8,
+   "spacing": 0.08
+  },
+  {
+   "at": "l1:only",
+   "offset": -0.1,
+   "kind": "pluck",
+   "notes": [
+    79
+   ]
+  },
+  {
+   "at": "l1:token",
+   "kind": "tick"
+  },
+  {
+   "at": "l2:roles",
+   "kind": "tick"
+  },
+  {
+   "at": "l2:decide",
+   "kind": "tick"
+  },
+  {
+   "at": "l2:who",
+   "kind": "tick"
+  },
+  {
+   "at": "l2:what",
+   "kind": "tick"
+  },
+  {
+   "at": "l2:separate",
+   "offset": -0.35,
+   "kind": "pluck",
+   "notes": [
+    72
+   ]
+  },
+  {
+   "at": "l2:separate",
+   "offset": -0.05,
+   "kind": "pluck",
+   "notes": [
+    76
+   ]
+  },
+  {
+   "at": "l3:lands",
+   "kind": "tick"
+  },
+  {
+   "at": "l3:lands",
+   "offset": 0.22,
+   "kind": "tick"
+  },
+  {
+   "at": "l3:lands",
+   "offset": 0.44,
+   "kind": "tick"
+  },
+  {
+   "at": "l4:pci",
+   "offset": -0.15,
+   "kind": "pluck",
+   "notes": [
+    76
+   ]
+  },
+  {
+   "at": "l4:hipaa",
+   "offset": -0.15,
+   "kind": "pluck",
+   "notes": [
+    79
+   ]
+  },
+  {
+   "at": "l4:gdpr",
+   "offset": -0.15,
+   "kind": "pluck",
+   "notes": [
+    81
+   ]
+  },
+  {
+   "at": "l4:soc",
+   "offset": -0.15,
+   "kind": "pluck",
+   "notes": [
+    84
+   ]
+  },
+  {
+   "at": "l4:iso",
+   "offset": -0.15,
+   "kind": "pluck",
+   "notes": [
+    88
+   ]
+  },
+  {
+   "at": "l4:progress",
+   "kind": "bell",
+   "notes": [
+    81,
+    88
+   ],
+   "level": 0.12
+  }
+ ]
 }
