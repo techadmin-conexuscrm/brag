@@ -1,198 +1,198 @@
 {
- "voice": "af_heart",
- "speed": 1.0,
- "cast": "Frieren: Beyond Journey's End: Fern, Stark (agents), Frieren (team lead), Himmel (admin); customers Sein, Eisen, Übel",
- "lines": [
-  {
-   "id": "l1",
-   "scene": "A",
-   "text": "Coming soon: AI that can take and make calls alongside your team.",
-   "say": "Coming soon: A I that can take and make calls alongside your team.",
-   "emph": [
-    "soon:",
-    "calls"
-   ],
-   "gap": 0.15
-  },
-  {
-   "id": "l2",
-   "scene": "A",
-   "text": "GIFs are coming to team chat, for every big sale.",
-   "say": "GIFs are coming to team chat, for every big sale.",
-   "emph": [
-    "GIFs",
-    "sale."
-   ],
-   "gap": 0.15
-  },
-  {
-   "id": "l3",
-   "scene": "A",
-   "text": "Secure keypad payments are on the way: customers key in their card, and the agent hears silence.",
-   "say": "Secure keypad payments are on the way: customers key in their card, and the agent hears silence.",
-   "emph": [
-    "keypad",
-    "silence."
-   ],
-   "gap": 0.35
-  },
-  {
-   "id": "l4",
-   "scene": "B",
-   "text": "Texting your customers by SMS is coming next.",
-   "say": "Texting your customers by S M S is coming next.",
-   "emph": [
-    "SMS"
-   ],
-   "gap": 0.15
-  },
-  {
-   "id": "l5",
-   "scene": "B",
-   "text": "And we're building Conexus Sheets and Docs, for your whole team to edit together.",
-   "say": "And we're building Conexus Sheets and Docs, for your whole team to edit together.",
-   "emph": [
-    "Sheets",
-    "Docs,"
-   ],
-   "gap": 0.35
-  },
-  {
-   "id": "l6",
-   "scene": "C",
-   "text": "And there's plenty more on the way.",
-   "say": "And there's plenty more on the way.",
-   "emph": [
-    "more"
-   ],
-   "gap": 0.6
-  }
- ],
- "sfx": [
-  {
-   "at": "l1:coming",
-   "offset": 0.15,
-   "kind": "pluck",
-   "notes": [
-    76,
-    84
-   ]
-  },
-  {
-   "at": "l2:gifs",
-   "offset": -0.2,
-   "kind": "pluck",
-   "notes": [
-    79,
-    86
-   ]
-  },
-  {
-   "at": "l2:big",
-   "offset": -0.1,
-   "kind": "click"
-  },
-  {
-   "at": "l2:sale",
-   "kind": "bell",
-   "notes": [
-    81,
-    88
-   ],
-   "level": 0.12
-  },
-  {
-   "at": "l3:secure",
-   "offset": -0.2,
-   "kind": "pluck",
-   "notes": [
-    81,
-    88
-   ]
-  },
-  {
-   "at": "l3:customers",
-   "offset": -0.1,
-   "kind": "typing",
-   "count": 16,
-   "spacing": 0.1,
-   "level": 0.04
-  },
-  {
-   "at": "l3:silence",
-   "kind": "thud",
-   "level": 0.12
-  },
-  {
-   "at": "l4:texting",
-   "offset": -0.15,
-   "kind": "pluck",
-   "notes": [
-    76
-   ]
-  },
-  {
-   "at": "l4:sms",
-   "offset": -0.1,
-   "kind": "pluck",
-   "notes": [
-    84
-   ]
-  },
-  {
-   "at": "l4:next",
-   "kind": "pluck",
-   "notes": [
-    79
-   ]
-  },
-  {
-   "at": "l5:building",
-   "offset": -0.1,
-   "kind": "pluck",
-   "notes": [
-    72,
-    79
-   ]
-  },
-  {
-   "at": "l5:sheets",
-   "offset": 0.3,
-   "kind": "typing",
-   "count": 4,
-   "spacing": 0.12
-  },
-  {
-   "at": "l5:edit",
-   "offset": -0.6,
-   "kind": "typing",
-   "count": 8,
-   "spacing": 0.12
-  },
-  {
-   "at": "l6:and",
-   "kind": "tick"
-  },
-  {
-   "at": "l6:and",
-   "offset": 0.1,
-   "kind": "tick"
-  },
-  {
-   "at": "l6:and",
-   "offset": 0.2,
-   "kind": "tick"
-  },
-  {
-   "at": "l6:more",
-   "kind": "bell",
-   "notes": [
-    76,
-    81,
-    88
-   ],
-   "level": 0.14,
-   "decay": 1.8
-  }
- ]
+  "voice": "af_heart",
+  "speed": 1.0,
+  "cast": "Frieren: Beyond Journey's End: Fern, Stark (agents), Frieren (team lead), Himmel (admin); customers Sein, Eisen, Übel",
+  "lines": [
+    {
+      "id": "l1",
+      "scene": "A",
+      "text": "Coming soon: AI that can take and make calls alongside your team.",
+      "say": "Coming soon: A I that can take and make calls alongside your team.",
+      "emph": [
+        "soon:",
+        "calls"
+      ],
+      "gap": 0.15
+    },
+    {
+      "id": "l2",
+      "scene": "A",
+      "text": "GIFs are coming to team chat, for every big sale.",
+      "say": "GIFs are coming to team chat, for every big sale.",
+      "emph": [
+        "GIFs",
+        "sale."
+      ],
+      "gap": 0.15
+    },
+    {
+      "id": "l3",
+      "scene": "A",
+      "text": "Secure keypad payments are on the way: customers key in their card, and the agent hears silence.",
+      "say": "Secure keypad payments are on the way: customers key in their card, and the agent hears silence.",
+      "emph": [
+        "keypad",
+        "silence."
+      ],
+      "gap": 0.35
+    },
+    {
+      "id": "l4",
+      "scene": "B",
+      "text": "Texting your customers by SMS is coming next.",
+      "say": "Texting your customers by S M S is coming next.",
+      "emph": [
+        "SMS"
+      ],
+      "gap": 0.15
+    },
+    {
+      "id": "l5",
+      "scene": "B",
+      "text": "And we're building Conexus Sheets and Docs, for your whole team to edit together.",
+      "say": "And we're building Conexus Sheets and Docs, for your whole team to edit together.",
+      "emph": [
+        "Sheets",
+        "Docs,"
+      ],
+      "gap": 0.35
+    },
+    {
+      "id": "l6",
+      "scene": "C",
+      "text": "And there's plenty more on the way.",
+      "say": "And there's plenty more on the way.",
+      "emph": [
+        "more"
+      ],
+      "gap": 1.4
+    }
+  ],
+  "sfx": [
+    {
+      "at": "l1:coming",
+      "offset": 0.15,
+      "kind": "pluck",
+      "notes": [
+        76,
+        84
+      ]
+    },
+    {
+      "at": "l2:gifs",
+      "offset": -0.2,
+      "kind": "pluck",
+      "notes": [
+        79,
+        86
+      ]
+    },
+    {
+      "at": "l2:big",
+      "offset": -0.1,
+      "kind": "click"
+    },
+    {
+      "at": "l2:sale",
+      "kind": "bell",
+      "notes": [
+        81,
+        88
+      ],
+      "level": 0.12
+    },
+    {
+      "at": "l3:secure",
+      "offset": -0.2,
+      "kind": "pluck",
+      "notes": [
+        81,
+        88
+      ]
+    },
+    {
+      "at": "l3:customers",
+      "offset": -0.1,
+      "kind": "typing",
+      "count": 16,
+      "spacing": 0.1,
+      "level": 0.04
+    },
+    {
+      "at": "l3:silence",
+      "kind": "thud",
+      "level": 0.12
+    },
+    {
+      "at": "l4:texting",
+      "offset": -0.15,
+      "kind": "pluck",
+      "notes": [
+        76
+      ]
+    },
+    {
+      "at": "l4:sms",
+      "offset": -0.1,
+      "kind": "pluck",
+      "notes": [
+        84
+      ]
+    },
+    {
+      "at": "l4:next",
+      "kind": "pluck",
+      "notes": [
+        79
+      ]
+    },
+    {
+      "at": "l5:building",
+      "offset": -0.1,
+      "kind": "pluck",
+      "notes": [
+        72,
+        79
+      ]
+    },
+    {
+      "at": "l5:sheets",
+      "offset": 0.3,
+      "kind": "typing",
+      "count": 4,
+      "spacing": 0.12
+    },
+    {
+      "at": "l5:edit",
+      "offset": -0.6,
+      "kind": "typing",
+      "count": 8,
+      "spacing": 0.12
+    },
+    {
+      "at": "l6:and",
+      "kind": "tick"
+    },
+    {
+      "at": "l6:and",
+      "offset": 0.1,
+      "kind": "tick"
+    },
+    {
+      "at": "l6:and",
+      "offset": 0.2,
+      "kind": "tick"
+    },
+    {
+      "at": "l6:more",
+      "kind": "bell",
+      "notes": [
+        76,
+        81,
+        88
+      ],
+      "level": 0.14,
+      "decay": 1.8
+    }
+  ]
 }

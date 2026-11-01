@@ -1,0 +1,122 @@
+[
+ {
+  "n": 1,
+  "title": "Meet Conexus",
+  "blurb": "One screen for the whole call team.",
+  "status": "live",
+  "start": 0.0,
+  "end": 11.867
+ },
+ {
+  "n": 2,
+  "title": "Built-in dialer",
+  "blurb": "Browser softphone, queues, IVR, recording.",
+  "status": "live",
+  "start": 11.867,
+  "end": 30.4
+ },
+ {
+  "n": 3,
+  "title": "Calling-hours protection",
+  "blurb": "Calls blocked outside the customer's legal hours.",
+  "status": "live",
+  "start": 30.4,
+  "end": 51.0
+ },
+ {
+  "n": 4,
+  "title": "Team chat",
+  "blurb": "Channels, DMs, mentions, pins and reactions.",
+  "status": "live",
+  "start": 51.0,
+  "end": 69.333
+ },
+ {
+  "n": 5,
+  "title": "Spiffs & leaderboard",
+  "blurb": "Spiffs credit themselves; everyone sees who's winning.",
+  "status": "live",
+  "start": 69.333,
+  "end": 86.133
+ },
+ {
+  "n": 6,
+  "title": "AI call QA",
+  "blurb": "Every recorded call over a minute, scored.",
+  "status": "live",
+  "start": 86.133,
+  "end": 104.933
+ },
+ {
+  "n": 7,
+  "title": "QA protects every sale",
+  "blurb": "Sales only close when the call passes QA.",
+  "status": "live",
+  "start": 104.933,
+  "end": 121.633
+ },
+ {
+  "n": 8,
+  "title": "Listen, whisper, barge",
+  "blurb": "Coach live calls from a live wallboard.",
+  "status": "live",
+  "start": 121.633,
+  "end": 141.666
+ },
+ {
+  "n": 9,
+  "title": "Payments on the call",
+  "blurb": "Charge, send payment links, saved cards.",
+  "status": "live",
+  "start": 141.667,
+  "end": 163.7
+ },
+ {
+  "n": 10,
+  "title": "Customer service",
+  "blurb": "Shipping, billing descriptors and refunds.",
+  "status": "live",
+  "start": 163.7,
+  "end": 188.7
+ },
+ {
+  "n": 11,
+  "title": "Abandoned carts become calls",
+  "blurb": "Store orders and carts flow straight in.",
+  "status": "live",
+  "start": 188.7,
+  "end": 207.867
+ },
+ {
+  "n": 12,
+  "title": "Nexa AI & call scripts",
+  "blurb": "Answers from your own docs; versioned scripts.",
+  "status": "live",
+  "start": 207.867,
+  "end": 224.967
+ },
+ {
+  "n": 13,
+  "title": "Security & compliance",
+  "blurb": "Encrypted calls, tokenized cards, roles.",
+  "status": "live",
+  "start": 224.967,
+  "end": 246.767
+ },
+ {
+  "n": 14,
+  "title": "Coming soon",
+  "blurb": "AI calling, GIFs, secure keypad, SMS, Sheets & Docs.",
+  "status": "soon",
+  "start": 246.767,
+  "end": 271.0
+ },
+ {
+  "n": 15,
+  "title": "Book a demo",
+  "blurb": "tryconexus.com",
+  "status": "live",
+  "start": 271.0,
+  "end": 280.633
+ }
+]

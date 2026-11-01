@@ -46,3 +46,4 @@ See `conexus/videos/FEATURES.md` (verified against the FE and BE code).
 |---|---|
 | 04 spiffs (v2) | Demon Slayer (Tanjiro Kamado — main, Zenitsu, Inosuke, Nezuko, Giyu), Satoru Gojo, Katsuki Bakugo, Anya Forger, Shoyo Hinata |
 | 05 team chat | Attack on Titan: Mikasa Ackerman (main agent), Levi Ackerman (floor lead), Armin Arlert, Sasha Braus, Connie Springer; customer Jean Kirstein |
+| 06 overview film | 01/02/03 My Hero Academia (Izuku Midoriya…); 04 Attack on Titan; 05 Demon Slayer + leaderboard cast; 06–08 Jujutsu Kaisen (no Gojo); 09–11 Spy x Family (no Anya); 12–14 Frieren |

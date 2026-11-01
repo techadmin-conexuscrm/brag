@@ -80,9 +80,9 @@ ds = active[::step]; g = np.zeros_like(ds); y = 0.0
 for i, v in enumerate(ds):
     c = a_c if v > y else r_c; y = c * y + (1 - c) * v; g[i] = y
 duck = 1 - 0.65 * np.repeat(g, step)[:N]
-music = music * duck * 0.30
+music = music * duck * 0.21
 L = vo + music; R = vo + music
-d = int(0.011 * SR); R[d:] += ((0.30 * pad + arp) * 0.30 * duck * 0.35)[:-d]
+d = int(0.011 * SR); R[d:] += ((0.30 * pad + arp) * 0.21 * duck * 0.35)[:-d]
 fade = np.clip((DUR - np.arange(N) / SR) / 1.0, 0, 1) * np.minimum(1, np.arange(N) / SR / 0.01)
 st = np.tanh(np.stack([L * fade, R * fade], 1) * 1.05); st *= 10 ** (-1 / 20) / np.max(np.abs(st))
 with wave.open('build/mix.wav', 'wb') as w:

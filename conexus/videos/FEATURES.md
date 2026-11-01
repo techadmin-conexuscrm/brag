@@ -29,3 +29,16 @@ frontend `ConexusCRM-FE` (master). Only claims in the **Safe to say** column go 
 | Call scripts | ✅ | "Versioned call scripts with merge fields." | — |
 | AI assistant "Nexa" | ✅ internal | "Nexa answers your team's questions from your own docs and looks up customers and orders." | Customer-facing chatbot |
 | Security | ⚠️ | Encrypted calls (SRTP), argon2 passwords, role-based access, agent activity log. | MFA/2FA · SSO beyond Google · encryption at rest · PII redaction · recording consent |
+
+## Corrections found while building the overview film (2026-11-01)
+
+| Area | Finding | Evidence | Say instead |
+|---|---|---|---|
+| Spiff ledger | Ledger rows are recorded, but no API route or screen shows them. Only the running spiff balance is visible. | BE `spiffs/services/get-balance-ledger.ts` (exported, unused by routes); no FE usage | "Every credit is recorded" — don't show a ledger screen until one ships |
+| Billing descriptors | The gateway descriptor is NOT sent as the card-statement descriptor (NMI: commented out; Stripe: description only; Authorize.net: order description; Revolv3: invoice ref). | `nmi/index.ts:41-42`, `stripe/checkout-session.ts:129-133` | "Agents can look up the gateway and its billing descriptor" — never "it's what's on the statement" |
+| Blocking agent charges | `blockAgentInitiatedCharges` exists but isn't enforced on main (`isAgentChargeBlocked()` returns false) and has no settings toggle. | `agent-charge-policy.ts:4-24`, `CallingRulesCard.tsx:179` | Don't mention |
+| Charging a saved card | Saved cards are only created by secure keypad entry (not live), so charging a saved card isn't available in practice. | `tokenize-from-telephony.ts:195-207` | Don't mention until the keypad ships |
+| Void | Exists in the API, but the order's Transactions menu only offers Retry and Refund. | `transactions/routes.ts`, FE `Orders/Order/Transactions.tsx` | Say "refund", not "void" |
+| QA reject | Rejecting a call cancels the order but doesn't refund or void a payment already taken. | `reject-call.ts:52-64` | Never "no charge" |
+| QA settings copy | The product's own toggle subtitle says it scores "all call recordings" — calls under 60 s and voicemails are skipped. | FE `QASettings` | Product copy fix for the dev team |
+| Calling-hours caps | Manual dials can exceed the 3-a-day cap with a reason (admins notified); auto-dial can't. | `calls/services/calling-hours-policy.ts` | Show the block; don't call the cap absolute |
