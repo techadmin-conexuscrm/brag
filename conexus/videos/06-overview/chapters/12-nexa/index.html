@@ -1,1 +1,275 @@
-<!doctype html><html><head><script src="out/timeline.js"></script></head><body><section class="scene" id="A"></section><div id="cap"></div><script src="../../shared/runtime.js"></script><script>window.renderChapter=function(){}</script></body></html>
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/base.css">
+<script src="out/timeline.js"></script>
+<style>
+  svg.i{display:inline-block;vertical-align:middle;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  /* A — Nexa */
+  .kbrow{position:absolute;left:60px;right:60px;top:612px;display:flex;gap:14px}
+  .kb{display:flex;align-items:center;gap:10px;height:56px;padding:0 18px;border-radius:14px;background:rgba(255,255,255,.16);color:#fff;font-size:22px;font-weight:600;border:2px solid rgba(255,255,255,.28)}
+  .kb .st{font-size:17px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#BBF7D0}
+  .chat{left:60px;width:960px;top:700px;height:800px;display:flex;flex-direction:column;overflow:hidden}
+  .chat .hd{display:flex;align-items:center;gap:18px;padding:22px 30px;border-bottom:1px solid var(--border)}
+  .botav{width:60px;height:60px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;flex:none}
+  .chat .nm{font-size:34px;font-weight:700;color:var(--ink);line-height:1.1}
+  .chat .sc{font-size:22px;color:var(--muted)}
+  .perm{margin-left:auto;display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;background:var(--blue-soft);color:var(--blue);font-size:22px;font-weight:600}
+  .msgs{flex:1;display:flex;flex-direction:column;gap:18px;padding:24px 28px}
+  .row{display:flex;gap:14px;align-items:flex-start}
+  .row.me{justify-content:flex-end}
+  .bub{max-width:700px;border-radius:18px;padding:14px 22px 12px;font-size:26px;line-height:1.38}
+  .me .bub{background:var(--blue);color:#fff}
+  .ai .bub{background:#F1F5F9;color:var(--ink);width:720px}
+  .bub .ts{font-size:18px;margin-top:4px;color:var(--muted)}
+  .me .bub .ts{color:rgba(255,255,255,.72)}
+  .row .av{width:48px;height:48px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-size:19px;font-weight:700}
+  .src{display:inline-flex;align-items:center;gap:8px;margin-top:10px;padding:5px 14px;border-radius:10px;background:#fff;border:1px solid var(--border);font-size:20px;font-weight:600;color:var(--slate)}
+  .mini{width:100%;border-collapse:collapse;margin-top:8px;font-size:23px;background:#fff;border-radius:10px;overflow:hidden}
+  .mini th{text-align:left;font-size:18px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:8px 12px;border-bottom:1px solid var(--border)}
+  .mini td{padding:10px 12px;color:var(--ink)}
+  .dots span{display:inline-block;width:12px;height:12px;border-radius:50%;background:#94A3B8;margin-right:7px}
+  .ft{display:flex;gap:14px;padding:18px 28px 22px;border-top:1px solid var(--border)}
+  .inp{flex:1;height:68px;border:2px solid var(--border);border-radius:14px;display:flex;align-items:center;padding:0 20px;font-size:25px;color:var(--ink);white-space:nowrap;overflow:hidden}
+  .inp .ph{color:#94A3B8}
+  .caret{display:inline-block;width:2px;height:30px;background:var(--ink);margin-left:2px;vertical-align:middle}
+  .send{width:68px;height:68px;border-radius:14px;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center}
+  /* B — script upload + panel */
+  .up{left:60px;width:960px;top:690px;height:196px;padding:24px 30px;display:flex;align-items:center;gap:24px}
+  .zone{flex:1;height:148px;border:3px dashed #CBD5E1;border-radius:18px;background:#F8FAFC;padding:18px 24px;position:relative}
+  .zone b{font-size:27px;color:var(--ink)} .zone p{font-size:22px;color:var(--muted);line-height:1.35;margin-top:4px;width:420px}
+  .file{position:absolute;right:22px;top:26px;width:340px;height:88px;border-radius:14px;background:#fff;box-shadow:0 10px 24px rgba(15,23,42,.16);display:flex;align-items:center;gap:12px;padding:0 16px;font-size:20px;font-weight:600;color:var(--ink)}
+  .file .ext{width:48px;height:56px;border-radius:8px;background:#2563EB;color:#fff;font-size:14px;font-weight:800;display:flex;align-items:flex-end;justify-content:center;padding-bottom:7px;flex:none}
+  .panel{left:60px;width:960px;top:912px;height:588px;overflow:hidden}
+  .panel .phd{display:flex;align-items:center;gap:12px;padding:20px 30px;background:#F8FAFC;border-bottom:1px solid var(--border);border-radius:22px 22px 0 0;font-size:25px}
+  .panel .phd b{font-size:26px}
+  .oncall{margin-left:auto;display:flex;align-items:center;gap:10px;font-size:22px;font-weight:600;color:var(--success)}
+  .oncall i{width:12px;height:12px;border-radius:50%;background:var(--success);display:inline-block}
+  .pbody{padding:20px 30px;display:flex;flex-direction:column;gap:16px}
+  .srcnote{font-size:22px;color:var(--muted)}
+  .bars{display:flex;gap:8px}.bars span{flex:1;height:9px;border-radius:9px;background:#E2E8F0}.bars span.on{background:var(--blue)}
+  .stepttl{font-size:21px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .stepttl b{text-transform:none;letter-spacing:0;color:var(--ink);font-size:23px}
+  .say{font-size:31px;line-height:1.45;color:var(--ink)}
+  .chk{display:flex;align-items:center;gap:14px;border:1px solid var(--border);border-radius:12px;padding:12px 16px;font-size:24px;color:var(--ink)}
+  .chk .box{width:26px;height:26px;border-radius:6px;border:2px solid #94A3B8;flex:none;display:flex;align-items:center;justify-content:center;color:#fff}
+  .tok{display:inline-block;border-radius:8px;padding:0 6px;line-height:1.25}
+  .tok.raw{font-family:"Geist Mono",monospace;font-size:.78em;background:#EEF2FF;color:#4338CA;border:1px solid #C7D2FE}
+  .tok.val{background:#DCFCE7;color:#065F46;font-weight:600}
+  .navbtns{display:flex;justify-content:space-between;margin-top:2px}
+  .sbtn{height:52px;padding:0 22px;border-radius:12px;font-size:22px;font-weight:600;display:inline-flex;align-items:center;gap:8px}
+  .sbtn.out{border:2px solid var(--border);color:#94A3B8;background:#fff}.sbtn.pri{background:var(--blue);color:#fff}
+  /* C — versions */
+  .ed{left:60px;width:960px;top:700px;height:690px;overflow:hidden}
+  .ed .ehd{display:flex;align-items:center;gap:14px;padding:24px 30px;border-bottom:1px solid var(--border)}
+  .ed .ehd b{font-size:32px;color:var(--ink)}
+  .ed .btns{margin-left:auto;display:flex;gap:12px}
+  .vlabel{position:absolute;left:30px;top:134px;display:flex;align-items:center;gap:10px;font-size:24px;font-weight:600;color:var(--ink)}
+  .vlist{position:absolute;left:30px;right:30px;top:186px;height:388px;border:1px solid var(--border);border-radius:14px;overflow:hidden}
+  .vrow{position:absolute;left:0;right:0;height:96px;display:flex;align-items:center;gap:14px;padding:0 20px;border-bottom:1px solid var(--border);background:#fff}
+  .vrow .v{font-family:"Geist Mono",monospace;font-weight:600;font-size:27px;width:52px;color:var(--ink)}
+  .vrow .meta{flex:1;font-size:22px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .live{padding:4px 14px;border-radius:999px;background:var(--success-soft);color:var(--success);font-size:20px;font-weight:700}
+  .rb{display:inline-flex;align-items:center;gap:8px;height:48px;padding:0 16px;border:2px solid var(--border);border-radius:10px;font-size:21px;font-weight:600;color:var(--slate);background:#fff}
+  .emsg{position:absolute;left:30px;right:30px;top:596px;min-height:66px;display:flex;align-items:center;gap:12px;padding:10px 18px;border-radius:12px;background:var(--success-soft);color:#065F46;font-size:22px;font-weight:600}
+  .agentview{left:60px;width:960px;top:1410px;height:88px;display:flex;align-items:center;gap:16px;padding:0 26px;background:var(--blue-soft);border:2px solid #BFDBFE;box-shadow:0 10px 30px rgba(15,23,42,.12)}
+  .agentview .who{font-size:20px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--blue)}
+  .agentview .tx{font-size:22px;font-weight:600;color:#1E40AF}
+</style>
+</head>
+<body>
+<section class="scene bg-blue" id="A">
+  <div class="chtag light">12 · Nexa AI &amp; call scripts</div>
+  <div class="eyebrow" style="color:#fff">Day one on the floor</div>
+  <div class="headline" id="Ah"><span style="color:#fff">Just ask</span><span class="l2" style="color:var(--navy)">Nexa.</span></div>
+  <div class="kbrow" id="Akb"></div>
+  <div class="card chat" id="Achat">
+    <div class="hd">
+      <div class="botav" id="Abot"></div>
+      <div><div class="nm">Nexa</div><div class="sc">Answers from Aura Wellness</div></div>
+      <div class="perm" id="Aperm"></div>
+    </div>
+    <div class="msgs">
+      <div class="row me" id="Am1"><div class="bub">What's the refund window on the Starter Kit?<div class="ts mono">9:02:14 AM</div></div><div class="av" style="background:#7C3AED">FE</div></div>
+      <div class="row ai" id="Aa1"><div class="av" style="background:var(--blue)" id="Aav1"></div><div class="bub"><div id="Aa1t"></div><div class="src" id="Asrc"></div></div></div>
+      <div class="row me" id="Am2"><div class="bub">Find Heiter's last order.<div class="ts mono">9:02:31 AM</div></div><div class="av" style="background:#7C3AED">FE</div></div>
+      <div class="row ai" id="Aa2"><div class="av" style="background:var(--blue)" id="Aav2"></div><div class="bub"><div id="Aa2t">Heiter has one recent order:</div>
+        <table class="mini" id="Atbl"><tr><th>Order</th><th>Product</th><th>Total</th><th>Status</th></tr>
+        <tr><td class="mono">#20417</td><td>Starter Kit</td><td class="mono">$129.00</td><td><span class="chip ok" style="font-size:18px;padding:3px 12px">Shipped</span></td></tr></table></div></div>
+    </div>
+    <div class="ft"><div class="inp" id="Ainp"></div><div class="send" id="Asend"></div></div>
+  </div>
+  <svg class="cursor" id="Acur" viewBox="0 0 24 24"><path d="M4 2l16 9.5-7 1.6L9.8 20z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</section>
+
+<section class="scene bg-light" id="B">
+  <div class="eyebrow" style="color:var(--accent)">Call scripts</div>
+  <div class="headline" id="Bh"><span style="color:var(--navy)">Every call,</span><span class="l2" style="color:var(--accent)">on script.</span></div>
+  <div class="card up" id="Bup">
+    <div class="zone" id="Bzone"><b>Upload a script</b><p>Drop a Word, PDF or text file. We turn it into steps you can edit.</p>
+      <div class="file" id="Bfile"><div class="ext">DOCX</div><div style="white-space:nowrap">Welcome call.docx<div style="font-size:19px;color:var(--muted);font-weight:500;white-space:nowrap" id="Bfst">Uploading…</div></div></div>
+    </div>
+  </div>
+  <div class="card panel" id="Bpanel">
+    <div class="phd"><span id="Bscr"></span><b>Script</b><span style="color:var(--muted)">· Welcome call</span><span class="oncall"><i></i>Fern · on a call with Heiter</span></div>
+    <div class="pbody">
+      <div class="srcnote">Script for the campaign of this call's order.</div>
+      <div class="bars"><span class="on"></span><span class="on" id="Bbar2"></span><span></span><span></span></div>
+      <div class="stepttl" id="Bstep">Step 2 of 4 · <b>Confirm the order</b></div>
+      <div class="say" id="Bsay"></div>
+      <div class="chk" id="Bc1"><span class="box" id="Bb1"></span><span id="Bc1t"></span></div>
+      <div class="chk" id="Bc2"><span class="box" id="Bb2"></span><span id="Bc2t"></span></div>
+      <div class="navbtns"><span class="sbtn out">‹ Back</span><span class="sbtn pri">Next ›</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="scene bg-blue" id="C">
+  <div class="eyebrow" style="color:#fff">Versions</div>
+  <div class="headline" id="Ch"><span style="color:#fff">Roll back</span><span class="l2" style="color:var(--navy)">in a click.</span></div>
+  <div class="card ed" id="Ced">
+    <div class="ehd"><span id="Cscr"></span><b>Welcome call</b><span class="live">Live</span>
+      <div class="btns"><span class="btn ghost" style="height:58px;font-size:23px;padding:0 22px">Save draft</span><span class="btn" id="Cpub" style="height:58px;font-size:23px;padding:0 22px">Publish changes</span></div></div>
+    <div class="vlabel"><span id="Chist"></span>Published versions</div>
+    <div class="vlist" id="Cvl"></div>
+    <div class="emsg" id="Cmsg"></div>
+  </div>
+  <div class="card agentview" id="Cav"><span id="Cavic"></span><div><div class="who">Fern's dialer</div><div class="tx" id="Cavt">An admin just published version 4. You're seeing it now.</div></div></div>
+  <svg class="cursor" id="Ccur" viewBox="0 0 24 24"><path d="M4 2l16 9.5-7 1.6L9.8 20z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</section>
+
+<div id="cap"></div>
+<script src="../../shared/runtime.js"></script>
+<script>
+const P = {
+  bot: '<path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/>',
+  file: '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+  sheet: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M12 3v18"/>',
+  lock: '<rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  send: '<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',
+  scroll: '<path d="M15 12h-5"/><path d="M15 8h-5"/><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/>',
+  hist: '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/>',
+  rb: '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+  check: '<path d="M20 6 9 17l-5-5"/>',
+  info: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+  spin: '<path d="M21 12a9 9 0 1 1-6.22-8.56"/>',
+};
+const ic = (n, s = 28, sw = 2) => `<svg class="i" width="${s}" height="${s}" viewBox="0 0 24 24" style="stroke-width:${sw}">${P[n]}</svg>`;
+
+// A — static markup
+const KB = [['Refund Policy.pdf','file'],['Product Guide.docx','file'],['Pricing.xlsx','sheet']];
+$('Akb').innerHTML = KB.map(([n,i],k) => `<div class="kb" id="Akb${k}">${ic(i,26)}${n}</div>`).join('');
+$('Abot').innerHTML = ic('bot', 34); $('Aav1').innerHTML = ic('bot', 28); $('Aav2').innerHTML = ic('bot', 28);
+$('Aperm').innerHTML = ic('lock', 22) + "Only what Fern can see";
+$('Asrc').innerHTML = ic('file', 22) + 'Source: Refund Policy.pdf';
+// B
+$('Bscr').innerHTML = ic('scroll', 28);
+// C
+$('Cscr').innerHTML = ic('scroll', 30); $('Chist').innerHTML = ic('hist', 26); $('Cavic').innerHTML = `<span style="color:var(--blue)">${ic('info', 34)}</span>`;
+const VR = {
+  v4: ['4', 'Nov 1, 9:16 AM · Himmel · rolled back to v2'],
+  v3: ['3', 'Nov 1, 9:15 AM · Himmel'],
+  v2: ['2', 'Oct 24, 9:30 AM · Himmel'],
+  v1: ['1', 'Oct 17, 11:05 AM · Himmel'],
+};
+$('Cvl').innerHTML = Object.entries(VR).map(([k,[v,m]]) => `<div class="vrow" id="C${k}"><span class="v">v${v}</span><span class="live" id="C${k}L">Live</span><span class="meta">${m}</span><span class="rb" id="C${k}B">${ic('rb',20)}Roll back to this</span></div>`).join('');
+
+const ANS1 = "Starter Kit orders can be refunded within 30 days of delivery. Customers keep the free gift.";
+const Q1 = "What's the refund window on the Starter Kit?", Q2 = "Find Heiter's last order.";
+const tokSpan = (raw, val, swapT, t) => t >= swapT
+  ? `<span class="tok val" style="background:rgba(220,252,231,${1 - 0.6 * prog(t, swapT + 0.4, 0.6)})">${val}</span>`
+  : `<span class="tok raw">{{${raw}}}</span>`;
+
+window.renderChapter = function (t) {
+  const A = SC.A.s, B = SC.B.s, C = SC.C.s;
+  // ---------- A: Fern asks Nexa ----------
+  enter($('Ah'), t, A + 0.05, 0.5, 40);
+  enter($('Achat'), t, A + 0.15, 0.5, 60);
+  const send1 = wt('l1', 'ask') + 0.05, send2 = wt('l2', 'looks') - 0.05;
+  const ans1 = wt('l2', 'answers') - 0.1, docs = wt('l2', 'docs'), ord = wt('l2', 'orders') - 0.1, allowed = wt('l2', 'allowed');
+  KB.forEach((_, k) => enter($('Akb' + k), t, wt('l2', 'your') - 0.2 + k * 0.12, 0.35, 20, 0.1));
+  const hl = t >= docs - 0.1;
+  $('Akb0').style.background = hl ? '#fff' : 'rgba(255,255,255,.16)';
+  $('Akb0').style.color = hl ? 'var(--blue)' : '#fff';
+  // input field
+  const q2s = docs + 0.15;
+  let txt = '', ph = true;
+  if (t >= A + 0.45 && t < send1) { txt = typed(Q1, t, A + 0.45, send1 - A - 0.75); ph = false; }
+  else if (t >= q2s && t < send2) { txt = typed(Q2, t, q2s, send2 - q2s - 0.15); ph = false; }
+  const caretOn = !ph && Math.floor(t * 3) % 2 === 0;
+  $('Ainp').innerHTML = ph ? '<span class="ph">Type your message...</span>' : txt.replace(/</g,'&lt;') + (caretOn ? '<span class="caret"></span>' : '<span class="caret" style="opacity:0"></span>');
+  const loading = (t >= send1 && t < ans1 + 0.3) || (t >= send2 && t < ord + 0.2);
+  $('Asend').innerHTML = loading ? `<span style="display:inline-block;transform:rotate(${(t * 540) % 360}deg)">${ic('spin', 30, 2.6)}</span>` : ic('send', 30);
+  cursor($('Acur'), t, [[A + 0.6, 820, 1560], [send1 - 0.35, 950, 1435], [docs + 0.4, 950, 1435], [send2, 950, 1435]], [send1, send2]);
+  // messages
+  enter($('Am1'), t, send1, 0.3, 24);
+  enter($('Aa1'), t, send1 + 0.25, 0.3, 24);
+  const typing1 = t < ans1;
+  $('Aa1t').innerHTML = typing1
+    ? `<span class="dots">${[0,1,2].map(i => `<span style="opacity:${0.35 + 0.65 * Math.abs(Math.sin(t * 6 - i * 0.7))}"></span>`).join('')}</span>`
+    : typed(ANS1, t, ans1, docs - ans1 + 0.2).replace('30 days', '<b>30 days</b>');
+  enter($('Asrc'), t, docs, 0.3, 10, 0.15);
+  enter($('Am2'), t, send2, 0.3, 24);
+  enter($('Aa2'), t, send2 + 0.25, 0.3, 24);
+  enter($('Atbl'), t, ord, 0.35, 16);
+  $('Aa2t').style.opacity = t >= ord - 0.15 ? 1 : 0;
+  // the permission chip pulses on "allowed"
+  const pp = prog(t, allowed - 0.1, 0.6);
+  $('Aperm').style.transform = `scale(${1 + 0.08 * Math.sin(Math.PI * pp)})`;
+  $('Aperm').style.background = t >= allowed - 0.1 ? '#DBEAFE' : 'var(--blue-soft)';
+
+  // ---------- B: upload → script with merge fields ----------
+  enter($('Bh'), t, B + 0.05, 0.5, 40);
+  enter($('Bup'), t, B + 0.15, 0.45, 50);
+  const fileT = wt('l3', 'Word') - 0.15;
+  const fp = easeOut(prog(t, fileT, 0.5));
+  $('Bfile').style.opacity = fp;
+  $('Bfile').style.transform = `translate(${(1 - fp) * 60}px, ${(1 - fp) * -80}px) rotate(${(1 - fp) * 8}deg)`;
+  const imported = t >= wt('l3', 'script');
+  $('Bfst').innerHTML = imported ? '<span style="color:var(--success);font-weight:700">✓ 4 steps imported</span>' : 'Uploading…';
+  $('Bzone').style.borderColor = t >= fileT + 0.2 && !imported ? 'var(--blue)' : '#CBD5E1';
+  enter($('Bpanel'), t, wt('l3', 'script') + 0.1, 0.45, 60);
+  const sw0 = wt('l3', 'fills') - 0.05, swd = (wt('l3', 'details') - sw0) / 4;
+  $('Bsay').innerHTML = `Thanks, ${tokSpan('customer.first_name', 'Heiter', sw0, t)}. I'm ${tokSpan('agent.first_name', 'Fern', sw0 + swd, t)}, and I'll confirm your order with ${tokSpan('company.name', 'Aura Wellness', sw0 + 2 * swd, t)}.`;
+  $('Bc1t').innerHTML = `Order ${tokSpan('order.id', '#20417', sw0 + 3 * swd, t)} total: ${tokSpan('order.total', '$129.00', sw0 + 3 * swd, t)}`;
+  $('Bc2t').innerHTML = `Ship to ${tokSpan('customer.city', 'Lisbon', sw0 + 4 * swd, t)}`;
+  const ck = t >= sw0 + 4 * swd + 0.3;
+  $('Bb1').style.background = ck ? 'var(--blue)' : '#fff'; $('Bb1').style.borderColor = ck ? 'var(--blue)' : '#94A3B8';
+  $('Bb1').innerHTML = ck ? ic('check', 18, 3.4) : '';
+
+  // ---------- C: publish, then roll back ----------
+  enter($('Ch'), t, C + 0.05, 0.5, 40);
+  enter($('Ced'), t, C + 0.15, 0.45, 60);
+  const tPub = wt('l4', 'Publish') + 0.25, tRb = wt('l4', 'old') + 0.05;
+  const s1 = easeOut(prog(t, tPub, 0.4)), s2 = easeOut(prog(t, tRb, 0.4));
+  // row slots (index → y) shift down as new versions land on top
+  const H = 96;
+  const pos = { v4: -1 + s2, v3: -1 + s1 + s2, v2: s1 + s2, v1: 1 + s1 + s2 };
+  for (const k of ['v4','v3','v2','v1']) {
+    const el = $('C' + k); el.style.top = (pos[k] * H) + 'px';
+    el.style.opacity = k === 'v4' ? s2 : k === 'v3' ? s1 : 1;
+    const isLive = (k === 'v2' && t < tPub) || (k === 'v3' && t >= tPub && t < tRb) || (k === 'v4' && t >= tRb);
+    $('C' + k + 'L').style.display = isLive ? '' : 'none';
+    $('C' + k + 'B').style.visibility = isLive ? 'hidden' : 'visible';
+    el.style.background = (k === 'v3' && t >= tPub && t < tPub + 0.9) || (k === 'v4' && t >= tRb && t < tRb + 0.9) ? '#F0FDF4' : '#fff';
+  }
+  const rbBtn = $('Cv2B');
+  const pressed = t >= tRb - 0.12 && t < tRb + 0.1;
+  rbBtn.style.background = pressed || (t >= tRb - 0.5 && t < tRb) ? '#EFF6FF' : '#fff';
+  rbBtn.style.borderColor = t >= tRb - 0.5 && t < tRb + 0.1 ? 'var(--blue)' : 'var(--border)';
+  $('Cpub').style.background = t >= tPub - 0.15 && t < tPub + 0.15 ? '#1D4ED8' : 'var(--blue)';
+  const msg = t >= tRb ? "Rolled back: agents now see version 2's text (published as version 4)."
+            : t >= tPub ? 'Published version 3. Agents on calls see it now.' : '';
+  $('Cmsg').innerHTML = msg ? ic('check', 26, 2.6) + msg : '';
+  $('Cmsg').style.opacity = msg ? easeOut(prog(t, t >= tRb ? tRb : tPub, 0.3)) : 0;
+  enter($('Cav'), t, tRb + 0.35, 0.4, 30);
+  // cursor: publish button, then v2's "Roll back to this"
+  const v2y = 700 + 186 + 2 * H - H / 2 + 10; // v2 sits in slot 2 once v3 lands
+  cursor($('Ccur'), t, [[C + 0.4, 640, 1300], [tPub - 0.3, 870, 745], [tPub + 0.25, 870, 745], [tRb - 0.3, 860, v2y], [tRb + 0.6, 860, v2y]], [tPub - 0.05, tRb - 0.05]);
+  if (t > tRb + 0.5) $('Ccur').style.opacity = 1 - easeOut(prog(t, tRb + 0.5, 0.3));
+};
+</script>
+</body>
+</html>

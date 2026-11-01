@@ -1,1 +1,205 @@
-<!doctype html><html><head><script src="out/timeline.js"></script></head><body><section class="scene" id="A"></section><div id="cap"></div><script src="../../shared/runtime.js"></script><script>window.renderChapter=function(){}</script></body></html>
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/base.css">
+<script src="out/timeline.js"></script>
+<style>
+  svg.i{display:inline-block;vertical-align:middle;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  /* A — lock + three proofs */
+  .lockwrap{position:absolute;left:820px;top:372px;width:190px;height:220px}
+  .shackle{position:absolute;left:38px;top:0;width:114px;height:120px;border:24px solid #fff;border-bottom:none;border-radius:60px 60px 0 0}
+  .lbody{position:absolute;left:0;top:92px;width:190px;height:128px;border-radius:26px;background:#fff;box-shadow:0 20px 50px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center}
+  .khole{width:26px;height:46px;border-radius:13px 13px 6px 6px;background:#0A0F2C}
+  .pulse{position:absolute;left:915px;top:540px;border-radius:50%;border:3px solid var(--cyan);transform:translate(-50%,-50%)}
+  .proof{left:60px;width:960px;height:235px;padding:26px 30px;display:flex;gap:26px;align-items:flex-start}
+  .proof .ico{width:76px;height:76px;border-radius:18px;display:flex;align-items:center;justify-content:center;color:#fff;flex:none}
+  .proof .tt{font-size:32px;font-weight:700;color:var(--ink);line-height:1.15}
+  .proof .ds{font-size:23px;color:var(--muted);margin-top:4px}
+  .proof .main{flex:1;min-width:0}
+  .lk{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;font-size:21px;font-weight:700;background:var(--success-soft);color:var(--success);white-space:nowrap}
+  .wave{display:flex;align-items:center;gap:5px;height:64px;margin-top:16px}
+  .wave span{width:9px;border-radius:5px;background:#CBD5E1}
+  .cc{width:300px;height:176px;border-radius:18px;background:linear-gradient(135deg,#1E3A8A,#111B83 60%,#0A0F2C);color:#fff;padding:18px 22px;position:relative;flex:none;margin-top:-4px}
+  .cc .brand{font-size:22px;font-weight:800;letter-spacing:.08em}
+  .cc .num{position:absolute;left:22px;bottom:46px;font-size:25px;letter-spacing:.04em;white-space:nowrap}
+  .cc .exp{position:absolute;left:22px;bottom:16px;font-size:18px;opacity:.8}
+  .cc .chipg{position:absolute;right:22px;top:20px;width:46px;height:34px;border-radius:7px;background:linear-gradient(135deg,#FDE68A,#D97706)}
+  .kv{display:flex;align-items:center;gap:12px;font-size:23px;color:var(--ink);margin-top:10px;white-space:nowrap}
+  .kv .k{color:var(--muted);width:150px}
+  .kv.no{color:var(--danger)} .kv.no .k{color:var(--danger)}
+  .pw{display:flex;align-items:center;gap:16px;margin-top:16px}
+  .pwbox{height:60px;border:2px solid var(--border);border-radius:12px;padding:0 18px;display:flex;align-items:center;font-size:26px;letter-spacing:.2em;color:var(--ink);flex:none}
+  .hash{height:60px;border-radius:12px;padding:0 18px;display:flex;align-items:center;background:#0F172A;color:#7FE3F5;font-size:20px;white-space:nowrap;overflow:hidden;flex:1;min-width:0}
+  /* B — roles, separation, activity log */
+  .role{left:60px;width:960px;top:690px;height:390px;padding:0}
+  .role .rh{display:flex;align-items:center;gap:14px;padding:22px 30px;border-bottom:1px solid var(--border)}
+  .role .rh b{font-size:30px;color:var(--ink)}
+  .prow{display:flex;align-items:center;gap:16px;height:72px;padding:0 30px;border-bottom:1px solid #F1F5F9;font-size:25px;color:var(--ink)}
+  .prow .key{margin-left:auto;font-size:19px;color:var(--muted);margin-right:18px}
+  .tg{width:66px;height:38px;border-radius:999px;background:#CBD5E1;position:relative;flex:none}
+  .tg i{position:absolute;top:4px;left:4px;width:30px;height:30px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.2)}
+  .sep{position:absolute;left:60px;right:60px;top:1100px;display:flex;gap:18px}
+  .sep .card{position:relative;flex:1;height:96px;display:flex;align-items:center;gap:14px;padding:0 22px;font-size:23px;font-weight:600;color:var(--ink);line-height:1.2}
+  .sep .ico{width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;flex:none}
+  .log{left:60px;width:960px;top:1216px;height:284px;padding:0}
+  .log .lh{display:flex;align-items:center;gap:12px;padding:18px 28px;border-bottom:1px solid var(--border);font-size:26px;font-weight:700;color:var(--ink)}
+  .lrow{display:flex;align-items:center;gap:16px;height:68px;padding:0 28px;border-bottom:1px solid #F1F5F9;font-size:23px;color:var(--ink);white-space:nowrap}
+  .lrow .tm{color:var(--muted);width:118px;font-size:21px}
+  .lrow .dot2{width:12px;height:12px;border-radius:50%;flex:none}
+  .lrow .who{font-weight:600;width:120px}
+  .lrow .by{margin-left:auto;font-size:20px;color:var(--muted)}
+  /* C — compliance */
+  .comp{left:60px;width:960px;top:690px;height:560px;padding:10px 0}
+  .crow{display:flex;align-items:center;gap:20px;height:108px;padding:0 34px;border-bottom:1px solid #F1F5F9}
+  .crow:last-child{border-bottom:none}
+  .crow .seal{width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none}
+  .crow .nm{font-size:34px;font-weight:700;color:var(--ink)}
+  .crow .st{margin-left:auto}
+  .st .chip{font-size:23px;padding:8px 20px}
+  .line{position:absolute;left:60px;right:60px;top:1278px;height:206px;border-radius:22px;background:var(--navy);color:#fff;padding:26px 34px;box-shadow:0 24px 60px rgba(8,16,70,.35)}
+  .line .lb{font-size:19px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan)}
+  .line .tx{font-size:31px;font-weight:600;line-height:1.38;margin-top:10px}
+  .line .ip{color:#FDE68A}
+</style>
+</head>
+<body>
+<section class="scene bg-dark" id="A">
+  <div class="chtag light">13 · Security &amp; compliance</div>
+  <div class="eyebrow" style="color:var(--cyan)">Security</div>
+  <div class="headline" id="Ah"><span style="color:#fff">Locked down</span><span class="l2" style="color:var(--cyan)">by design.</span></div>
+  <div class="pulse" id="Ap1"></div><div class="pulse" id="Ap2"></div>
+  <div class="lockwrap" id="Alock"><div class="shackle" id="Ashk"></div><div class="lbody"><div class="khole"></div></div></div>
+
+  <div class="card proof" id="Ac1" style="top:700px">
+    <div class="ico" style="background:var(--success)" id="Ai1"></div>
+    <div class="main"><div class="tt">Call audio</div><div class="ds">Stark on a call with Eisen · <span class="mono">02:14</span></div>
+      <div class="wave" id="Awave"></div></div>
+    <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end"><span class="lk" id="Ak1"></span><span class="lk" id="Ak2"></span></div>
+  </div>
+  <div class="card proof" id="Ac2" style="top:957px">
+    <div class="cc"><div class="brand">VISA</div><div class="chipg"></div><div class="num mono" id="Anum"></div><div class="exp mono">EXP 08/28</div></div>
+    <div class="main"><div class="tt">Saved card</div>
+      <div class="kv" id="Akv1"><span class="k">Stored</span><span class="lk" style="background:var(--blue-soft);color:var(--blue)">Gateway token + last 4</span></div>
+      <div class="kv no" id="Akv2"><span class="k">Never</span><span style="font-weight:600">Card number or CVV</span></div></div>
+  </div>
+  <div class="card proof" id="Ac3" style="top:1214px">
+    <div class="ico" style="background:var(--violet)" id="Ai3"></div>
+    <div class="main"><div class="tt">Passwords</div><div class="ds">Hashed with argon2 before they're saved</div>
+      <div class="pw"><div class="pwbox">••••••••••</div><span style="color:var(--muted);font-size:30px">→</span><div class="hash mono" id="Ahash"></div></div></div>
+  </div>
+</section>
+
+<section class="scene bg-light" id="B">
+  <div class="eyebrow" style="color:var(--accent)">Roles &amp; audit</div>
+  <div class="headline sm" id="Bh"><span style="color:var(--navy)">Right people,</span><span class="l2" style="color:var(--accent)">right data.</span></div>
+  <div class="card role" id="Brole">
+    <div class="rh"><span id="Bshield" style="color:var(--blue)"></span><b>Floor agent</b><span class="chip info">Custom role</span><span style="margin-left:auto;font-size:21px;color:var(--muted)">Stark, Fern</span></div>
+    <div id="Bperms"></div>
+  </div>
+  <div class="sep">
+    <div class="card" id="Bs1"><div class="ico" style="background:var(--navy)" id="Bs1i"></div>Each company's data<br>kept separate</div>
+    <div class="card" id="Bs2"><div class="ico" style="background:var(--warning)" id="Bs2i"></div>Calling hours enforced<br>by the server</div>
+  </div>
+  <div class="card log" id="Blog">
+    <div class="lh"><span id="Bact" style="color:var(--blue)"></span>Agent activity<span class="chip ok" style="margin-left:auto;font-size:20px" id="Bao"></span></div>
+    <div id="Brows"></div>
+  </div>
+</section>
+
+<section class="scene bg-blue" id="C">
+  <div class="eyebrow" style="color:#fff">Compliance</div>
+  <div class="headline sm" id="Ch"><span style="color:#fff">Where we</span><span class="l2" style="color:var(--navy)">stand today.</span></div>
+  <div class="card comp" id="Ccomp"></div>
+  <div class="line" id="Cline"><div class="lb">Compliance status</div>
+    <div class="tx">PCI DSS (self-assessed) · HIPAA-ready · GDPR-aligned · SOC 2 Type I &amp; ISO 27001 <span class="ip">in progress</span></div></div>
+</section>
+
+<div id="cap"></div>
+<script src="../../shared/runtime.js"></script>
+<script>
+const P = {
+  phone: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
+  lock: '<rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  key: '<circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/>',
+  shield: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>',
+  shieldck: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+  build: '<rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/>',
+  clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+  act: '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
+  check: '<path d="M20 6 9 17l-5-5"/>',
+  hour: '<path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.17a2 2 0 0 0-.59-1.42L12 12l-4.41 4.41A2 2 0 0 0 7 17.83V22"/><path d="M7 2v4.17a2 2 0 0 0 .59 1.42L12 12l4.41-4.41A2 2 0 0 0 17 6.17V2"/>',
+};
+const ic = (n, s = 28, sw = 2) => `<svg class="i" width="${s}" height="${s}" viewBox="0 0 24 24" style="stroke-width:${sw}">${P[n]}</svg>`;
+
+// A
+$('Ai1').innerHTML = ic('phone', 38); $('Ai3').innerHTML = ic('key', 38);
+$('Ak1').innerHTML = ic('lock', 20, 2.4) + 'SRTP required'; $('Ak2').innerHTML = ic('lock', 20, 2.4) + 'WSS signalling';
+$('Awave').innerHTML = Array.from({ length: 46 }, () => '<span></span>').join('');
+const NUM = '4111 1111 1111 4242';
+const HASH = '$argon2id$v=19$m=65536,t=3,p=4$Qm9vdHN0cmFw$8vJxN2c';
+// B
+const PERMS = [['Can view customers','read#customer',1],['Can view orders','read#order',1],['Can delete customers','delete#customer',0],['Can listen to live calls','monitor#call',0]];
+$('Bperms').innerHTML = PERMS.map(([l,k],i) => `<div class="prow" id="Bp${i}">${l}<span class="key mono">${k}</span><span class="tg" id="Bt${i}"><i></i></span></div>`).join('');
+$('Bshield').innerHTML = ic('shield', 32); $('Bs1i').innerHTML = ic('build', 30); $('Bs2i').innerHTML = ic('clock', 30);
+$('Bact').innerHTML = ic('act', 28); $('Bao').innerHTML = ic('lock', 18, 2.4) + 'Append-only';
+const LOG = [['9:02 AM','Stark','Opened the dialer','#059669','Agent'],['9:03 AM','Stark','Went Ready','#2563EB','Agent'],['9:14 AM','Fern','Answered a call','#2563EB','Agent']];
+$('Brows').innerHTML = LOG.map(([tm,w,x,c,by],i) => `<div class="lrow" id="Bl${i}"><span class="tm mono">${tm}</span><span class="dot2" style="background:${c}"></span><span class="who">${w}</span><span>${x}</span><span class="by">${by}</span></div>`).join('');
+// C
+const COMP = [['PCI DSS','Self-assessed','ok','PCI'],['HIPAA-ready','','ok','HIPAA'],['GDPR-aligned','','ok','GDPR'],['SOC 2 Type I','In progress','warn','SOC'],['ISO 27001','In progress','warn','ISO']];
+$('Ccomp').innerHTML = COMP.map(([n,s,k],i) => `<div class="crow" id="Cr${i}"><div class="seal" style="background:${k==='ok'?'var(--success-soft)':'var(--warning-soft)'};color:${k==='ok'?'var(--success)':'var(--warning)'}">${ic(k==='ok'?'shieldck':'hour', 34)}</div><div class="nm">${n}</div><div class="st">${s?`<span class="chip ${k}" id="Cs${i}">${s}</span>`:`<span class="chip ok">${ic('check',22,2.6)}</span>`}</div></div>`).join('');
+
+window.renderChapter = function (t) {
+  const A = SC.A.s, B = SC.B.s, C = SC.C.s;
+  // ---------- A ----------
+  enter($('Ah'), t, A + 0.05, 0.5, 40);
+  const lockT = wt('l1', 'encrypted') + 0.1;
+  enter($('Alock'), t, A + 0.2, 0.45, 30, 0.1);
+  const sp = easeOut(prog(t, lockT, 0.28));
+  $('Ashk').style.transform = `translateY(${(1 - sp) * -46}px) rotate(${(1 - sp) * -18}deg)`;
+  $('Ashk').style.transformOrigin = '100% 100%';
+  [['Ap1', 0], ['Ap2', 0.18]].forEach(([id, d]) => { const p = prog(t, lockT + 0.2 + d, 0.9); const el = $(id); const s = 200 + 260 * easeOut(p); el.style.width = el.style.height = s + 'px'; el.style.opacity = p > 0 && p < 1 ? 0.8 * (1 - p) : 0; });
+  enter($('Ac1'), t, wt('l1', 'calls') - 0.25, 0.4, 60);
+  const enc = t >= lockT;
+  [...$('Awave').children].forEach((el, i) => { const h = 12 + 44 * Math.abs(Math.sin(i * 0.7 + t * 5) * Math.cos(i * 0.31 - t * 2.2)); el.style.height = h + 'px'; el.style.background = enc ? 'var(--success)' : '#CBD5E1'; el.style.opacity = enc ? 0.55 + 0.45 * Math.min(1, h / 40) : 1; });
+  enter($('Ak1'), t, lockT + 0.05, 0.3, 10, 0.15); enter($('Ak2'), t, lockT + 0.2, 0.3, 10, 0.15);
+  enter($('Ac2'), t, wt('l1', 'saved') - 0.2, 0.4, 60);
+  const m0 = wt('l1', 'kept'), m1 = wt('l1', 'token');
+  const nMask = Math.floor(easeInOut(prog(t, m0, m1 - m0)) * 12);
+  let k = 0; $('Anum').textContent = [...NUM].map(ch => ch === ' ' ? ' ' : (k++ < nMask ? '•' : ch)).join('');
+  enter($('Akv1'), t, m1 - 0.1, 0.3, 14); enter($('Akv2'), t, m1 + 0.1, 0.3, 14);
+  enter($('Ac3'), t, wt('l1', 'only') - 0.1, 0.4, 60);
+  $('Ahash').textContent = typed(HASH, t, wt('l1', 'as') - 0.05, 0.7);
+
+  // ---------- B ----------
+  enter($('Bh'), t, B + 0.05, 0.5, 40);
+  enter($('Brole'), t, B + 0.15, 0.45, 60);
+  const r0 = wt('l2', 'roles'), r1 = wt('l2', 'what');
+  PERMS.forEach(([, , on], i) => {
+    const tt = r0 + (r1 - r0) * i / 3, p = easeOut(prog(t, tt, 0.22));
+    const v = on ? p : 0, el = $('Bt' + i);
+    el.style.background = on ? `rgba(37,99,235,${0.25 + 0.75 * p})` : '#CBD5E1';
+    if (!on) el.style.background = '#E2E8F0';
+    el.firstChild.style.transform = `translateX(${v * 28}px)`;
+    $('Bp' + i).style.background = t >= tt && t < tt + 0.5 ? '#F8FAFC' : '#fff';
+    $('Bp' + i).style.color = on || t < tt ? 'var(--ink)' : '#94A3B8';
+  });
+  enter($('Bs1'), t, wt('l2', 'separate') - 0.35, 0.35, 30, 0.08);
+  enter($('Bs2'), t, wt('l2', 'separate') - 0.05, 0.35, 30, 0.08);
+  enter($('Blog'), t, wt('l3', 'agent') - 0.2, 0.4, 50);
+  LOG.forEach((_, i) => enter($('Bl' + i), t, wt('l3', 'lands') + i * 0.22, 0.3, 16));
+  const ao = prog(t, wt('l3', 'append'), 0.5);
+  $('Bao').style.transform = `scale(${1 + 0.12 * Math.sin(Math.PI * ao)})`;
+
+  // ---------- C ----------
+  enter($('Ch'), t, C + 0.05, 0.5, 40);
+  enter($('Ccomp'), t, C + 0.15, 0.45, 60);
+  COMP.forEach((c, i) => enter($('Cr' + i), t, wt('l4', c[3]) - 0.15, 0.35, 24, 0.06));
+  const ip = wt('l4', 'progress');
+  [3, 4].forEach(i => { const p = prog(t, ip - 0.1, 0.6); $('Cs' + i).style.transform = `scale(${1 + 0.12 * Math.sin(Math.PI * p)})`; });
+  enter($('Cline'), t, wt('l4', 'SOC') - 0.1, 0.45, 30);
+};
+</script>
+</body>
+</html>

@@ -25,7 +25,7 @@
   .line .nm{font-size:28px;font-weight:600;color:var(--ink)}
   .line .q{font-size:22px;color:var(--muted)}
   .line .amt{margin-left:auto;font-size:30px;font-weight:600;color:var(--ink)}
-  .totals{padding:14px 30px 0;display:grid;grid-template-columns:1fr auto;row-gap:4px;font-size:24px;color:var(--muted)}
+  .totals{padding:12px 30px 0;display:grid;grid-template-columns:1fr auto;row-gap:2px;font-size:24px;line-height:1.3;color:var(--muted)}
   .totals .r{text-align:right;color:var(--ink)}
   .totals .big{font-size:30px;font-weight:700;color:var(--ink)}
   .stage{position:absolute;left:0;right:0;padding:0 30px}
@@ -75,7 +75,7 @@
 <!-- A: take the order and the card on the call -->
 <section class="scene bg-blue" id="A">
   <div class="chtag light">09 · Payments on the call</div>
-  <div class="eyebrow" style="color:#fff">In the dialer</div>
+  <div class="eyebrow" style="color:#fff">With the dialer add-on</div>
   <div class="headline" id="Ah"><span style="color:#fff">Sell it on</span><span class="l2" style="color:var(--navy)">the call.</span></div>
   <div class="card panel" id="Ap" style="top:690px;height:820px">
     <div class="callbar"><span class="live"></span><span class="on">On call</span><span class="who">Becky Blackbell</span><span class="tm mono" id="Atm">02:14</span><span class="avatar" style="background:#0EA5E9">LF</span></div>
@@ -85,13 +85,13 @@
     <div class="line" id="Al2"><div class="pi" style="background:#EDE9FE">♞</div><div><div class="nm">Chimera Plush</div><div class="q">Qty 1 × $19.00</div></div><div class="amt mono">$19.00</div></div>
     <div class="totals" id="Atot"><span>3 items</span><span class="r mono">$67.00</span><span>Shipping</span><span class="r mono">$5.95</span><span class="big">Total</span><span class="r big mono">$72.95</span></div>
     <!-- stage 1: how is Becky paying -->
-    <div class="stage" id="Ag1" style="top:500px">
+    <div class="stage" id="Ag1" style="top:508px">
       <div class="lbl">How is Becky paying?</div>
       <div class="opt"><div class="rad"><i></i></div><div><div class="ot">Card, you type it</div><div class="od">Becky reads the card out and you type it into Stripe's own fields.</div></div></div>
     </div>
     <div class="cta" id="Acta1" style="top:722px">Save order and take card</div>
     <!-- stage 2: card form -->
-    <div class="stage" id="Ag2" style="top:500px">
+    <div class="stage" id="Ag2" style="top:508px">
       <div class="lbl">Card · Stripe</div>
       <div class="fld mono" id="Anum"><span class="ph">Card number</span><span id="Anumv"></span><span class="caret" id="Acar"></span><span class="brand" id="Abr">VISA</span></div>
       <div style="display:flex;gap:16px;margin-top:14px">
@@ -171,23 +171,23 @@ window.renderChapter = function (t) {
   enter($('Ah'), t, A + 0.05, 0.5, 40);
   enter($('Ap'), t, A + 0.2, 0.55, 70);
   $('Atm').textContent = clock(134, t, A);
-  const tOrder = wt('l1', 'order');
+  const tOrder = wt('l1', 'takes');
   enter($('Al1'), t, tOrder - 0.1, 0.35, 30);
   enter($('Al2'), t, tOrder + 0.08, 0.35, 30);
   enter($('Atot'), t, tOrder + 0.25, 0.35, 20);
-  const tPay = wt('l1', 'without');
-  const tSave = wt('l1', 'call') + 0.1;            // click "Save order and take card"
-  const tForm = tSave + 0.3;
-  const tType0 = wt('l2', 'reads'), tType1 = wt('l2', 'types') + 0.35;
+  const tPay = wt('l1', 'order') + 0.3;
+  const tSave = wt('l2', 'she') - 0.1;           // click "Save order and take card"
+  const tForm = tSave + 0.3;  // card form opens after the panel clears
+  const tType0 = wt('l2', 'card'), tType1 = wt('l2', 'types') + 0.35;
   const tCharge = wt('l2', 'and') - 0.15;          // click "Charge $72.95"
   const tOk = wt('l2', 'approved');
   // stages
-  show($('Ag1'), fadeIO(t, tPay, tForm));
-  show($('Acta1'), fadeIO(t, tPay, tForm));
-  show($('Ag2'), fadeIO(t, tForm, tCharge + 0.2));
-  show($('Acta2'), fadeIO(t, tForm, tCharge + 0.2));
-  show($('Ag3'), fadeIO(t, tCharge + 0.2, tOk - 0.1, 0.2));
-  show($('Ag4'), easeOut(prog(t, tOk - 0.1, 0.3)));
+  show($('Ag1'), fadeIO(t, tPay, tSave + 0.12, 0.15));
+  show($('Acta1'), fadeIO(t, tPay, tSave + 0.12, 0.15));
+  show($('Ag2'), fadeIO(t, tForm, tCharge + 0.12, 0.15));
+  show($('Acta2'), fadeIO(t, tForm, tCharge + 0.12, 0.15));
+  show($('Ag3'), fadeIO(t, tCharge + 0.28, tOk - 0.15, 0.15));
+  show($('Ag4'), easeOut(prog(t, tOk, 0.3)));
   $('Ag4').style.transform = `scale(${0.94 + 0.06 * backOut(prog(t, tOk - 0.1, 0.4))})`;
   $('Aspin').style.transform = `rotate(${t * 540}deg)`;
   // card typing
@@ -203,7 +203,7 @@ window.renderChapter = function (t) {
   $('Att').textContent = t >= tSave ? 'Order O-048213' : 'New order';
   // button press feedback
   [['Acta1', tSave], ['Acta2', tCharge]].forEach(([id, c]) => { $(id).style.filter = (t >= c && t < c + 0.18) ? 'brightness(.85)' : 'none'; });
-  cursor($('Acur'), t, [[tPay - 0.3, 900, 1300], [tSave - 0.15, 560, 1440], [tType0, 560, 1440], [tType0 + 0.6, 760, 1500], [tCharge - 0.2, 600, 1440]], [tSave, tCharge]);
+  cursor($('Acur'), t, [[tPay - 0.3, 900, 1300], [tSave - 0.15, 770, 1438], [tType0, 770, 1438], [tType0 + 0.6, 760, 1500], [tCharge - 0.2, 760, 1438]], [tSave, tCharge]);
   if (t > tOk + 0.3) $('Acur').style.opacity = 1 - easeOut(prog(t, tOk + 0.3, 0.3));
 
   // ---------- B: payment link ----------
@@ -216,7 +216,7 @@ window.renderChapter = function (t) {
   $('Bcta').style.filter = (t >= tLink && t < tLink + 0.18) ? 'brightness(.85)' : 'none';
   show($('Bg2'), easeOut(prog(t, tLink + 0.3, 0.3)));
   enter($('Bm'), t, wt('l3', 'link') - 0.05, 0.5, 80, 0.06);
-  cursor($('Bcur'), t, [[B + 0.4, 900, 1480], [tLink - 0.1, 600, 1130]], [tLink]);
+  cursor($('Bcur'), t, [[B + 0.4, 900, 1480], [tLink - 0.1, 830, 1126]], [tLink]);
   if (t > tLink + 0.5) $('Bcur').style.opacity = 1 - easeOut(prog(t, tLink + 0.5, 0.3));
 
   // ---------- C: gateways + only a token ----------

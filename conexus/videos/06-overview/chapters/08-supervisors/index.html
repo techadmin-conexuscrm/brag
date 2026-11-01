@@ -1,0 +1,229 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/base.css">
+<script src="out/timeline.js"></script>
+<style>
+  /* agent state pills (AgentStatePill colours) */
+  .sp{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:999px;font-size:20px;font-weight:700;white-space:nowrap;border:2px solid}
+  .sp .s{font-family:"Geist Mono",monospace;font-weight:600;opacity:.8}
+  .sp.ready{background:#ECFDF5;color:#047857;border-color:#A7F3D0}
+  .sp.call{background:#EFF6FF;color:#1D4ED8;border-color:#BFDBFE}
+  .sp.ring{background:#EFF6FF;color:#1D4ED8;border-color:#BFDBFE}
+  .sp.wrap{background:#ECFEFF;color:#0E7490;border-color:#A5F3FC}
+  .sp.nr{background:#FFFBEB;color:#B45309;border-color:#FDE68A}
+  .mbtn{display:inline-flex;align-items:center;gap:6px;height:42px;padding:0 13px;border-radius:9px;border:2px solid var(--border);background:#fff;font-size:19px;font-weight:700;color:var(--ink);white-space:nowrap}
+  .mbtn.on{background:var(--navy);border-color:var(--navy);color:#fff}
+  .ccard{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:999px;background:var(--blue);color:#fff;font-size:18px;font-weight:700;white-space:nowrap}
+
+  /* A — wallboard */
+  .wb{left:50px;width:980px;top:680px;height:830px;padding:22px 24px}
+  .tabs{display:flex;gap:6px;padding:6px;border:1.5px solid var(--border);border-radius:14px}
+  .tabs span{height:46px;padding:0 14px;border-radius:10px;font-size:20px;font-weight:600;color:var(--slate);display:flex;align-items:center;white-space:nowrap}
+  .tabs span.on{background:var(--navy);color:#fff}
+  .live{display:flex;align-items:center;gap:12px;margin-top:14px;font-size:19px;color:var(--muted)}
+  .live .lv{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 12px;border-radius:999px;background:#ECFDF5;color:#047857;font-weight:700;border:1.5px solid #A7F3D0}
+  .live .lv i{width:10px;height:10px;border-radius:50%;background:#10B981}
+  .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+  .tile{border:1.5px solid var(--border);border-radius:14px;padding:12px 16px}
+  .tile .l{font-size:17px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .tile .v{font-size:44px;font-weight:600;line-height:1.15;color:var(--ink)}
+  .tile .sb{font-size:17px;color:var(--muted)}
+  .sec{margin-top:14px;border:1.5px solid var(--border);border-radius:14px;overflow:hidden}
+  .sec .hd{display:flex;align-items:baseline;gap:12px;padding:10px 16px;background:#F8FAFC;border-bottom:1.5px solid var(--border)}
+  .sec .hd b{font-size:22px} .sec .hd span{font-size:17px;color:var(--muted)}
+  .qr{display:grid;grid-template-columns:1fr 130px 170px 190px;align-items:center;padding:0 16px;height:48px;font-size:21px;border-top:1px solid var(--border)}
+  .qr.h{height:38px;border-top:none;font-size:16px;font-weight:600;color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
+  .qr span:not(:first-child){text-align:right}
+  .ar{display:flex;align-items:center;gap:12px;padding:0 16px;height:70px;border-top:1px solid var(--border);font-size:22px}
+  .ar:first-of-type{border-top:none}
+  .ar .n{width:200px;font-weight:600;flex:none}
+  .ar .btns{margin-left:auto;display:flex;gap:6px}
+  .ar.card{position:static;box-shadow:none;border-radius:0;background:#EFF6FF;box-shadow:inset 5px 0 0 var(--blue)}
+  .addon{position:absolute;right:60px;top:200px;height:52px;padding:0 20px;border-radius:999px;background:#fff;color:var(--navy);font-size:22px;font-weight:700;display:flex;align-items:center;gap:8px}
+
+  /* B — modes */
+  .agr{left:60px;width:960px;top:690px;padding:22px 26px}
+  .agr .t{display:flex;align-items:center;gap:14px}
+  .agr .nm{font-size:28px;font-weight:700} .agr .c{font-size:21px;color:var(--muted)}
+  .agr .mb{display:flex;gap:14px;margin-top:18px}
+  .agr .mb .mbtn{height:66px;font-size:26px;flex:1;justify-content:center;border-radius:14px}
+  .dia{left:60px;width:960px;top:900px;height:600px}
+  .node{position:absolute;width:280px;display:flex;flex-direction:column;align-items:center;text-align:center;transform:translateX(-50%)}
+  .node .av{width:110px;height:110px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:38px;font-weight:800;box-shadow:0 10px 24px rgba(15,23,42,.18)}
+  .node .nm{font-size:25px;font-weight:700;margin-top:10px;color:var(--ink)}
+  .node .rl{font-size:19px;color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+  .hear{margin-top:8px;height:38px;padding:0 14px;border-radius:999px;font-size:19px;font-weight:700;display:inline-flex;align-items:center;gap:6px}
+  .hear.y{background:#DCFCE7;color:#166534} .hear.n{background:#F1F5F9;color:#64748B}
+  .mlabel{position:absolute;left:0;right:0;bottom:26px;text-align:center;font-size:28px;font-weight:700;color:var(--navy)}
+  .mlabel span{color:var(--muted);font-weight:500}
+
+  /* C — card entry refusal + activity */
+  .ref{left:60px;width:960px;top:690px;padding:0;overflow:hidden}
+  .ref .ar{height:auto;padding:20px 24px;flex-wrap:wrap;row-gap:14px;border-top:none}
+  .err{width:100%;font-size:22px;font-weight:600;color:#B91C1C;line-height:1.35;background:#FEF2F2;border-radius:10px;padding:10px 14px}
+  .act{left:60px;width:960px;top:1010px;height:490px;padding:20px 24px}
+  .act .hd{display:flex;align-items:center;gap:10px}
+  .act .hd .tb{height:42px;padding:0 14px;border-radius:10px;font-size:20px;font-weight:600;color:var(--slate);display:flex;align-items:center;border:1.5px solid var(--border)}
+  .act .hd .tb.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .act .sub{font-size:19px;color:var(--muted);margin:10px 0 4px}
+  .ev{display:flex;align-items:center;gap:14px;padding:11px 0;border-top:1px solid var(--border)}
+  .ev .dot{position:static;width:14px;height:14px;border-radius:50%;flex:none}
+  .ev .w{font-size:23px;font-weight:600;color:var(--ink)} .ev .d{font-size:19px;color:var(--muted)}
+  .ev .tm{margin-left:auto;font-size:20px;color:var(--muted)}
+</style>
+</head>
+<body>
+<section class="scene bg-blue" id="A">
+  <div class="chtag light">08 · Listen, whisper, barge</div>
+  <div class="addon" id="Aadd">☎ Dialer add-on</div>
+  <div class="eyebrow" style="color:#fff">Supervisor</div>
+  <div class="headline" id="Ah"><span style="color:#fff">The floor,</span><span class="l2" style="color:var(--navy)">live.</span></div>
+  <div class="card wb" id="Awb">
+    <div class="tabs"><span class="on">Live wallboard</span><span>Agents</span><span>Missed calls</span><span>Agent activity</span><span>QA</span></div>
+    <div class="live"><span class="lv"><i id="Alvd"></i>Live</span><span>Updated just now · Jujutsu High</span></div>
+    <div class="tiles">
+      <div class="tile"><div class="l">Calls waiting</div><div class="v mono" id="Aw">3</div><div class="sb">Across 2 queues</div></div>
+      <div class="tile"><div class="l">Longest wait</div><div class="v mono" id="Alw">0:48</div><div class="sb">Oldest caller in line</div></div>
+      <div class="tile"><div class="l">Service level</div><div class="v mono">86%</div><div class="sb">Answered within 20s · goal 80%</div></div>
+    </div>
+    <div class="sec" id="Aq">
+      <div class="hd"><b>Queues</b><span>Callers waiting right now, and today</span></div>
+      <div class="qr h"><span>Queue</span><span>Waiting</span><span>Longest wait</span><span>Answered today</span></div>
+      <div class="qr"><b>Sales</b><span class="mono" id="Aq1w">2</span><span class="mono" id="Aq1l">0:48</span><span class="mono" id="Aq1a">41</span></div>
+      <div class="qr"><b>Support</b><span class="mono">1</span><span class="mono" id="Aq2l">0:21</span><span class="mono">17</span></div>
+    </div>
+    <div class="sec" id="Aag">
+      <div class="hd"><b>Agents</b><span>Blue rows are collecting a card right now.</span></div>
+      <div class="ar"><span class="n">Yuji Itadori</span><span id="Ay"></span><span class="btns"><span class="mbtn">🎧 Listen</span><span class="mbtn">Whisper</span><span class="mbtn">Barge in</span></span></div>
+      <div class="ar card"><span class="n">Nobara Kugisaki</span><span id="An"></span><span class="ccard" id="Anc"></span></div>
+      <div class="ar"><span class="n">Megumi Fushiguro</span><span id="Am"></span></div>
+      <div class="ar"><span class="n">Maki Zenin</span><span id="Az"></span></div>
+    </div>
+  </div>
+</section>
+
+<section class="scene bg-light" id="B">
+  <div class="eyebrow" style="color:var(--accent)">Monitor a live call</div>
+  <div class="headline sm"><span style="color:var(--navy)">Three ways</span><span class="l2" style="color:var(--accent)">to step in.</span></div>
+  <div class="card agr" id="Bagr">
+    <div class="t"><div class="avatar" style="background:#E11D48">YI</div><div><div class="nm">Yuji Itadori</div><div class="c">With Aoi Todo · Sales queue</div></div><span style="margin-left:auto" id="By"></span></div>
+    <div class="mb"><span class="mbtn" id="Bm0">🎧 Listen</span><span class="mbtn" id="Bm1">Whisper</span><span class="mbtn" id="Bm2">Barge in</span></div>
+  </div>
+  <div class="card dia" id="Bdia">
+    <svg width="960" height="600" style="position:absolute;left:0;top:0" id="Bsvg">
+      <line x1="230" y1="360" x2="730" y2="360" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
+      <text x="480" y="345" text-anchor="middle" font-family="Poppins" font-size="19" font-weight="600" fill="#64748B">LIVE CALL</text>
+      <line id="Lsa" x1="480" y1="150" x2="250" y2="310" stroke-width="6" stroke-linecap="round"/>
+      <line id="Lsc" x1="480" y1="150" x2="710" y2="310" stroke-width="6" stroke-linecap="round"/>
+    </svg>
+    <div class="node" style="left:480px;top:24px"><div class="av" style="background:#B45309;width:100px;height:100px;font-size:34px">KN</div><div class="nm" style="margin-top:6px">Kento Nanami</div><div class="rl">Supervisor</div></div>
+    <div class="node" style="left:200px;top:300px"><div class="av" style="background:#E11D48">YI</div><div class="nm">Yuji Itadori</div><div class="rl">Agent</div><span class="hear" id="Bha"></span></div>
+    <div class="node" style="left:760px;top:300px"><div class="av" style="background:#7C3AED">AT</div><div class="nm">Aoi Todo</div><div class="rl">Customer</div><span class="hear" id="Bhc"></span></div>
+    <div class="mlabel" id="Bml"></div>
+  </div>
+  <div class="cursor" id="Bcur"><svg viewBox="0 0 24 24" width="56" height="56"><path d="M4 2 L4 20 L9 15 L12.5 22 L15.5 20.6 L12 13.8 L19 13.8 Z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+</section>
+
+<section class="scene bg-dark" id="C">
+  <div class="eyebrow" style="color:var(--cyan)">Guard rails</div>
+  <div class="headline sm"><span style="color:#fff">Card entry</span><span class="l2" style="color:var(--cyan)">stays private.</span></div>
+  <div class="card ref" id="Cref">
+    <div class="ar card" style="background:#EFF6FF">
+      <span class="n" style="font-size:26px;width:auto">Nobara Kugisaki</span><span id="Cn"></span><span class="ccard" id="Cnc"></span>
+      <span class="btns" style="margin-left:0;width:100%"><span class="mbtn" id="Cl">🎧 Listen</span><span class="mbtn">Whisper</span><span class="mbtn">Barge in</span></span>
+      <div class="err" id="Cerr">Listening is not available while the customer is entering card details. Try again once they have finished.</div>
+    </div>
+  </div>
+  <div class="card act" id="Cact">
+    <div class="hd"><span class="tb" id="Ctm">Missed calls</span><span class="tb on">Agent activity</span></div>
+    <div class="sub">Everything your agents do, as it happens.</div>
+    <div id="Cev"></div>
+  </div>
+  <div class="cursor" id="Ccur"><svg viewBox="0 0 24 24" width="56" height="56"><path d="M4 2 L4 20 L9 15 L12.5 22 L15.5 20.6 L12 13.8 L19 13.8 Z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+</section>
+
+<div id="cap"></div>
+<script src="../../shared/runtime.js"></script>
+<script>
+const clock = s => Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
+const pill = (cls, label, secs) => `<span class="sp ${cls}">${label}${secs == null ? '' : ` <span class="s">${clock(secs)}</span>`}</span>`;
+
+// Agent activity rows — wording from dialer/supervisor/activityLabels.ts
+const EV = [
+  ['#2563EB', 'Kento Nanami whispered on their call', 'Yuji Itadori', '10:42'],
+  ['#DC2626', 'Missed a call', 'Maki Zenin · It rang and wasn\'t answered', '10:41'],
+  ['#D97706', 'Went Not ready · On break', 'Megumi Fushiguro · Was Ready', '10:39'],
+  ['#059669', 'Answered a call', 'Nobara Kugisaki', '10:38'],
+];
+$('Cev').innerHTML = EV.map(([c, w, d, tm], i) => `<div class="ev" id="ev${i}"><span class="dot" style="background:${c}"></span><div><div class="w">${w}</div><div class="d">${d}</div></div><span class="tm mono">${tm}</span></div>`).join('');
+
+const MODES = [
+  ['Listen', 'you hear both sides. Nobody hears you.', false, false],
+  ['Whisper', 'only Yuji hears you.', true, false],
+  ['Barge in', 'Yuji and Aoi both hear you.', true, true],
+];
+
+window.renderChapter = function (t) {
+  const A = SC.A.s, B = SC.B.s, C = SC.C.s;
+  const e = t - A; // seconds into the chapter, for ticking clocks
+
+  // A — the live wallboard ticks
+  enter($('Ah'), t, A + 0.05, 0.5, 40);
+  enter($('Aadd'), t, wt('l1', 'dialer') - 0.1, 0.4, 0, 0.3);
+  enter($('Awb'), t, A + 0.2, 0.5, 50);
+  const tAns = A + 2.4; // a Sales caller gets answered by Megumi
+  const answered = t >= tAns;
+  $('Aw').textContent = answered ? '2' : '3';
+  $('Aq1w').textContent = answered ? '1' : '2';
+  $('Aq1a').textContent = answered ? '42' : '41';
+  $('Alw').textContent = clock(answered ? 31 + (t - tAns) : 48 + e);
+  $('Aq1l').textContent = clock(answered ? 31 + (t - tAns) : 48 + e);
+  $('Aq2l').textContent = clock(21 + e);
+  $('Alvd').style.opacity = 0.45 + 0.55 * (0.5 + 0.5 * Math.cos(e * 4));
+  $('Ay').innerHTML = pill('call', 'On a call', 161 + e);
+  $('An').innerHTML = pill('call', 'On a call', 65 + e);
+  $('Anc').textContent = '🔒 Collecting card · ' + clock(14 + e);
+  $('Am').innerHTML = t < tAns - 0.8 ? pill('ready', 'Ready', 32 + e) : t < tAns ? pill('ring', 'Ringing', null) : pill('call', 'On a call', t - tAns);
+  $('Az').innerHTML = pill('wrap', 'Wrap-up', 18 + e);
+  [['Aq', 'queue'], ['Aag', 'agent']].forEach(([id, w]) => {
+    const p = prog(t, wt('l1', w) - 0.05, 0.7); const k = Math.sin(Math.PI * p);
+    $(id).style.boxShadow = k > 0 ? `0 0 0 ${5 * k}px rgba(47,140,244,${0.5 * k})` : '';
+  });
+
+  // B — Listen, Whisper, Barge in: clicked on the word; who hears whom
+  enter($('Bagr'), t, B + 0.05, 0.45, 40);
+  enter($('Bdia'), t, B + 0.25, 0.45, 50);
+  $('By').innerHTML = pill('call', 'On a call', 161 + e);
+  const tm = [wt('l2', 'listen'), wt('l2', 'whisper'), wt('l2', 'barge')];
+  let m = -1; tm.forEach((x, i) => { if (t >= x) m = i; });
+  [0, 1, 2].forEach(i => { $('Bm' + i).className = 'mbtn' + (i === m ? ' on' : ''); $('Bm' + i).style.transform = t >= tm[i] && t < tm[i] + 0.15 ? 'scale(.96)' : ''; });
+  const M = MODES[Math.max(0, m)];
+  const on = m >= 0;
+  const style = (el, talk) => { el.setAttribute('stroke', talk ? '#2F8CF4' : '#CBD5E1'); el.setAttribute('stroke-dasharray', talk ? '' : '4 14'); el.style.opacity = on ? 1 : 0.3; };
+  style($('Lsa'), on && M[2]); style($('Lsc'), on && M[3]);
+  $('Bha').className = 'hear ' + (on && M[2] ? 'y' : 'n'); $('Bha').textContent = on && M[2] ? '🔊 Hears you' : 'Can\'t hear you';
+  $('Bhc').className = 'hear ' + (on && M[3] ? 'y' : 'n'); $('Bhc').textContent = on && M[3] ? '🔊 Hears you' : 'Can\'t hear you';
+  $('Bml').innerHTML = on ? `${M[0]} · <span>${M[1]}</span>` : '';
+  $('Bml').style.opacity = on ? easeOut(prog(t, tm[m], 0.25)) : 0;
+  // buttons: 3 equal columns inside the card (x 86..994), y ≈ 832
+  cursor($('Bcur'), t, [[B + 0.2, 560, 1080], [tm[0] - 0.1, 220, 830], [tm[1] - 0.25, 220, 830], [tm[1] - 0.1, 530, 830], [tm[2] - 0.25, 530, 830], [tm[2] - 0.1, 840, 830], [tm[2] + 0.8, 900, 1000]], tm.map(x => x - 0.05));
+
+  // C — Listen refused during card entry; the activity log fills in
+  enter($('Cref'), t, C + 0.05, 0.45, 40);
+  $('Cn').innerHTML = pill('call', 'On a call', 65 + e);
+  $('Cnc').textContent = '🔒 Collecting card · ' + clock(14 + e);
+  const tL = wt('l3', 'listen');
+  $('Cl').style.transform = t >= tL && t < tL + 0.15 ? 'scale(.95)' : '';
+  const ep = easeOut(prog(t, tL + 0.25, 0.3));
+  $('Cerr').style.opacity = ep; $('Cerr').style.display = ep > 0 ? 'block' : 'none';
+  cursor($('Ccur'), t, [[C + 0.3, 520, 930], [tL - 0.1, 130, 790], [tL + 0.7, 130, 790], [tL + 1.4, 600, 990]], [tL - 0.05]);
+  enter($('Cact'), t, wt('l4', 'missed') - 0.35, 0.4, 40);
+  $('Ctm').style.boxShadow = (() => { const k = Math.sin(Math.PI * prog(t, wt('l4', 'missed') - 0.1, 0.6)); return k > 0 ? `0 0 0 ${5 * k}px rgba(47,140,244,${0.5 * k})` : ''; })();
+  EV.forEach((_, i) => enter($('ev' + i), t, wt('l4', 'missed') + i * 0.28, 0.35, 20));
+};
+</script>
+</body>
+</html>

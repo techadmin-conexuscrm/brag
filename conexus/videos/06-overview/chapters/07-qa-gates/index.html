@@ -1,0 +1,194 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/base.css">
+<script src="out/timeline.js"></script>
+<style>
+  .sc{display:inline-flex;align-items:center;justify-content:center;min-width:84px;height:48px;padding:0 14px;border-radius:999px;font-size:28px;font-weight:700;font-family:"Geist Mono",monospace;font-variant-numeric:tabular-nums}
+  .s-hi{background:#DCFCE7;color:#166534;box-shadow:inset 0 0 0 2px rgba(22,163,74,.25)}
+  .s-mid{background:#FEF3C7;color:#92400E;box-shadow:inset 0 0 0 2px rgba(217,119,6,.25)}
+  .s-lo{background:#FEE2E2;color:#991B1B;box-shadow:inset 0 0 0 2px rgba(220,38,38,.25)}
+  .s-none{background:#F1F5F9;color:#94A3B8}
+  .st{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 16px;border-radius:10px;font-size:22px;font-weight:600;white-space:nowrap}
+  .st.off{background:#F8FAFC;color:#94A3B8;box-shadow:inset 0 0 0 2px #E2E8F0}
+  .st.purple{background:#F3E8FF;color:#6B21A8} .st.yellow{background:#FEF9C3;color:#854D0E}
+  .st.green{background:#DCFCE7;color:#166534} .st.red{background:#FEE2E2;color:#991B1B}
+
+  /* A — two orders waiting on QA */
+  .ord{left:60px;width:960px;height:330px;padding:26px 30px}
+  .ord .r1{display:flex;align-items:baseline;justify-content:space-between}
+  .ord .id{font-size:32px;font-weight:700;color:var(--ink)} .ord .amt{font-size:36px;font-weight:600;color:var(--ink)}
+  .ord .who{font-size:24px;color:var(--muted);margin-top:4px}
+  .pipe{display:flex;align-items:center;gap:10px;margin-top:22px}
+  .pipe .ar{font-size:24px;color:#CBD5E1;font-weight:700}
+  .ord .r3{display:flex;align-items:center;gap:16px;margin-top:22px;padding-top:20px;border-top:1.5px solid var(--border)}
+  .ord .lbl{font-size:23px;color:var(--slate);font-weight:600}
+  .ord .thr{margin-left:auto;font-size:21px;color:var(--muted)}
+  .rsn{font-size:21px;font-weight:700;padding:6px 12px;border-radius:8px;background:#FEF3C7;color:#92400E}
+
+  /* B — QA queue */
+  .qa{left:60px;width:960px;top:690px;height:810px;padding:24px 26px}
+  .qa .top{display:flex;align-items:center;gap:14px}
+  .qa .ttl{font-size:34px;font-weight:800;color:var(--ink)}
+  .qa .ic{width:52px;height:52px;border-radius:12px;background:#E0E7FF;color:var(--navy);display:flex;align-items:center;justify-content:center;font-size:28px}
+  .flt{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .flt span{height:42px;padding:0 14px;border-radius:10px;border:1.5px solid var(--border);font-size:20px;font-weight:600;color:var(--slate);display:inline-flex;align-items:center;gap:6px;background:#fff}
+  .flt span.on{border-color:#93C5FD;background:#EFF6FF;color:#1D4ED8}
+  .tbl2{margin-top:18px;border:1.5px solid var(--border);border-radius:14px;overflow:hidden}
+  .tr2{display:grid;grid-template-columns:185px 170px 125px 110px 1fr;align-items:center;padding:0 18px;height:72px;border-top:1.5px solid var(--border);font-size:23px;color:var(--ink)}
+  .tr2.hd{height:52px;border-top:none;background:#F8FAFC;font-size:18px;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+  .tr2 b{font-weight:600}
+  .tr2.sel{background:#EFF6FF;box-shadow:inset 5px 0 0 var(--blue)}
+  .ma{margin-top:18px;border:1.5px solid var(--border);border-radius:14px;padding:18px 20px}
+  .ma .h{display:flex;align-items:baseline;justify-content:space-between}
+  .ma .h b{font-size:26px} .ma .h span{font-size:20px;color:var(--muted)}
+  .mb{display:flex;align-items:center;justify-content:center;gap:10px;height:62px;border-radius:12px;font-size:25px;font-weight:600;margin-top:12px;color:#fff}
+  .mb.ap{background:#16A34A} .mb.rj{background:var(--danger)} .mb.ra{background:#fff;color:var(--ink);border:2px solid var(--border)}
+  .toast{position:absolute;right:84px;top:1420px;height:70px;padding:0 26px;border-radius:14px;background:#0F172A;color:#fff;font-size:24px;font-weight:600;display:flex;align-items:center;gap:12px;box-shadow:0 18px 40px rgba(15,23,42,.35);z-index:30}
+  .toast i{font-style:normal;width:32px;height:32px;border-radius:50%;background:#16A34A;display:flex;align-items:center;justify-content:center;font-size:20px}
+
+  /* C — reject a bad call */
+  .bad{left:60px;width:960px;top:690px;padding:26px 30px}
+  .bad .r1{display:flex;align-items:baseline;justify-content:space-between}
+  .bad .id{font-size:32px;font-weight:700} .bad .amt{font-size:36px;font-weight:600}
+  .bad .who{font-size:24px;color:var(--muted);margin-top:4px}
+  .bad .iss{margin-top:18px;background:#FEF2F2;border:1.5px solid #FECACA;border-radius:12px;padding:14px 18px}
+  .bad .iss b{color:#B91C1C;font-size:24px} .bad .iss p{font-size:22px;color:#7F1D1D;margin-top:4px;line-height:1.35}
+  .bad .r3{display:flex;align-items:center;gap:14px;margin-top:18px;flex-wrap:wrap}
+  .bad .btns{display:flex;gap:14px;margin-top:20px}
+  .bad .btns .mb{flex:1;margin-top:0}
+  .stop{position:absolute;left:60px;right:60px;top:1260px;display:flex;flex-direction:column;align-items:center;gap:18px}
+  .stop .lb{font-size:32px;font-weight:700;color:#fff}
+  .stop .row{display:flex;gap:20px}
+  .stop .x{position:relative;height:92px;padding:0 36px;border-radius:999px;background:#fff;color:var(--ink);font-size:36px;font-weight:700;display:flex;align-items:center;gap:12px;box-shadow:0 14px 34px rgba(8,16,70,.25)}
+  .stop .x .ln{position:absolute;left:84px;right:30px;top:50%;height:4px;background:#DC2626;border-radius:2px;transform-origin:left center}
+  .stop .x em{font-style:normal;color:#DC2626;font-size:34px}
+</style>
+</head>
+<body>
+<section class="scene bg-blue" id="A">
+  <div class="chtag light">07 · QA protects every sale</div>
+  <div class="eyebrow" style="color:#fff">QA gates</div>
+  <div class="headline" id="Ah"><span style="color:#fff">Pass QA,</span><span class="l2" style="color:var(--navy)">then close.</span></div>
+  <div class="card ord" id="O1" style="top:700px">
+    <div class="r1"><span class="id mono">Order #20481</span><span class="amt mono">$149.00</span></div>
+    <div class="who">Aoi Todo · sold by Yuji Itadori on a call</div>
+    <div class="pipe" id="O1p"></div>
+    <div class="r3"><span class="lbl">Call <span class="mono">5:06</span> · QA score</span><span class="sc s-none" id="O1s">—</span><span class="thr">Pass threshold <b class="mono" style="color:var(--ink)">7.0</b></span></div>
+  </div>
+  <div class="card ord" id="O2" style="top:1060px">
+    <div class="r1"><span class="id mono">Order #20482</span><span class="amt mono">$129.00</span></div>
+    <div class="who">Kasumi Miwa · sold by Megumi Fushiguro on a call</div>
+    <div class="pipe" id="O2p"></div>
+    <div class="r3"><span class="lbl">Call <span class="mono">4:37</span> · QA score</span><span class="sc s-none" id="O2s">—</span><span class="rsn" id="O2r">Flag Reason: Low Score</span></div>
+  </div>
+</section>
+
+<section class="scene bg-light" id="B">
+  <div class="eyebrow" style="color:var(--accent)">The QA queue</div>
+  <div class="headline sm"><span style="color:var(--navy)">One queue,</span><span class="l2" style="color:var(--accent)">your call.</span></div>
+  <div class="card qa" id="Bqa">
+    <div class="top"><div class="ic">✓</div><span class="ttl">QA</span><span style="margin-left:auto;font-size:21px;color:var(--muted)">Review Required · <b class="mono" style="color:var(--ink)">3</b></span></div>
+    <div class="flt" id="Bflt"><span>Agent ▾</span><span>Min Score</span><span>Max Score</span><span id="Bfr">Flag Reason ▾</span><span>Disposition ▾</span><span>Min Duration (s)</span></div>
+    <div class="tbl2">
+      <div class="tr2 hd"><span>Agent</span><span>Customer</span><span>Duration</span><span>Score</span><span>QA Status</span></div>
+      <div class="tr2" id="Br0"><b>Megumi F.</b><span>Kasumi M.</span><span class="mono">4:37</span><span><span class="sc s-lo" style="height:42px;font-size:24px;min-width:72px">5.4</span></span><span id="Bst0"></span></div>
+      <div class="tr2" id="Br1"><b>Maki Zenin</b><span>Toge I.</span><span class="mono">2:58</span><span><span class="sc s-mid" style="height:42px;font-size:24px;min-width:72px">6.1</span></span><span><span class="st yellow">Review Required</span></span></div>
+      <div class="tr2" id="Br2"><b>Nobara K.</b><span>Aoi Todo</span><span class="mono">3:20</span><span><span class="sc s-mid" style="height:42px;font-size:24px;min-width:72px">6.6</span></span><span><span class="st yellow">Review Required</span></span></div>
+    </div>
+    <div class="ma" id="Bma">
+      <div class="h"><b>Manager Actions</b><span>Order <span class="mono">#20482</span> · <span class="mono">$129.00</span></span></div>
+      <div class="mb ap" id="Bap">✓ Approve Order</div>
+      <div class="mb rj" id="Brj">✕ Reject Order</div>
+      <div class="mb ra" id="Bra">↻ Re-run Analysis</div>
+    </div>
+  </div>
+  <div class="toast" id="Btoast" style="top:596px"><i>✓</i>Call has been approved</div>
+  <div class="cursor" id="Bcur"><svg viewBox="0 0 24 24" width="56" height="56"><path d="M4 2 L4 20 L9 15 L12.5 22 L15.5 20.6 L12 13.8 L19 13.8 Z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+</section>
+
+<section class="scene bg-blue" id="C">
+  <div class="eyebrow" style="color:#fff">Before it costs you</div>
+  <div class="headline"><span style="color:#fff">Catch it</span><span class="l2" style="color:var(--navy)">early.</span></div>
+  <div class="card bad" id="Cbad">
+    <div class="r1"><span class="id mono">Order #20483</span><span class="amt mono">$89.00</span></div>
+    <div class="who">Toge Inumaki · sold by Maki Zenin on a call</div>
+    <div class="iss"><b>⚠ Issues Detected</b><p>Promised free shipping for life, which the company doesn't offer.</p></div>
+    <div class="r3"><span class="sc s-mid">6.1</span><span class="rsn" style="background:#FEE2E2;color:#991B1B">Flag Reason: Both</span><span style="margin-left:auto" id="Cst"></span></div>
+    <div class="btns"><div class="mb ap" id="Cap">✓ Approve Order</div><div class="mb rj" id="Crj">✕ Reject Order</div></div>
+  </div>
+  <div class="stop" id="Cstop">
+    <div class="lb" id="Clb">Caught before it turns into a</div>
+    <div class="row"><div class="x" id="Cx1"><em>✕</em>Refund<div class="ln" id="Cl1"></div></div><div class="x" id="Cx2"><em>✕</em>Chargeback<div class="ln" id="Cl2"></div></div></div>
+  </div>
+  <div class="toast" id="Ctoast" style="top:1100px"><i style="background:#DC2626">✕</i>Call has been rejected</div>
+  <div class="cursor" id="Ccur"><svg viewBox="0 0 24 24" width="56" height="56"><path d="M4 2 L4 20 L9 15 L12.5 22 L15.5 20.6 L12 13.8 L19 13.8 Z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+</section>
+
+<div id="cap"></div>
+<script src="../../shared/runtime.js"></script>
+<script>
+// Order status labels and colours as the CRM shows them (StatusCell.tsx)
+const ST = { awaiting: ['Awaiting Recording','purple'], review: ['Review In Progress','yellow'], done: ['✓ Completed','green'], req: ['Review Required','yellow'], appr: ['✓ Approved','green'], canc: ['Canceled','red'] };
+function pipe(el, t, steps) { // steps: [[key, activeFrom], ...]
+  el.innerHTML = steps.map(([k, at], i) => {
+    const on = t >= at; const [lbl, col] = ST[k];
+    const curr = on && (i === steps.length - 1 || t < steps[i + 1][1]);
+    return (i ? '<span class="ar">→</span>' : '') + `<span class="st ${on ? col : 'off'}" style="${curr ? 'transform:scale(1.04)' : on ? 'opacity:.75' : ''}">${lbl}</span>`;
+  }).join('');
+}
+function score(el, t, at, v, cls) {
+  if (t >= at) { el.className = 'sc ' + cls; el.textContent = v.toFixed(1); el.style.transform = `scale(${0.6 + 0.4 * backOut(prog(t, at, 0.35))})`; }
+  else { el.className = 'sc s-none'; el.textContent = '—'; el.style.transform = ''; }
+}
+function pulse(el, t, at) { const p = prog(t, at - 0.05, 0.5); const k = Math.sin(Math.PI * p); el.style.boxShadow = k > 0 ? `0 0 0 ${6 * k}px rgba(47,140,244,${0.45 * k})` : ''; }
+
+window.renderChapter = function (t) {
+  const A = SC.A.s, B = SC.B.s, C = SC.C.s;
+
+  // A — order 1 passes and completes; order 2 fails and waits for review
+  enter($('Ah'), t, A + 0.05, 0.5, 40);
+  enter($('O1'), t, A + 0.2, 0.45, 50);
+  const tPass = wt('l1', 'passes');
+  pipe($('O1p'), t, [['awaiting', 0], ['review', wt('l1', 'only')], ['done', tPass + 0.3]]);
+  score($('O1s'), t, tPass, 9.1, 's-hi');
+  const t2 = wt('l2', 'failing') - 0.7;
+  enter($('O2'), t, t2, 0.45, 50);
+  const tRev = wt('l2', 'review');
+  pipe($('O2p'), t, [['awaiting', 0], ['review', t2 + 0.4], ['req', tRev]]);
+  score($('O2s'), t, wt('l2', 'failing'), 5.4, 's-lo');
+  enter($('O2r'), t, tRev + 0.1, 0.35, 0, 0.3);
+
+  // B — the QA queue: pick the row, Approve on the word, toast
+  enter($('Bqa'), t, B + 0.05, 0.45, 50);
+  const tMan = wt('l3', 'managers'), tAp = wt('l3', 'approve'), tRj = wt('l3', 'rej'), tRa = wt('l3', 'rea');
+  $('Bfr').className = t >= B + 0.45 ? 'on' : ''; $('Bfr').textContent = t >= B + 0.45 ? 'Flag Reason: Low Score' : 'Flag Reason ▾';
+  $('Br0').className = 'tr2' + (t >= tMan + 0.1 ? ' sel' : '');
+  $('Bst0').innerHTML = t >= tAp + 0.25 ? '<span class="st green">✓ Approved</span>' : '<span class="st yellow">Review Required</span>';
+  enter($('Bma'), t, tMan + 0.15, 0.35, 24);
+  $('Bap').style.transform = t >= tAp && t < tAp + 0.15 ? 'scale(.97)' : '';
+  $('Bap').textContent = t >= tAp && t < tAp + 0.25 ? 'Approving...' : '✓ Approve Order';
+  pulse($('Brj'), t, tRj); pulse($('Bra'), t, tRa);
+  enter($('Btoast'), t, tAp + 0.3, 0.35, 30);
+  // row 0 centre ≈ (300, 993); Approve ≈ (540, 1245)
+  cursor($('Bcur'), t, [[B + 0.2, 700, 1520], [tMan + 0.05, 330, 985], [tMan + 0.3, 330, 985], [tAp - 0.05, 480, 1270], [tAp + 0.4, 480, 1270], [tRj, 640, 1345], [tRa, 760, 1418], [tRa + 0.8, 860, 1460]], [tMan + 0.1, tAp]);
+
+  // C — reject the bad call; refund and chargeback crossed out on the words
+  enter($('Cbad'), t, C + 0.05, 0.45, 50);
+  const tC = wt('l4', 'caught');
+  $('Cst').innerHTML = t >= tC + 0.25 ? '<span class="st red">Canceled</span>' : '<span class="st yellow">Review Required</span>';
+  $('Crj').style.transform = t >= tC && t < tC + 0.15 ? 'scale(.97)' : '';
+  $('Cap').style.opacity = 1 - 0.5 * prog(t, tC + 0.2, 0.3);
+  enter($('Ctoast'), t, tC + 0.3, 0.35, 30);
+  cursor($('Ccur'), t, [[C + 0.3, 520, 1450], [tC - 0.1, 755, 1028], [tC + 0.5, 755, 1028], [tC + 1.2, 940, 1220]], [tC]);
+  enter($('Clb'), t, wt('l4', 'before') - 0.1, 0.4, 20);
+  [['Cx1', 'Cl1', 'refunds'], ['Cx2', 'Cl2', 'chargebacks']].forEach(([x, l, w]) => {
+    enter($(x), t, wt('l4', w) - 0.25, 0.35, 30, 0.2);
+    $(l).style.transform = `translateY(-50%) scaleX(${easeOut(prog(t, wt('l4', w) + 0.1, 0.3))})`;
+  });
+};
+</script>
+</body>
+</html>

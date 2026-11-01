@@ -1,0 +1,29 @@
+{
+ "voice": "af_heart",
+ "speed": 1.0,
+ "cast": "Spy x Family: Franky Franklin (agent), Yor Forger (agent), Loid Forger (agent); customers Henry Henderson, Sylvia Sherwood, Damian Desmond. Store: Eden Academy Supply Co. (fictional)",
+ "lines": [
+  {"id": "l1", "scene": "A", "text": "Where's my order? Franky opens Henry's order and sees it shipped, with tracking.", "say": "Where's my order? Franky opens Henry's order and sees it shipped, with tracking.", "emph": ["shipped,", "tracking."], "gap": 0.15},
+  {"id": "l2", "scene": "A", "text": "The tracking email went out on its own, and it's logged on Henry's timeline.", "say": "The tracking email went out on its own, and it's logged on Henry's timeline.", "emph": ["email", "timeline."], "gap": 0.35},
+  {"id": "l3", "scene": "B", "text": "Sylvia doesn't recognize a charge? Yor checks the billing descriptor of the gateway that took it.", "say": "Sylvia doesn't recognize a charge? Yor checks the billing descriptor of the gateway that took it.", "emph": ["billing", "descriptor"], "gap": 0.35},
+  {"id": "l4", "scene": "C", "text": "Refunds start from the order's transactions, and a double click never refunds twice.", "say": "Refunds start from the order's transactions, and a double click never refunds twice.", "emph": ["Refunds", "twice."], "gap": 0.15},
+  {"id": "l5", "scene": "C", "text": "The refund email goes out, and it rolls into the Refund Summary report.", "say": "The refund email goes out, and it rolls into the Refund Summary report.", "emph": ["email", "report."], "gap": 0.6}
+ ],
+ "sfx": [
+  {"at": "l1:opens", "kind": "click"},
+  {"at": "l1:shipped", "kind": "pluck", "notes": [79, 84]},
+  {"at": "l1:tracking", "kind": "typing", "count": 6, "spacing": 0.08},
+  {"at": "l2:email", "kind": "pluck", "notes": [76]},
+  {"at": "l2:logged", "kind": "pluck", "notes": [81]},
+  {"at": "l3:charge", "kind": "tick"},
+  {"at": "l3:billing", "kind": "pluck", "notes": [84]},
+  {"at": "l3:gateway", "kind": "tick"},
+  {"at": "l4:order", "kind": "click"},
+  {"at": "l4:transactions", "kind": "click"},
+  {"at": "l4:double", "offset": -0.1, "kind": "click"},
+  {"at": "l4:click", "kind": "bell", "notes": [81, 88], "level": 0.12},
+  {"at": "l4:never", "kind": "thud", "level": 0.15},
+  {"at": "l5:email", "kind": "pluck", "notes": [76]},
+  {"at": "l5:summary", "kind": "pluck", "notes": [84]}
+ ]
+}

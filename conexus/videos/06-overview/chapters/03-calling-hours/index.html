@@ -1,0 +1,224 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/base.css">
+<script src="out/timeline.js"></script>
+<style>
+  svg.i{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+  .moon{position:absolute;right:110px;top:190px;width:120px;height:120px;border-radius:50%;background:#FDE68A;box-shadow:0 0 60px rgba(253,230,138,.35)}
+  .moon::after{content:"";position:absolute;left:34px;top:-14px;width:120px;height:120px;border-radius:50%;background:#0A0F2C}
+
+  /* A */
+  .cust{left:56px;right:56px;top:650px;height:170px;display:flex;align-items:center;gap:22px;padding:0 30px}
+  .cust .nm{font-size:36px;font-weight:700;line-height:1.15}
+  .cust .sb{font-size:23px;color:var(--muted)}
+  .dialbtn{margin-left:auto;height:68px;padding:0 26px;gap:12px;font-size:26px;border-radius:14px;white-space:nowrap}
+  .dialbtn svg.i{width:28px;height:28px}
+  .win{left:56px;right:56px;top:850px;height:250px;padding:26px 34px}
+  .win .h{display:flex;align-items:center;justify-content:space-between}
+  .win .h .t{font-size:26px;font-weight:700;color:var(--navy)}
+  .win .h .lt{font-size:23px;color:var(--muted)} .win .h .lt b{font-family:"Geist Mono",monospace;color:var(--danger);font-size:30px;font-weight:600;margin-left:8px}
+  .track{position:relative;height:30px;border-radius:999px;background:#E2E8F0;margin-top:62px}
+  .band{position:absolute;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,#34D399,#059669)}
+  .bandlbl{position:absolute;top:-46px;font-size:22px;font-weight:700;color:var(--success);white-space:nowrap;transform:translateX(-50%)}
+  .tick{position:absolute;top:44px;font-size:21px;color:var(--muted);transform:translateX(-50%);white-space:nowrap}
+  .pin{position:absolute;top:-16px;width:6px;height:62px;border-radius:3px;background:var(--danger);transform:translateX(-50%)}
+  .pin::after{content:"";position:absolute;left:50%;top:-8px;width:22px;height:22px;border-radius:50%;background:var(--danger);transform:translateX(-50%);box-shadow:0 0 0 6px rgba(220,38,38,.2)}
+  .dlg{left:56px;right:56px;top:1130px;padding:30px 34px 28px}
+  .dlg .tt{font-size:34px;font-weight:700;color:var(--ink)}
+  .dlg .msg{display:flex;gap:14px;margin-top:18px;color:var(--danger);font-size:25px;line-height:1.38}
+  .dlg .msg svg.i{margin-top:3px}
+  .dlg .foot{display:flex;align-items:center;justify-content:space-between;margin-top:22px}
+  .srv{display:inline-flex;align-items:center;gap:10px;height:50px;padding:0 20px;border-radius:999px;background:var(--danger-soft);color:var(--danger);font-size:23px;font-weight:700}
+  .srv svg.i{width:26px;height:26px}
+  .dlg .btn{height:60px;font-size:24px}
+
+  /* B */
+  .dnote{position:absolute;left:72px;top:560px;display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 20px;border-radius:999px;background:#E0E7FF;color:var(--navy);font-size:22px;font-weight:700}
+  .mcard{left:56px;right:56px;top:640px;padding:26px 30px 24px}
+  .who{display:flex;align-items:center;gap:20px}
+  .who .nm{font-size:32px;font-weight:700;line-height:1.15} .who .sb{font-size:23px;color:var(--muted)}
+  .ctr{margin-left:auto;text-align:right}
+  .ctr .k{font-size:20px;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+  .ctr .v{font-size:50px;font-weight:600;line-height:1.1}
+  .segs{display:flex;gap:10px;margin-top:18px}
+  .segs i{flex:1;height:14px;border-radius:999px;background:#E2E8F0;display:block}
+  .crow{display:flex;align-items:center;gap:14px;height:62px;border-bottom:1px solid var(--border);font-size:24px;color:var(--slate)}
+  .crow svg.i{width:26px;height:26px;color:var(--muted)}
+  .crow .n{font-weight:700;color:var(--ink);width:44px}
+  .crow .tm{margin-left:auto;color:var(--muted)}
+  .cap{margin-top:16px;border-radius:14px;background:var(--danger-soft);border:1.5px solid #FECACA;padding:14px 18px;display:flex;gap:14px}
+  .cap svg.i{color:var(--danger);margin-top:2px}
+  .cap .a{font-size:25px;font-weight:700;color:var(--ink)}
+  .cap .b{font-size:22px;color:var(--slate);margin-top:2px}
+  .dcard{left:56px;right:56px;top:1170px;padding:24px 30px}
+  .dcard .btn{margin-left:auto;height:62px;gap:10px;font-size:24px;background:#F1F5F9;color:#64748B;border:2px solid var(--border)}
+  .dcard .btn svg.i{width:26px;height:26px}
+  .bmsg{display:flex;align-items:center;gap:12px;margin-top:16px;color:var(--danger);font-size:24px;font-weight:600}
+
+  /* C */
+  .rules{left:56px;right:56px;top:640px;padding:32px 34px 18px}
+  .rules .t{font-size:34px;font-weight:700}
+  .rules .d{font-size:23px;color:var(--muted);margin-top:4px}
+  .rrow{display:flex;align-items:center;gap:20px;padding:22px 0;border-top:1px solid var(--border)}
+  .rrow:first-of-type{margin-top:16px}
+  .rrow .l{flex:1;min-width:0}
+  .rrow .l .a{font-size:26px;font-weight:700;color:var(--ink)}
+  .rrow .l .b{font-size:22px;color:var(--muted);margin-top:2px;line-height:1.35}
+  .sel{display:flex;gap:10px}
+  .sel div{min-width:118px;height:58px;border:1.5px solid var(--border);border-radius:12px;display:flex;flex-direction:column;justify-content:center;padding:0 14px}
+  .sel div small{font-size:16px;color:var(--muted);font-weight:600;line-height:1}
+  .sel div span{font-size:23px;font-weight:700;color:var(--ink);line-height:1.2}
+  .sw{width:72px;height:42px;border-radius:999px;background:var(--success);position:relative;flex:none}
+  .sw::after{content:"";position:absolute;right:5px;top:5px;width:32px;height:32px;border-radius:50%;background:#fff}
+  .num{width:96px;height:58px;border:1.5px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:600}
+</style>
+</head>
+<body>
+<!-- A — a late call, refused -->
+<section class="scene bg-dark" id="A">
+  <div class="chtag light">03 · Calling-hours protection</div>
+  <div class="eyebrow" style="color:var(--cyan)">Calling hours</div>
+  <div class="headline" id="Ah"><span style="color:#fff">Too late</span><span class="l2" style="color:var(--cyan)">to dial.</span></div>
+  <div class="moon" id="Amoon"></div>
+  <div class="card cust" id="Acust">
+    <div class="avatar" style="background:#DC2626;width:84px;height:84px;font-size:30px">EK</div>
+    <div style="min-width:0"><div class="nm">Eijiro Kirishima</div><div class="sb"><span class="mono">(312) 555-0148</span> · Chicago, IL</div></div>
+    <div class="btn dialbtn" id="Adial"><span data-ic="phone"></span><span id="Adialt">Dial Now</span></div>
+  </div>
+  <div class="card win" id="Awin">
+    <div class="h"><span class="t">Calling window · their time</span><span class="lt" id="Alt">Now in Chicago<b>9:42 PM</b></span></div>
+    <div class="track" id="Atrack">
+      <div class="band" id="Aband"></div>
+      <div class="bandlbl" id="Abl">8 AM – 9 PM</div>
+      <div class="pin" id="Apin"></div>
+    </div>
+  </div>
+  <div class="card dlg" id="Adlg">
+    <div class="tt">Cannot call Eijiro Kirishima</div>
+    <div class="msg"><span data-ic="clock"></span><span>Outside calling hours (8:00-21:00 customer local time). Local hour: 21, Timezone: America/Chicago</span></div>
+    <div class="foot"><span class="srv" id="Asrv"><span data-ic="shield"></span>Refused by the server</span><div class="btn ghost">Close</div></div>
+  </div>
+  <svg class="cursor" id="Acur" viewBox="0 0 24 24"><path d="M4 2l16 9.5-7 1.6L9.8 20z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</section>
+
+<!-- B — attempt cap + blocked customer -->
+<section class="scene bg-light" id="B">
+  <div class="eyebrow" style="color:var(--accent)">Guardrails</div>
+  <div class="headline sm" id="Bh"><span style="color:var(--navy)">Every limit,</span><span class="l2" style="color:var(--accent)">server-side.</span></div>
+  <div class="card mcard" id="Bm">
+    <div class="who">
+      <div class="avatar" style="background:#7C3AED;width:72px;height:72px;font-size:26px">MY</div>
+      <div><div class="nm">Momo Yaoyorozu</div><div class="sb mono">(646) 555-0172</div></div>
+      <div class="ctr"><div class="k">Calls · last 24 h</div><div class="v mono" id="Bctr">0 / 3</div></div>
+    </div>
+    <div class="segs"><i id="Bs1"></i><i id="Bs2"></i><i id="Bs3"></i></div>
+    <div style="margin-top:8px">
+      <div class="crow" id="Br1"><span data-ic="out"></span><span class="n">#1</span>Outbound · No answer<span class="tm mono">9:05 AM</span></div>
+      <div class="crow" id="Br2"><span data-ic="out"></span><span class="n">#2</span>Outbound · Voicemail<span class="tm mono">1:20 PM</span></div>
+      <div class="crow" id="Br3"><span data-ic="out"></span><span class="n">#3</span>Outbound · No answer<span class="tm mono">4:48 PM</span></div>
+    </div>
+    <div class="cap" id="Bcap"><span data-ic="repeat"></span><div><div class="a">This would be call #4 to this customer today</div><div class="b">3 outbound calls to this customer in the last 24 hours (limit 3).</div></div></div>
+  </div>
+  <div class="card dcard" id="Bd">
+    <div class="who">
+      <div class="avatar" style="background:#CA8A04;width:72px;height:72px;font-size:26px">DK</div>
+      <div><div class="nm">Denki Kaminari <span class="chip bad" style="vertical-align:4px;margin-left:6px">Blocked</span></div><div class="sb mono">(213) 555-0119</div></div>
+      <div class="btn" id="Bdial"><span data-ic="ban"></span>Dial Now</div>
+    </div>
+    <div class="bmsg" id="Bmsg"><span data-ic="ban"></span>This customer is blocked from calls: Asked not to be called</div>
+  </div>
+  <svg class="cursor" id="Bcur" viewBox="0 0 24 24"><path d="M4 2l16 9.5-7 1.6L9.8 20z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</section>
+
+<!-- C — the org's calling rules -->
+<section class="scene bg-blue" id="C">
+  <div class="eyebrow" style="color:#fff">Calling rules</div>
+  <div class="headline" id="Ch"><span style="color:#fff">Rules the</span><span class="l2" style="color:var(--navy)">server keeps.</span></div>
+  <div class="dot" style="width:110px;height:110px;background:var(--navy);right:90px;top:200px"></div>
+  <div class="card rules" id="Cr">
+    <div class="t">Calling rules</div>
+    <div class="d">When this company's customers may be called, and how often.</div>
+    <div class="rrow" id="Cr1"><div class="l"><div class="a">Calling window</div><div class="b">In the customer's local time. Outside it, the dialer refuses the call.</div></div><div class="sel"><div><small>From</small><span>8 AM</span></div><div><small>Until</small><span>9 PM</span></div></div></div>
+    <div class="rrow" id="Cr2"><div class="l"><div class="a">No address on file</div><div class="b">No address means no timezone, so these are called on Eastern time.</div></div><div class="sel"><div><small>From (ET)</small><span>11 AM</span></div><div><small>Until (ET)</small><span>9 PM</span></div></div></div>
+    <div class="rrow" id="Cr3"><div class="l"><div class="a">Enforce calling hours</div><div class="b">On, a call outside the window is refused.</div></div><div class="sw"></div></div>
+    <div class="rrow" id="Cr4"><div class="l"><div class="a">Attempts per customer per day</div></div><div class="num mono">3</div></div>
+  </div>
+</section>
+
+<div id="cap"></div>
+<script src="../../shared/runtime.js"></script>
+<script>
+const P = d => `<svg class="i" viewBox="0 0 24 24">${d}</svg>`;
+const IC = {
+  phone: P('<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>'),
+  clock: P('<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>'),
+  ban: P('<circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/>'),
+  repeat: P('<path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/>'),
+  out: P('<path d="M16 2h6v6"/><path d="m22 2-7 7"/><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>'),
+  shield: P('<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>'),
+};
+document.querySelectorAll('[data-ic]').forEach(el => { el.outerHTML = IC[el.dataset.ic]; });
+
+// calling-window track: 6 AM .. midnight
+const H0 = 6, H1 = 24, pct = h => ((h - H0) / (H1 - H0)) * 100 + '%';
+$('Aband').style.left = pct(8); $('Aband').style.width = ((21 - 8) / (H1 - H0)) * 100 + '%';
+$('Abl').style.left = pct(14.5);
+$('Apin').style.left = pct(21.7);
+$('Atrack').insertAdjacentHTML('beforeend', [[6,'6 AM'],[8,'8 AM'],[12,'Noon'],[16,'4 PM'],[21,'9 PM'],[24,'12 AM']].map(([h,l]) => `<div class="tick" style="left:${pct(h)}">${l}</div>`).join(''));
+
+window.renderChapter = function (t) {
+  const A = SC.A.s, B = SC.B.s, C = SC.C.s;
+
+  // ---- A
+  enter($('Ah'), t, A + 0.05, 0.5, 40);
+  enter($('Amoon'), t, A + 0.1, 0.6, 20);
+  enter($('Acust'), t, A + 0.25, 0.5, 70);
+  enter($('Awin'), t, wt('l1', '942') - 0.15, 0.45, 60);
+  enter($('Apin'), t, wt('l1', 'pm') - 0.05, 0.35, -30);
+  $('Apin').style.transform += ' translateX(-50%)';
+  const tClick = wt('l1', 'tries') + 0.1;
+  cursor($('Acur'), t, [[A + 1.0, 700, 1500], [tClick - 0.3, 905, 742], [tClick + 0.8, 905, 742], [tClick + 1.4, 980, 1520]], [tClick]);
+  $('Acur').style.opacity = Math.min(+$('Acur').style.opacity, 1 - prog(t, tClick + 1.0, 0.4));
+  const tBlock = tClick + 0.75;
+  $('Adialt').textContent = t < tClick ? 'Dial Now' : t < tBlock ? 'Checking…' : 'Dial Now';
+  $('Adial').style.background = t >= tClick && t < tBlock ? '#93C5FD' : 'var(--blue)';
+  enter($('Adlg'), t, tBlock - 0.05, 0.45, 70, 0.06);
+  enter($('Asrv'), t, wt('l2', 'blocks') - 0.05, 0.35, 0, 0.2);
+  // the window lights up as "8 AM to 9 PM" is spoken
+  const glow = prog(t, wt('l2', '8') - 0.1, 0.3) * (1 - prog(t, wt('l2', 'time') + 0.4, 0.4));
+  $('Aband').style.boxShadow = `0 0 0 ${6 * glow}px rgba(5,150,105,.25)`;
+  $('Abl').style.transform = `translateX(-50%) scale(${1 + 0.12 * glow})`;
+
+  // ---- B
+  enter($('Bh'), t, B + 0.05, 0.5, 40);
+  enter($('Bm'), t, B + 0.15, 0.5, 70);
+  const tr = [wt('l3', 'customer'), wt('l3', 'gets'), wt('l3', 'three')];
+  let n = 0;
+  tr.forEach((s, i) => {
+    if (t >= s) n = i + 1;
+    $('Bs' + (i + 1)).style.background = t >= wt('l3', '24') ? 'var(--danger)' : t >= s ? 'var(--accent)' : '#E2E8F0';
+  });
+  // call rows are on the card from the start; the counter fills as "three" is spoken
+  ['Br1', 'Br2', 'Br3'].forEach((id, i) => enter($(id), t, tr[i] - 0.1, 0.35, 24));
+  $('Bctr').textContent = n + ' / 3';
+  $('Bctr').style.color = t >= wt('l3', '24') ? 'var(--danger)' : 'var(--ink)';
+  enter($('Bcap'), t, wt('l3', '24') - 0.05, 0.4, 30, 0.06);
+  enter($('Bd'), t, wt('l4', 'blocked') - 0.1, 0.45, 60);
+  const tTry = wt('l4', 'never');
+  cursor($('Bcur'), t, [[wt('l4', 'blocked'), 760, 1520], [tTry - 0.1, 905, 1238], [tTry + 0.9, 905, 1238], [tTry + 1.5, 1000, 1520]], [tTry]);
+  $('Bcur').style.opacity = Math.min(+$('Bcur').style.opacity, 1 - prog(t, tTry + 1.0, 0.4));
+  enter($('Bmsg'), t, wt('l4', 'dialed') - 0.1, 0.35, 0, 0.1);
+  const shake = t > tTry && t < tTry + 0.35 ? Math.sin((t - tTry) * 60) * 8 * (1 - (t - tTry) / 0.35) : 0;
+  $('Bdial').style.transform = `translateX(${shake}px)`;
+
+  // ---- C
+  enter($('Ch'), t, C + 0.05, 0.5, 40);
+  enter($('Cr'), t, C + 0.15, 0.5, 70);
+  ['Cr1', 'Cr2', 'Cr3', 'Cr4'].forEach((id, i) => enter($(id), t, C + 0.3 + i * 0.18, 0.4, 30));
+};
+</script>
+</body>
+</html>

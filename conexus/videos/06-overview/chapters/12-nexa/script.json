@@ -1,12 +1,159 @@
 {
-  "voice": "af_heart",
-  "speed": 1.0,
-  "cast": "Frieren: Beyond Journey's End: Fern (new-hire agent, main), Himmel (admin); customer Heiter",
-  "lines": [
-    {"id": "l1", "scene": "A", "text": "It's Fern's first day, and she can just ask Nexa.", "say": "It's Fern's first day, and she can just ask Nexa.", "emph": ["first", "Nexa."], "gap": 0.15},
-    {"id": "l2", "scene": "A", "text": "Nexa answers from your own docs, and looks up the orders she's allowed to see.", "say": "Nexa answers from your own docs, and looks up the orders she's allowed to see.", "emph": ["docs,", "allowed"], "gap": 0.35},
-    {"id": "l3", "scene": "B", "text": "Upload a Word or PDF script, and every call fills in the customer's details.", "say": "Upload a Word or PDF script, and every call fills in the customer's details.", "emph": ["Word", "details."], "gap": 0.35},
-    {"id": "l4", "scene": "C", "text": "Publish a new version, or roll back to an old one in one click.", "say": "Publish a new version, or roll back to an old one in one click.", "emph": ["Publish", "back"], "gap": 0.6}
-  ],
-  "sfx": []
+ "voice": "af_heart",
+ "speed": 1.0,
+ "cast": "Frieren: Beyond Journey's End: Fern (new-hire agent, main), Himmel (admin); customer Heiter",
+ "lines": [
+  {
+   "id": "l1",
+   "scene": "A",
+   "text": "It's Fern's first day, and she can just ask Nexa.",
+   "say": "It's Fern's first day, and she can just ask Nexa.",
+   "emph": [
+    "first",
+    "Nexa."
+   ],
+   "gap": 0.15
+  },
+  {
+   "id": "l2",
+   "scene": "A",
+   "text": "Nexa answers from your own docs, and looks up the orders she's allowed to see.",
+   "say": "Nexa answers from your own docs, and looks up the orders she's allowed to see.",
+   "emph": [
+    "docs,",
+    "allowed"
+   ],
+   "gap": 0.35
+  },
+  {
+   "id": "l3",
+   "scene": "B",
+   "text": "Upload a Word or PDF script, and every call fills in the customer's details.",
+   "say": "Upload a Word or PDF script, and every call fills in the customer's details.",
+   "emph": [
+    "Word",
+    "details."
+   ],
+   "gap": 0.35
+  },
+  {
+   "id": "l4",
+   "scene": "C",
+   "text": "Publish a new version, or roll back to an old one in one click.",
+   "say": "Publish a new version, or roll back to an old one in one click.",
+   "emph": [
+    "Publish",
+    "back"
+   ],
+   "gap": 0.6
+  }
+ ],
+ "sfx": [
+  {
+   "at": "l1:it's",
+   "offset": 0.2,
+   "kind": "typing",
+   "count": 12,
+   "spacing": 0.13
+  },
+  {
+   "at": "l1:ask",
+   "offset": 0.05,
+   "kind": "click"
+  },
+  {
+   "at": "l2:answers",
+   "kind": "pluck",
+   "notes": [
+    76
+   ]
+  },
+  {
+   "at": "l2:docs",
+   "kind": "pluck",
+   "notes": [
+    81
+   ]
+  },
+  {
+   "at": "l2:docs",
+   "offset": 0.2,
+   "kind": "typing",
+   "count": 5,
+   "spacing": 0.1
+  },
+  {
+   "at": "l2:looks",
+   "offset": -0.05,
+   "kind": "click"
+  },
+  {
+   "at": "l2:orders",
+   "offset": -0.1,
+   "kind": "pluck",
+   "notes": [
+    84
+   ]
+  },
+  {
+   "at": "l3:word",
+   "offset": -0.15,
+   "kind": "pluck",
+   "notes": [
+    72
+   ]
+  },
+  {
+   "at": "l3:script",
+   "kind": "bell",
+   "notes": [
+    81,
+    88
+   ],
+   "level": 0.1
+  },
+  {
+   "at": "l3:fills",
+   "kind": "tick"
+  },
+  {
+   "at": "l3:the",
+   "kind": "tick"
+  },
+  {
+   "at": "l3:customer's",
+   "kind": "tick"
+  },
+  {
+   "at": "l3:details",
+   "kind": "tick"
+  },
+  {
+   "at": "l4:publish",
+   "offset": 0.2,
+   "kind": "click"
+  },
+  {
+   "at": "l4:publish",
+   "offset": 0.3,
+   "kind": "pluck",
+   "notes": [
+    79
+   ]
+  },
+  {
+   "at": "l4:old",
+   "kind": "click"
+  },
+  {
+   "at": "l4:old",
+   "offset": 0.1,
+   "kind": "bell",
+   "notes": [
+    76,
+    84
+   ],
+   "level": 0.12
+  }
+ ]
 }

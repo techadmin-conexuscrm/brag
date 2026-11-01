@@ -1,30 +1,160 @@
 {
-  "voice": "af_heart",
-  "speed": 1.0,
-  "cast": "Spy x Family: Loid Forger (agent), Yor Forger (agent); customers Becky Blackbell, Damian Desmond. Store: Eden Academy Supply Co. (fictional)",
-  "lines": [
-    {"id": "l1", "scene": "A", "text": "With the dialer add-on, Loid takes Becky's order without leaving the call.", "say": "With the dialer add-on, Loid takes Becky's order without leaving the call.", "emph": ["dialer", "call."], "gap": 0.15},
-    {"id": "l2", "scene": "A", "text": "She reads her card out, he types it in, and it's approved.", "say": "She reads her card out, he types it in, and it's approved.", "emph": ["approved."], "gap": 0.35},
-    {"id": "l3", "scene": "B", "text": "No card handy? Yor emails Damian a payment link instead.", "say": "No card handy? Yor emails Damian a payment link instead.", "emph": ["payment", "link"], "gap": 0.35},
-    {"id": "l4", "scene": "C", "text": "Charges run through NMI, Authorize.net, Stripe or Revolv3.", "say": "Charges run through N M I, Authorize dot net, Stripe, or Revolve.", "emph": ["NMI,", "Revolv3."], "gap": 0.15},
-    {"id": "l5", "scene": "C", "text": "Conexus keeps a gateway token and the last four, never the full card number.", "say": "Conexus keeps a gateway token and the last four, never the full card number.", "emph": ["token", "never"], "gap": 0.6}
-  ],
-  "sfx": [
-    {"at": "l1:order", "offset": -0.05, "kind": "pluck", "notes": [76]},
-    {"at": "l1:order", "offset": 0.12, "kind": "pluck", "notes": [79]},
-    {"at": "l1:without", "kind": "tick"},
-    {"at": "l1:call", "offset": 0.1, "kind": "click"},
-    {"at": "l2:reads", "kind": "typing", "count": 9, "spacing": 0.11},
-    {"at": "l2:and", "offset": -0.15, "kind": "click"},
-    {"at": "l2:approved", "kind": "bell", "notes": [81, 88]},
-    {"at": "l3:emails", "offset": -0.1, "kind": "click"},
-    {"at": "l3:link", "kind": "pluck", "notes": [84]},
-    {"at": "l4:nmi", "kind": "pluck", "notes": [72]},
-    {"at": "l4:authorize", "kind": "pluck", "notes": [76]},
-    {"at": "l4:stripe", "kind": "pluck", "notes": [79]},
-    {"at": "l4:revolv3", "kind": "pluck", "notes": [84]},
-    {"at": "l5:token", "kind": "tick"},
-    {"at": "l5:last", "kind": "tick"},
-    {"at": "l5:never", "kind": "thud", "level": 0.18}
-  ]
+ "voice": "af_heart",
+ "speed": 1.0,
+ "cast": "Spy x Family: Loid Forger (agent), Yor Forger (agent); customers Becky Blackbell, Damian Desmond. Store: Eden Academy Supply Co. (fictional)",
+ "lines": [
+  {
+   "id": "l1",
+   "scene": "A",
+   "text": "In the dialer, Loid takes Becky's order on the call.",
+   "say": "In the dialer, Loid takes Becky's order on the call.",
+   "emph": [
+    "dialer,",
+    "call."
+   ],
+   "gap": 0.15
+  },
+  {
+   "id": "l2",
+   "scene": "A",
+   "text": "She reads her card out, he types it in, and it's approved while she's still on the line.",
+   "say": "She reads her card out, he types it in, and it's approved while she's still on the line.",
+   "emph": [
+    "approved."
+   ],
+   "gap": 0.35
+  },
+  {
+   "id": "l3",
+   "scene": "B",
+   "text": "No card handy? Yor emails Damian a payment link, and the order waits until he pays.",
+   "say": "No card handy? Yor emails Damian a payment link, and the order waits until he pays.",
+   "emph": [
+    "payment",
+    "link,"
+   ],
+   "gap": 0.35
+  },
+  {
+   "id": "l4",
+   "scene": "C",
+   "text": "It works with NMI, Authorize.net, Stripe and Revolv3.",
+   "say": "It works with N M I, Authorize dot net, Stripe, and Revolve.",
+   "emph": [
+    "NMI,",
+    "Revolv3."
+   ],
+   "gap": 0.15
+  },
+  {
+   "id": "l5",
+   "scene": "C",
+   "text": "Conexus keeps a token and the last four, never the full card number.",
+   "say": "Conexus keeps a token and the last four, never the full card number.",
+   "emph": [
+    "token",
+    "never"
+   ],
+   "gap": 0.6
+  }
+ ],
+ "sfx": [
+  {
+   "at": "l1:order",
+   "offset": -0.05,
+   "kind": "pluck",
+   "notes": [
+    76
+   ]
+  },
+  {
+   "at": "l1:order",
+   "offset": 0.12,
+   "kind": "pluck",
+   "notes": [
+    79
+   ]
+  },
+  {
+   "at": "l1:on",
+   "kind": "tick"
+  },
+  {
+   "at": "l2:she",
+   "offset": -0.1,
+   "kind": "click"
+  },
+  {
+   "at": "l2:card",
+   "kind": "typing",
+   "count": 9,
+   "spacing": 0.11
+  },
+  {
+   "at": "l2:and",
+   "offset": -0.15,
+   "kind": "click"
+  },
+  {
+   "at": "l2:approved",
+   "kind": "bell",
+   "notes": [
+    81,
+    88
+   ]
+  },
+  {
+   "at": "l3:emails",
+   "offset": -0.1,
+   "kind": "click"
+  },
+  {
+   "at": "l3:link",
+   "kind": "pluck",
+   "notes": [
+    84
+   ]
+  },
+  {
+   "at": "l4:nmi",
+   "kind": "pluck",
+   "notes": [
+    72
+   ]
+  },
+  {
+   "at": "l4:authorize",
+   "kind": "pluck",
+   "notes": [
+    76
+   ]
+  },
+  {
+   "at": "l4:stripe",
+   "kind": "pluck",
+   "notes": [
+    79
+   ]
+  },
+  {
+   "at": "l4:revolv3",
+   "kind": "pluck",
+   "notes": [
+    84
+   ]
+  },
+  {
+   "at": "l5:token",
+   "kind": "tick"
+  },
+  {
+   "at": "l5:last",
+   "kind": "tick"
+  },
+  {
+   "at": "l5:never",
+   "kind": "thud",
+   "level": 0.18
+  }
+ ]
 }
