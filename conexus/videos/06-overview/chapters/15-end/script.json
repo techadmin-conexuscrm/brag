@@ -1,0 +1,19 @@
+{
+  "voice": "af_heart",
+  "speed": 1.0,
+  "cast": "none",
+  "lines": [
+    {"id": "l1", "scene": "A", "text": "Your whole call team, on one screen.", "say": "Your whole call team, on one screen.", "emph": ["whole", "screen."], "gap": 0.15},
+    {"id": "l2", "scene": "A", "text": "Meet Conexus, the CRM built for call teams.", "say": "Meet Conexus, the CRM built for call teams.", "emph": ["Conexus,", "teams."], "gap": 0.15},
+    {"id": "l3", "scene": "A", "text": "Book a demo at tryconexus.com", "say": "Book a demo at try conexus dot com.", "emph": ["tryconexus.com"], "gap": 1.6}
+  ],
+  "sfx": [
+    {"at": 0.1, "kind": "boom", "level": 0.4},
+    {"at": 0.3, "kind": "bell", "notes": [72, 76, 79, 84], "level": 0.12, "decay": 1.4},
+    {"at": "l2:built", "offset": 0.4, "kind": "tick"},
+    {"at": "l2:built", "offset": 0.5, "kind": "tick"},
+    {"at": "l2:built", "offset": 0.6, "kind": "tick"},
+    {"at": "l3:book", "kind": "click"},
+    {"at": "l3:tryconexus", "offset": 0.4, "kind": "bell", "notes": [81, 88], "level": 0.12}
+  ]
+}

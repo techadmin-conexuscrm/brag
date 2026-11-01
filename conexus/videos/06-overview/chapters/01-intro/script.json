@@ -1,0 +1,22 @@
+{
+  "voice": "af_heart",
+  "speed": 1.0,
+  "cast": "My Hero Academia: Izuku Midoriya (agent)",
+  "lines": [
+    {"id": "l1", "scene": "A", "text": "Call teams juggle a dialer, a chat app, spreadsheets and a CRM.", "say": "Call teams juggle a dialer, a chat app, spreadsheets, and a CRM.", "emph": ["juggle", "CRM."], "gap": 0.3},
+    {"id": "l2", "scene": "B", "text": "Meet Conexus, the CRM built for call teams.", "say": "Meet Conexus, the CRM built for call teams.", "emph": ["Conexus,", "teams."], "gap": 0.35},
+    {"id": "l3", "scene": "C", "text": "Here's everything it does, and what's coming next.", "say": "Here's everything it does, and what's coming next.", "emph": ["everything", "next."], "gap": 0.9}
+  ],
+  "sfx": [
+    {"at": "l1:dialer", "offset": -0.1, "kind": "pluck", "notes": [76]},
+    {"at": "l1:chat", "offset": -0.1, "kind": "pluck", "notes": [79]},
+    {"at": "l1:spreadsheets", "offset": -0.1, "kind": "pluck", "notes": [81]},
+    {"at": "l1:crm", "offset": -0.1, "kind": "pluck", "notes": [84]},
+    {"at": "scene:B", "kind": "boom"},
+    {"at": "scene:B", "offset": 0.2, "kind": "bell", "notes": [76, 81, 88], "level": 0.12, "decay": 1.8},
+    {"at": "l3:everything", "kind": "tick"},
+    {"at": "l3:everything", "offset": 0.15, "kind": "tick"},
+    {"at": "l3:everything", "offset": 0.3, "kind": "tick"},
+    {"at": "l3:next", "kind": "bell", "notes": [81, 88], "level": 0.12}
+  ]
+}

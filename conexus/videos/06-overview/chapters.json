@@ -1,0 +1,17 @@
+[
+ {"dir": "01-intro",            "title": "Meet Conexus",                    "blurb": "One screen for the whole call team.", "owner": "lead"},
+ {"dir": "02-dialer",           "title": "Built-in dialer",                 "blurb": "Browser softphone, queues, IVR, recording.", "owner": "A"},
+ {"dir": "03-calling-hours",    "title": "Calling-hours protection",        "blurb": "Calls blocked outside the customer's legal hours.", "owner": "A"},
+ {"dir": "04-team-chat",        "title": "Team chat",                       "blurb": "Channels, DMs, mentions, pins and reactions.", "owner": "B"},
+ {"dir": "05-spiffs",           "title": "Spiffs & leaderboard",            "blurb": "Spiffs credit themselves; everyone sees who's winning.", "owner": "B"},
+ {"dir": "06-ai-qa",            "title": "AI call QA",                      "blurb": "Every recorded call over a minute, scored.", "owner": "C"},
+ {"dir": "07-qa-gates",         "title": "QA protects every sale",          "blurb": "Sales only close when the call passes QA.", "owner": "C"},
+ {"dir": "08-supervisors",      "title": "Listen, whisper, barge",          "blurb": "Coach live calls from a live wallboard.", "owner": "C"},
+ {"dir": "09-payments",         "title": "Payments on the call",            "blurb": "Charge, send payment links, saved cards.", "owner": "D"},
+ {"dir": "10-customer-service", "title": "Customer service",                "blurb": "Shipping, billing descriptors and refunds.", "owner": "D"},
+ {"dir": "11-abandoned-carts",  "title": "Abandoned carts become calls",    "blurb": "Store orders and carts flow straight in.", "owner": "D"},
+ {"dir": "12-nexa",             "title": "Nexa AI & call scripts",          "blurb": "Answers from your own docs; versioned scripts.", "owner": "E"},
+ {"dir": "13-security",         "title": "Security & compliance",           "blurb": "Encrypted calls, tokenized cards, roles.", "owner": "E"},
+ {"dir": "14-coming-soon",      "title": "Coming soon",                     "blurb": "AI calling, GIFs, secure keypad, SMS, Sheets & Docs.", "status": "soon", "owner": "E"},
+ {"dir": "15-end",              "title": "Book a demo",                     "blurb": "tryconexus.com", "owner": "lead"}
+]

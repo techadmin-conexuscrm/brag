@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/base.css">
+<script src="out/timeline.js"></script>
+<style>
+  /* chapter-specific styles */
+  .stack{left:110px;width:860px;height:150px;padding:0 34px;display:flex;align-items:center;gap:22px}
+  .stack .ic{width:76px;height:76px;border-radius:18px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:34px;font-weight:800;flex:none}
+  .stack .nm{font-size:36px;font-weight:600} .stack .ds{font-size:22px;color:var(--muted)}
+  .stack .badge{margin-left:auto}
+  .tiles{position:absolute;left:60px;right:60px;top:690px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .tile{background:#fff;border-radius:18px;height:150px;padding:20px 20px;box-shadow:0 10px 30px rgba(15,23,42,.10);display:flex;flex-direction:column;justify-content:space-between}
+  .tile .n{font-size:20px;font-weight:700;color:var(--accent)}
+  .tile .t{font-size:25px;font-weight:700;line-height:1.15;color:var(--navy)}
+  .tile.soon{background:#FFFBEB} .tile.soon .n{color:#B45309}
+</style>
+</head>
+<body>
+<section class="scene bg-blue" id="A">
+  <div class="eyebrow" style="color:#fff">A day on the floor</div>
+  <div class="headline" id="Ah"><span style="color:#fff">Four tools.</span><span class="l2" style="color:var(--navy)">One call.</span></div>
+  <div class="dot" style="width:120px;height:120px;background:var(--navy);right:90px;top:560px"></div>
+  <div class="card stack" id="As1" style="top:720px"><div class="ic" style="background:#059669">☎</div><div><div class="nm">Dialer</div><div class="ds">Izuku Midoriya · on a call</div></div><span class="badge">1</span></div>
+  <div class="card stack" id="As2" style="top:890px"><div class="ic" style="background:#7C3AED">#</div><div><div class="nm">Chat app</div><div class="ds">14 unread</div></div><span class="badge">14</span></div>
+  <div class="card stack" id="As3" style="top:1060px"><div class="ic" style="background:#16A34A">▦</div><div><div class="nm">Spreadsheets</div><div class="ds">spiffs_FINAL_v3.xlsx</div></div></div>
+  <div class="card stack" id="As4" style="top:1230px"><div class="ic" style="background:#2563EB">C</div><div><div class="nm">CRM</div><div class="ds">Order #20417 · refund pending</div></div><span class="badge">3</span></div>
+</section>
+
+<section class="scene bg-blue" id="B">
+  <div class="ring" id="Br1" style="width:700px;height:700px;top:880px"></div>
+  <div class="ring" id="Br2" style="width:1000px;height:1000px;top:880px"></div>
+  <div class="ring" id="Br3" style="width:1320px;height:1320px;top:880px"></div>
+  <div class="dot" style="width:110px;height:110px;background:var(--navy);right:150px;top:640px"></div>
+  <div class="dot" style="width:22px;height:22px;background:#fff;right:120px;top:1000px"></div>
+  <div class="logo" id="Blogo" style="top:820px;width:860px"><img src="../../shared/assets/logo-reversed-white.png" alt=""></div>
+  <div class="lsub" id="Bsub" style="top:990px;font-size:46px">The CRM built for call teams.</div>
+</section>
+
+<section class="scene bg-light" id="C">
+  <div class="eyebrow" style="color:var(--accent)">The tour</div>
+  <div class="headline sm"><span style="color:var(--navy)">Everything,</span><span class="l2" style="color:var(--accent)">one screen.</span></div>
+  <div class="tiles" id="Ctiles"></div>
+</section>
+
+<div id="cap"></div>
+<script src="../../shared/runtime.js"></script>
+<script>
+// Feature map — titles mirror chapters.json (chapters 2–14)
+const MAP = [
+  ['02','Built-in dialer'],['03','Calling-hours protection'],['04','Team chat'],['05','Spiffs & leaderboard'],
+  ['06','AI call QA'],['07','QA protects every sale'],['08','Listen, whisper, barge'],['09','Payments on the call'],
+  ['10','Customer service'],['11','Abandoned carts → calls'],['12','Nexa AI & scripts'],['13','Security & compliance'],
+  ['14','AI calling, GIFs & more','soon']
+];
+$('Ctiles').innerHTML = MAP.map(([n,t,s]) => `<div class="tile${s?' soon':''}"><div class="n">${s?'COMING SOON':n}</div><div class="t">${t}</div></div>`).join('');
+
+window.renderChapter = function (t) {
+  const A = SC.A.s, B = SC.B.s, C = SC.C.s;
+  // A — each tool stacks in as it's named
+  enter($('Ah'), t, A + 0.05, 0.5, 40);
+  [['As1','dialer'],['As2','chat'],['As3','spreadsheets'],['As4','crm']].forEach(([id, w]) => enter($(id), t, wt('l1', w) - 0.1, 0.4, 60));
+  // B — logo reveal
+  const lp = easeInOut(prog(t, B + 0.15, 0.8));
+  $('Blogo').style.clipPath = `inset(0 ${100 - lp * 100}% 0 0)`;
+  rings(t, ['Br1','Br2','Br3'], B);
+  enter($('Bsub'), t, wt('l2', 'the'), 0.45, 24);
+  // C — the feature map fills in, tile by tile
+  [...$('Ctiles').children].forEach((el, i) => enter(el, t, wt('l3', 'everything') + i * 0.09, 0.35, 30, 0.08));
+};
+</script>
+</body>
+</html>
