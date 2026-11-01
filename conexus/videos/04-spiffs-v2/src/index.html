@@ -1,0 +1,367 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=block" rel="stylesheet">
+<script src="timeline.js"></script>
+<style>
+  :root{
+    --navy:#111B83; --pill:#0E1C6C; --cyan:#7FE3F5; --sky:#3094F6; --deep:#1874D4; --accent:#2F8CF4;
+    --ink:#0F172A; --slate:#334155; --muted:#64748B; --border:#E5E7EB; --light:#F4F5F8;
+    --success:#059669; --success-soft:#ECFDF5; --danger:#DC2626; --danger-soft:#FEF2F2; --blue:#2563EB; --blue-soft:#EFF6FF;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1080px;height:1920px;overflow:hidden;background:var(--deep)}
+  body{font-family:"Poppins",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+  .mono{font-family:"Geist Mono",monospace;font-variant-numeric:tabular-nums}
+  .scene{position:absolute;inset:0;opacity:0;display:none;overflow:hidden}
+  .bg-blue{background:
+      radial-gradient(900px 700px at 20% 8%, rgba(255,255,255,.22), transparent 60%),
+      linear-gradient(180deg,#3094F6 0%,#2A86EC 45%,#1874D4 100%)}
+  .bg-blue::before{content:"";position:absolute;inset:0;
+      background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);
+      background-size:72px 72px}
+  .bg-light{background:#F4F5F8}
+  .bg-light::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(15,23,42,.10) 1.6px,transparent 1.8px);background-size:36px 36px}
+  .eyebrow{position:absolute;left:72px;top:300px;font-size:30px;font-weight:600;letter-spacing:.22em;text-transform:uppercase}
+  .headline{position:absolute;left:66px;right:60px;top:345px;font-size:118px;line-height:1.0;font-weight:800;letter-spacing:-.035em}
+  .headline .l2{display:block}
+  .sub{position:absolute;left:72px;right:72px;top:620px;font-size:36px;line-height:1.35;color:var(--slate);font-weight:400}
+  .dot{position:absolute;border-radius:50%}
+  .card{position:absolute;background:#fff;border-radius:22px;box-shadow:0 2px 4px rgba(15,23,42,.06),0 24px 60px rgba(15,23,42,.16)}
+  .chip{display:inline-flex;align-items:center;gap:10px;padding:8px 18px;border-radius:999px;font-size:24px;font-weight:600}
+  .avatar{width:72px;height:72px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;background:#E8EEFB;color:var(--navy);border:3px solid #fff;box-shadow:0 0 0 2px #C7D7F5}
+  .badge{position:absolute;right:26px;top:22px;width:46px;height:46px;border-radius:50%;background:#E5283B;color:#fff;font-size:24px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 5px rgba(229,40,59,.18)}
+
+  /* captions */
+  #cap{position:absolute;left:0;right:0;top:1540px;display:flex;justify-content:center;z-index:50;pointer-events:none}
+  #cap .pill{background:var(--pill);border-radius:24px;padding:18px 36px 20px;font-size:54px;font-weight:700;color:#fff;letter-spacing:-.01em;
+             box-shadow:0 14px 40px rgba(8,16,70,.35);white-space:nowrap}
+  #cap .w{display:inline-block;margin:0 .13em}
+  #cap .w.em{color:var(--cyan)}
+
+  /* A: stacked messages */
+  .msgcard{left:110px;width:860px;height:190px;padding:28px 34px;display:flex;gap:24px;align-items:center}
+  .msgcard .who{font-size:28px;font-weight:600;color:var(--ink)} .msgcard .who span{font-size:22px;color:var(--muted);font-weight:400;margin-left:10px}
+  .msgcard .txt{font-size:36px;font-weight:500;color:var(--ink);margin-top:4px;line-height:1.25}
+  .msgcard .chan{position:absolute;left:34px;top:-2px}
+
+  /* B: spreadsheet */
+  .sheet{left:90px;right:90px;top:760px;height:640px;padding:0;overflow:hidden}
+  .sheet .bar{height:70px;background:#F1F5F9;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;padding:0 26px;font-size:24px;color:var(--muted);font-weight:500}
+  .sheet .bar i{width:14px;height:14px;border-radius:50%;background:#CBD5E1;display:block}
+  .grid{display:grid;grid-template-columns:70px 1.4fr 1fr 1fr 1fr;font-size:30px}
+  .grid div{height:84px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;color:var(--ink)}
+  .grid .h{background:#F8FAFC;font-weight:600;color:var(--muted);font-size:24px}
+  .grid .rn{background:#F8FAFC;color:var(--muted);justify-content:center;font-size:22px;padding:0}
+  .grid .bad{color:var(--danger);font-weight:600;background:var(--danger-soft);box-shadow:inset 0 0 0 3px var(--danger)}
+
+  /* C/G: logo */
+  .ring{position:absolute;left:50%;top:50%;border-radius:50%;border:2px solid rgba(255,255,255,.18);transform:translate(-50%,-50%)}
+  .logo{position:absolute;left:50%;transform:translateX(-50%)}
+  .logo img{width:100%;display:block}
+  .lsub{position:absolute;left:0;right:0;text-align:center;color:#fff;font-weight:600}
+
+  /* D: spiff */
+  .spiff{left:72px;right:72px;top:760px;height:250px;padding:30px 36px}
+  .th{font-size:21px;font-weight:600;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+  .row4{display:grid;grid-template-columns:1.5fr 1.35fr .7fr .9fr;gap:14px;align-items:center}
+  .td{font-size:32px;font-weight:500;color:var(--ink);margin-top:18px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;height:62px;padding:0 30px;border-radius:14px;font-size:26px;font-weight:600}
+  .toast{left:72px;right:72px;top:1040px;height:130px;display:flex;align-items:center;gap:24px;padding:0 32px}
+  .check{width:64px;height:64px;border-radius:50%;background:var(--success);display:flex;align-items:center;justify-content:center;flex:none}
+  .balance{left:72px;right:72px;top:1200px;height:300px;padding:32px 40px}
+  .bal-amt{font-size:112px;font-weight:600;letter-spacing:-.03em;line-height:1.1;margin-top:10px}
+  .credit{position:absolute;right:40px;bottom:54px;padding:14px 24px;border-radius:14px;background:var(--success-soft);color:var(--success);font-size:36px;font-weight:600}
+  .cursor{position:absolute;width:56px;height:56px;z-index:40;filter:drop-shadow(0 4px 8px rgba(0,0,0,.25))}
+
+  /* E: leaderboard */
+  .lb{left:72px;right:72px;top:760px;height:720px;padding:26px 30px}
+  .lbrow{position:absolute;left:30px;right:30px;height:118px;border-radius:16px;background:#F8FAFC;border:1px solid var(--border);display:flex;align-items:center;gap:22px;padding:0 26px}
+  .lbrow .rank{width:62px;height:62px;flex:none;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:var(--muted)}
+  .lbrow .rank img{width:62px;height:62px}
+  .lbrow .nm{font-size:34px;font-weight:600}
+  .lbrow .st{font-size:22px;color:var(--success);font-weight:600;margin-top:2px}
+  .lbrow .rev{margin-left:auto;font-size:40px;font-weight:600}
+  .lbrow .up{position:absolute;right:250px;top:36px;font-size:26px;font-weight:700;color:var(--success)}
+
+  /* F: ledger */
+  .ledger{left:72px;right:72px;top:700px;height:760px;padding:30px 36px}
+  .lrow{position:absolute;left:36px;right:36px;height:112px;display:grid;grid-template-columns:96px 1fr 200px;align-items:center;border-bottom:1px solid var(--border)}
+  .lrow .day{font-size:26px;color:var(--muted);font-weight:500}
+  .lrow .why{font-size:31px;font-weight:600} .lrow .why small{display:block;font-size:22px;color:var(--muted);font-weight:400;margin-top:2px}
+  .lrow .amt{font-size:34px;font-weight:600;color:var(--success);text-align:right}
+  .ltotal{position:absolute;left:36px;right:36px;bottom:34px;height:130px;display:flex;align-items:center;justify-content:space-between;background:var(--blue-soft);border-radius:16px;padding:0 30px}
+
+  /* G: end */
+  .icons{position:absolute;left:0;right:0;top:1060px;display:flex;justify-content:center;gap:34px}
+  .ic{width:150px;text-align:center;color:#fff;font-size:21px;font-weight:600;line-height:1.25}
+  .ic .sq{width:96px;height:96px;margin:0 auto 14px;border-radius:24px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 26px rgba(8,16,70,.22)}
+  .ic svg{width:48px;height:48px;stroke:var(--navy);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .cta{position:absolute;left:50%;top:1330px;transform:translateX(-50%);background:#fff;color:var(--navy);border-radius:18px;height:96px;padding:0 54px;display:flex;align-items:center;font-size:38px;font-weight:700;box-shadow:0 14px 34px rgba(8,16,70,.28);white-space:nowrap}
+  .url{position:absolute;left:0;right:0;top:1450px;text-align:center;color:#fff;font-size:34px;font-weight:600;letter-spacing:.02em}
+</style>
+</head>
+<body>
+<!-- A — the question -->
+<section class="scene bg-blue" id="A">
+  <div class="eyebrow" style="color:#fff" id="Aeb">Payday</div>
+  <div class="headline" id="Ah"><span style="color:#fff">Every payday.</span><span class="l2" style="color:var(--navy)">Same question.</span></div>
+  <div class="dot" id="Ad1" style="width:130px;height:130px;background:var(--navy);right:90px;top:640px"></div>
+  <div class="dot" id="Ad2" style="width:30px;height:30px;background:#fff;right:70px;top:800px"></div>
+  <div class="dot" id="Ad3" style="width:26px;height:26px;background:#2FD3F0;left:70px;top:1360px"></div>
+  <div class="card msgcard" id="Am1" style="top:760px"><div class="avatar">JT</div><div><div class="who">Jordan T. <span>#sales-floor</span></div><div class="txt">Did my spiff from Tuesday count?</div></div><div class="badge">3</div></div>
+  <div class="card msgcard" id="Am2" style="top:975px"><div class="avatar">PS</div><div><div class="who">Priya S. <span>#sales-floor</span></div><div class="txt">How much am I owed this week?</div></div><div class="badge">5</div></div>
+  <div class="card msgcard" id="Am3" style="top:1190px"><div class="avatar">LM</div><div><div class="who">Luis M. <span>direct message</span></div><div class="txt">I think I'm missing $50…</div></div><div class="badge">7</div></div>
+</section>
+
+<!-- B — spreadsheets -->
+<section class="scene bg-blue" id="B">
+  <div class="eyebrow" style="color:#fff">The old way</div>
+  <div class="headline"><span style="color:#fff">Spreadsheets.</span><span class="l2" style="color:var(--navy)">Missed spiffs.</span></div>
+  <div class="dot" style="width:110px;height:110px;background:var(--navy);right:90px;top:150px"></div>
+  <div class="card sheet" id="Bs">
+    <div class="bar"><i></i><i></i><i></i><span style="margin-left:14px">spiffs_FINAL_v3 (2).xlsx</span></div>
+    <div class="grid" id="Bg">
+      <div class="h rn"></div><div class="h">Agent</div><div class="h">Sales</div><div class="h">Spiff</div><div class="h">Owed</div>
+      <div class="rn">2</div><div>Jordan T.</div><div class="mono">6</div><div class="mono">$25</div><div class="mono">$150</div>
+      <div class="rn">3</div><div>Priya S.</div><div class="mono">4</div><div class="mono">$25</div><div class="mono">$100</div>
+      <div class="rn">4</div><div>Luis M.</div><div class="mono">5</div><div class="mono">$25</div><div class="mono" id="Bbad">#REF!</div>
+      <div class="rn">5</div><div>Maya R.</div><div class="mono">8</div><div class="mono">??</div><div class="mono" id="Bbad2"></div>
+      <div class="rn">6</div><div>Dana K.</div><div class="mono"></div><div class="mono"></div><div class="mono"></div>
+    </div>
+  </div>
+</section>
+
+<!-- C — logo -->
+<section class="scene bg-blue" id="C">
+  <div class="ring" id="Cr1" style="width:700px;height:700px;top:880px"></div>
+  <div class="ring" id="Cr2" style="width:1000px;height:1000px;top:880px"></div>
+  <div class="ring" id="Cr3" style="width:1320px;height:1320px;top:880px"></div>
+  <div class="dot" style="width:110px;height:110px;background:var(--navy);right:150px;top:640px"></div>
+  <div class="dot" style="width:22px;height:22px;background:#fff;right:120px;top:1000px"></div>
+  <div class="dot" style="width:18px;height:18px;background:#2FD3F0;left:120px;top:760px"></div>
+  <div class="logo" id="Clogo" style="top:820px;width:860px"><img src="assets/logo-reversed-white.png" alt=""></div>
+  <div class="lsub" id="Csub" style="top:990px;font-size:46px">Spiffs that run themselves.</div>
+</section>
+
+<!-- D — credited at the close -->
+<section class="scene bg-light" id="D">
+  <div class="eyebrow" style="color:var(--accent)">Spiffs, automatic</div>
+  <div class="headline"><span style="color:var(--navy)">Credited at</span><span class="l2" style="color:var(--accent)">the close.</span></div>
+  <div class="sub" id="Dsub">Set it once. Every closed sale pays out.</div>
+  <div class="dot" style="width:46px;height:46px;background:var(--accent);right:80px;top:740px"></div>
+  <div class="card spiff" id="Dspiff">
+    <div class="row4"><div class="th">Spiff</div><div class="th">Type</div><div class="th">Reward</div><div class="th"></div></div>
+    <div class="row4">
+      <div class="td" style="font-weight:600">Friday Push<div class="th" style="margin-top:6px;text-transform:none;letter-spacing:0;font-size:22px;font-weight:500">Deadline · Today</div></div>
+      <div class="td">Flat / Per Sale</div><div class="td mono">$25</div>
+      <div class="td"><span class="btn" id="Dbtn" style="background:var(--blue);color:#fff">Activate</span></div>
+    </div>
+  </div>
+  <div class="card toast" id="Dtoast">
+    <div class="check"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+    <div><div style="font-size:32px;font-weight:600">Order completed</div><div style="font-size:24px;color:var(--muted)"><span class="mono">#10482</span> · <span class="mono">$189.00</span> · Jordan T.</div></div>
+  </div>
+  <div class="card balance" id="Dbal">
+    <div class="th">Spiff balance · Jordan T.</div>
+    <div class="bal-amt mono" id="Damt">$150.00</div>
+    <div class="credit mono" id="Dcredit">+$25.00</div>
+  </div>
+  <svg class="cursor" id="Dcur" viewBox="0 0 24 24"><path d="M4 2l16 9.5-7 1.6L9.8 20z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</section>
+
+<!-- E — leaderboard -->
+<section class="scene bg-light" id="E">
+  <div class="eyebrow" style="color:var(--accent)">Live leaderboard</div>
+  <div class="headline"><span style="color:var(--navy)">Everyone sees</span><span class="l2" style="color:var(--accent)">who's winning.</span></div>
+  <div class="sub">Ranked by revenue, updated as sales close.</div>
+  <div class="card lb" id="Elb">
+    <div class="lbrow" id="Er0"><div class="rank"><img src="assets/gold_medal.svg" alt=""></div><div><div class="nm">Maya R.</div><div class="st">● On call</div></div><div class="rev mono">$48,250</div></div>
+    <div class="lbrow" id="Er1"><div class="rank"><img src="assets/silver_medal.svg" alt=""></div><div><div class="nm">Luis M.</div><div class="st">● Ready</div></div><div class="rev mono">$42,110</div></div>
+    <div class="lbrow" id="Er2"><div class="rank"><img src="assets/bronze_medal.svg" alt=""></div><div><div class="nm">Jordan T.</div><div class="st">● On call</div></div><div class="rev mono" id="Erev">$41,980</div><div class="up" id="Eup">▲ +$189</div></div>
+    <div class="lbrow" id="Er3"><div class="rank">4</div><div><div class="nm">Priya S.</div><div class="st" style="color:var(--muted)">● Wrap-up</div></div><div class="rev mono">$37,410</div></div>
+    <div class="lbrow" id="Er4"><div class="rank">5</div><div><div class="nm">Dana K.</div><div class="st">● Ready</div></div><div class="rev mono">$33,870</div></div>
+  </div>
+</section>
+
+<!-- F — ledger -->
+<section class="scene bg-blue" id="F">
+  <div class="eyebrow" style="color:#fff">Balance ledger</div>
+  <div class="headline"><span style="color:#fff">Payday math,</span><span class="l2" style="color:var(--navy)">done.</span></div>
+  <div class="dot" style="width:110px;height:110px;background:var(--navy);right:90px;top:150px"></div>
+  <div class="card ledger" id="Fl">
+    <div class="th" style="display:flex;justify-content:space-between"><span>Jordan T.</span><span>This week</span></div>
+    <div class="lrow" id="Fr1" style="top:80px"><div class="day">Fri</div><div class="why">Friday Push<small>Order <span class="mono">#10482</span></small></div><div class="amt mono">+$25.00</div></div>
+    <div class="lrow" id="Fr2" style="top:192px"><div class="day">Fri</div><div class="why">Friday Push<small>Order <span class="mono">#10477</span></small></div><div class="amt mono">+$25.00</div></div>
+    <div class="lrow" id="Fr3" style="top:304px"><div class="day">Thu</div><div class="why">20 Sales by Thursday<small>Deadline spiff · target hit</small></div><div class="amt mono">+$100.00</div></div>
+    <div class="lrow" id="Fr4" style="top:416px"><div class="day">Wed</div><div class="why">Adjustment<small>Coaching shift bonus · added by admin</small></div><div class="amt mono">+$25.00</div></div>
+    <div class="ltotal" id="Ftot"><div style="font-size:32px;font-weight:600;color:var(--navy)">Balance owed</div><div class="mono" style="font-size:58px;font-weight:600;color:var(--navy)">$175.00</div></div>
+  </div>
+</section>
+
+<!-- G — end card (ICP: Sales Team Leader) -->
+<section class="scene bg-blue" id="G">
+  <div class="ring" id="Gr1" style="width:760px;height:760px;top:800px"></div>
+  <div class="ring" id="Gr2" style="width:1080px;height:1080px;top:800px"></div>
+  <div class="ring" id="Gr3" style="width:1400px;height:1400px;top:800px"></div>
+  <div class="dot" style="width:110px;height:110px;background:var(--navy);right:110px;top:560px"></div>
+  <div class="dot" style="width:22px;height:22px;background:#fff;left:120px;top:690px"></div>
+  <div class="logo" id="Glogo" style="top:700px;width:860px"><img src="assets/logo-reversed-white.png" alt=""></div>
+  <div class="lsub" id="Gt" style="top:870px;font-size:52px;font-weight:700">Built for sales team leaders.</div>
+  <div class="lsub" id="Gs" style="top:950px;font-size:34px;font-weight:500;color:#D7F6FD">Spiffs, leaderboards and payday — built in.</div>
+  <div class="icons" id="Gi">
+    <div class="ic"><div class="sq"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg></div>Automatic spiffs</div>
+    <div class="ic"><div class="sq"><svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></div>Live leaderboard</div>
+    <div class="ic"><div class="sq"><svg viewBox="0 0 24 24"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/></svg></div>Balance ledger</div>
+    <div class="ic"><div class="sq"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>Built-in dialer</div>
+    <div class="ic"><div class="sq"><svg viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></div>AI call QA</div>
+  </div>
+  <div class="cta" id="Gcta">Book a demo</div>
+  <div class="url" id="Gurl">tryconexus.com</div>
+</section>
+
+<div id="cap"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const clamp = (x,a=0,b=1) => Math.min(b,Math.max(a,x));
+const easeOut = p => 1 - Math.pow(1-p,3);
+const easeInOut = p => p<.5 ? 4*p*p*p : 1-Math.pow(-2*p+2,3)/2;
+const backOut = p => { const c1=1.5, c3=c1+1; return 1 + c3*Math.pow(p-1,3) + c1*Math.pow(p-1,2); };
+const prog = (t,s,d) => clamp((t-s)/d);
+const SC = Object.fromEntries(TL.scenes.map(s => [s.id, s]));
+const LINE = Object.fromEntries(TL.lines.map(l => [l.id, l]));
+const WORDS = TL.captions.flatMap(c => c.words);
+const wt = (line, word) => { const w = WORDS.find(x => x.line === line && x.w.replace(/[^\w$']/g,'').toLowerCase().startsWith(word.toLowerCase())); return w ? w.s : LINE[line].s; };
+function money(v, d=2){ return '$' + v.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d}); }
+
+function enter(el, t, start, dur=0.45, dy=50, scale=0){
+  const p = easeOut(prog(t,start,dur));
+  el.style.opacity = p;
+  const s = scale ? (1 - scale*(1-backOut(prog(t,start,dur)))) : 1;
+  el.style.transform = `translateY(${(1-p)*dy}px) scale(${s})`;
+}
+
+// Scene visibility: the new scene (background + content) fades in over 0.3s on top of the
+// old one; the old scene's content fades out over its last 0.22s but its background stays
+// solid until the new scene covers it, so there is never a flash of the page colour.
+document.querySelectorAll('.scene').forEach(sec => {
+  const c = document.createElement('div'); c.className = 'content'; c.style.cssText = 'position:absolute;inset:0';
+  while (sec.firstChild) c.appendChild(sec.firstChild); sec.appendChild(c);
+});
+function sceneOpacity(id, t){
+  const s = SC[id]; const last = id === 'G';
+  if (t < s.s || (!last && t >= s.e + 0.3)) return 0;
+  return s.s === 0 ? 1 : easeOut(prog(t, s.s, 0.3));
+}
+function contentOpacity(id, t){
+  const s = SC[id]; if (id === 'G') return 1;
+  return 1 - easeInOut(prog(t, s.e - 0.22, 0.22));
+}
+
+let capKey = '';
+function renderCaption(t){
+  const c = TL.captions.find(c => t >= c.s - 0.05 && t < c.e);
+  const box = $('cap');
+  if (!c){ box.innerHTML = ''; capKey = ''; return; }
+  const key = c.s;
+  if (capKey !== key){
+    box.innerHTML = '<div class="pill">' + c.words.map(w => `<span class="w${w.em?' em':''}">${w.w}</span>`).join('') + '</div>';
+    capKey = key;
+  }
+  const pill = box.firstChild;
+  const pin = easeOut(prog(t, c.s - 0.05, 0.18));
+  pill.style.opacity = pin; pill.style.transform = `translateY(${(1-pin)*16}px) scale(${0.96+0.04*pin})`;
+  [...pill.children].forEach((el, i) => {
+    const w = c.words[i]; const p = easeOut(prog(t, w.s - 0.04, 0.16));
+    el.style.opacity = 0.18 + 0.82*p;
+    el.style.transform = `translateY(${(1-p)*8}px)`;
+  });
+}
+
+window.renderAt = function(t){
+  for (const id of ['A','B','C','D','E','F','G']){
+    const o = sceneOpacity(id, t); const el = $(id);
+    el.style.opacity = o; el.style.display = o > 0 ? 'block' : 'none';
+    el.querySelector('.content').style.opacity = contentOpacity(id, t);
+  }
+  renderCaption(t);
+  const A=SC.A.s, B=SC.B.s, C=SC.C.s, D=SC.D.s, E=SC.E.s, F=SC.F.s, G=SC.G.s;
+
+  // A
+  enter($('Aeb'), t, A+0.0, 0.4, 20); enter($('Ah'), t, A+0.05, 0.5, 40);
+  enter($('Am1'), t, A+0.45, 0.45, 70); enter($('Am2'), t, A+0.95, 0.45, 70); enter($('Am3'), t, wt('l2','did'), 0.45, 70);
+  ['Ad1','Ad2','Ad3'].forEach((d,i)=>{ $(d).style.transform = `translateY(${Math.sin(t*1.6+i)*10}px)`; });
+  document.querySelectorAll('#A .badge').forEach((b,i)=>{ const p = prog(t, A+0.75+i*0.5, 0.35); b.style.transform = `scale(${backOut(p)})`; });
+
+  // B
+  enter($('Bs'), t, B+0.25, 0.5, 70);
+  const cells = [...$('Bg').children].slice(5);
+  cells.forEach((c,i)=>{ const p = prog(t, B+0.5 + Math.floor(i/5)*0.22, 0.25); c.style.opacity = 0.0 + p; });
+  const miss = wt('l3','missed');
+  const flash = t > miss ? 0.6 + 0.4*Math.abs(Math.sin((t-miss)*7)) : 0;
+  $('Bbad').className = 'mono' + (t > wt('l3','spreadsheets') ? ' bad' : '');
+  $('Bbad2').className = 'mono' + (t > miss ? ' bad' : ''); $('Bbad2').textContent = t > miss ? 'missed?' : '';
+  $('Bbad2').style.opacity = t > miss ? flash : 0;
+
+  // C
+  const lp = easeInOut(prog(t, C+0.15, 0.8));
+  $('Clogo').style.clipPath = `inset(0 ${100-lp*100}% 0 0)`;
+  enter($('Csub'), t, wt('l4','spiffs'), 0.45, 24);
+  ['Cr1','Cr2','Cr3'].forEach((r,i)=>{ const p = prog(t, C+0.1+i*0.15, 1.2); $(r).style.opacity = 0.9*easeOut(p); $(r).style.transform = `translate(-50%,-50%) scale(${0.85+0.15*easeOut(p)+0.02*Math.sin(t*2+i)})`; });
+
+  // D
+  enter($('Dsub'), t, D+0.2, 0.45, 20); enter($('Dspiff'), t, D+0.35, 0.45, 60);
+  // cursor glides to Activate and clicks on "once"
+  const clickT = wt('l5','once');
+  const cur = $('Dcur'); const cp = easeInOut(prog(t, D+0.5, Math.max(0.3, clickT - D - 0.55)));
+  const x0 = 760, y0 = 1250, x1 = 880, y1 = 905;
+  cur.style.left = (x0 + (x1-x0)*cp) + 'px'; cur.style.top = (y0 + (y1-y0)*cp) + 'px';
+  cur.style.opacity = t < D+0.5 ? 0 : (t > clickT + 0.9 ? 1 - prog(t, clickT+0.9, 0.3) : 1);
+  const press = t > clickT && t < clickT + 0.15 ? 0.85 : 1; cur.style.transform = `scale(${press})`;
+  const btn = $('Dbtn');
+  if (t >= clickT){ btn.textContent = '● Active'; btn.style.background = 'var(--success-soft)'; btn.style.color = 'var(--success)'; }
+  else { btn.textContent = 'Activate'; btn.style.background = 'var(--blue)'; btn.style.color = '#fff'; }
+  btn.style.transform = `scale(${t>=clickT ? 1 + 0.08*(1-prog(t,clickT,0.3)) : press})`;
+  const closeT = wt('l6','sale'), credT = wt('l6','credited');
+  enter($('Dtoast'), t, closeT, 0.4, 0); if (t >= closeT){ const p = easeOut(prog(t,closeT,0.4)); $('Dtoast').style.transform = `translateX(${(1-p)*-120}px)`; }
+  enter($('Dbal'), t, closeT+0.25, 0.45, 50);
+  const cnt = easeInOut(prog(t, credT, 0.6));
+  $('Damt').textContent = money(150 + 25*cnt);
+  $('Damt').style.color = (t > credT && t < credT+1.2) ? 'var(--success)' : 'var(--ink)';
+  enter($('Dcredit'), t, credT, 0.4, 0, 0.3);
+
+  // E — Jordan climbs from 3rd to 2nd on "live"
+  enter($('Elb'), t, E+0.3, 0.5, 60);
+  const liveT = wt('l7','live');
+  const sw = easeInOut(prog(t, liveT+0.15, 0.6));
+  const top = i => 26 + i*134;
+  const order = { Er0:0, Er1: 1 + sw, Er2: 2 - sw, Er3:3, Er4:4 };
+  for (const [id, pos] of Object.entries(order)) { const el = $(id); el.style.top = top(pos) + 'px'; const p = easeOut(prog(t, E+0.45 + Math.round(id[2])*0.12, 0.4)); el.style.opacity = p; el.style.transform = `translateX(${(1-p)*40}px)`; }
+  $('Er2').querySelector('.rank img').src = sw > 0.5 ? 'assets/silver_medal.svg' : 'assets/bronze_medal.svg';
+  $('Er1').querySelector('.rank img').src = sw > 0.5 ? 'assets/bronze_medal.svg' : 'assets/silver_medal.svg';
+  $('Erev').textContent = money(41980 + 189*easeInOut(prog(t, liveT, 0.5)) + (t>liveT? 0:0), 0).replace('$42,169','$42,169');
+  $('Er2').style.zIndex = 5; $('Er2').style.background = sw>0 && sw<1 || (t>liveT && t<liveT+1.6) ? '#EFF6FF' : '#F8FAFC';
+  $('Er2').style.boxShadow = (t>liveT && t<liveT+1.6) ? '0 10px 30px rgba(37,99,235,.18)' : 'none';
+  enter($('Eup'), t, liveT, 0.35, 10); if (t > liveT+1.8) $('Eup').style.opacity = 1 - prog(t, liveT+1.8, 0.3);
+
+  // F
+  enter($('Fl'), t, F+0.25, 0.5, 60);
+  ['Fr1','Fr2','Fr3','Fr4'].forEach((r,i)=> enter($(r), t, F+0.5+i*0.18, 0.35, 24));
+  enter($('Ftot'), t, wt('l9','payday'), 0.4, 0, 0.1);
+
+  // G
+  const gp = easeInOut(prog(t, G+0.2, 0.8));
+  $('Glogo').style.clipPath = `inset(0 ${100-gp*100}% 0 0)`;
+  ['Gr1','Gr2','Gr3'].forEach((r,i)=>{ const p = prog(t, G+0.1+i*0.15, 1.2); $(r).style.opacity = 0.9*easeOut(p); $(r).style.transform = `translate(-50%,-50%) scale(${0.85+0.15*easeOut(p)+0.02*Math.sin(t*2+i)})`; });
+  enter($('Gt'), t, wt('l10','built'), 0.45, 24);
+  enter($('Gs'), t, wt('l10','built')+0.5, 0.45, 24);
+  [...$('Gi').children].forEach((c,i)=> enter(c, t, wt('l10','leaders')+0.15+i*0.1, 0.4, 30));
+  enter($('Gcta'), t, wt('l11','book'), 0.45, 0, 0.15); if (t>=wt('l11','book')) $('Gcta').style.transform += ' translateX(-50%)'; else $('Gcta').style.transform = 'translateX(-50%) scale(.85)';
+  enter($('Gurl'), t, wt('l11','tryconexus'), 0.4, 16);
+};
+window.renderAt(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "voice": "af_heart",
+  "speed": 1.0,
+  "icp": "Sales Team Leader",
+  "lines": [
+    {"id": "l1", "scene": "A", "text": "Every payday, the same question.", "say": "Every payday, the same question.", "emph": ["payday"], "gap": 0.15},
+    {"id": "l2", "scene": "A", "text": "Did my spiff count?", "say": "Did my spiff count?", "emph": ["spiff", "count?"], "gap": 0.35},
+    {"id": "l3", "scene": "B", "text": "You dig through spreadsheets and chat threads, and someone still gets missed.", "say": "You dig through spreadsheets and chat threads, and someone still gets missed.", "emph": ["spreadsheets", "missed."], "gap": 0.35},
+    {"id": "l4", "scene": "C", "text": "With Conexus, spiffs run themselves.", "say": "With Conexus, spiffs run themselves.", "emph": ["Conexus,", "themselves."], "gap": 0.35},
+    {"id": "l5", "scene": "D", "text": "Set one up once.", "say": "Set one up once.", "emph": ["once."], "gap": 0.15},
+    {"id": "l6", "scene": "D", "text": "The moment a sale closes, it's credited to the agent automatically.", "say": "The moment a sale closes, it's credited to the agent, automatically.", "emph": ["closes,", "automatically."], "gap": 0.35},
+    {"id": "l7", "scene": "E", "text": "The leaderboard updates live, so the whole floor sees who's winning.", "say": "The leaderboard updates live, so the whole floor sees who's winning.", "emph": ["live,", "winning."], "gap": 0.35},
+    {"id": "l8", "scene": "F", "text": "Every dollar lands on the ledger.", "say": "Every dollar lands on the ledger.", "emph": ["ledger."], "gap": 0.15},
+    {"id": "l9", "scene": "F", "text": "Payday math, done.", "say": "Payday math. Done.", "emph": ["done."], "gap": 0.4},
+    {"id": "l10", "scene": "G", "text": "Conexus. Built for sales team leaders.", "say": "Conexus. Built for sales team leaders.", "emph": ["Conexus.", "leaders."], "gap": 0.15},
+    {"id": "l11", "scene": "G", "text": "Book a demo at tryconexus.com", "say": "Book a demo at try conexus dot com.", "emph": ["tryconexus.com"], "gap": 1.2}
+  ]
+}
