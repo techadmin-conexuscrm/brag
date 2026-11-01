@@ -106,7 +106,7 @@ window.renderChapter = function (t) {
   const left = t >= tLeave;
   $('Acs').textContent = left ? 'No order after 60 min' : 'Checkout started 2:05 PM';
   $('Acs').className = 'chip ' + (left ? 'warn' : 'info');
-  $('Ac').style.opacity = String(Math.min(Number($('Ac').style.opacity), 1 - 0.35 * easeOut(prog(t, wt('l1', 'lands'), 0.4))));
+  $('Ac').style.opacity = String(Math.min(Number($('Ac').style.opacity), 1 - 0.22 * easeOut(prog(t, wt('l1', 'lands'), 0.4))));
   const tLand = wt('l1', 'lands') - 0.05;
   enter($('Ao'), t, tLand, 0.5, 60);
   const tAb = wt('l1', 'abandoned');
