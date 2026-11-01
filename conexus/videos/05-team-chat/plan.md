@@ -1,6 +1,6 @@
 # Video 5 — Team chat (ICP: GM of a call center floor)
 
-Same style and pipeline as `../04-spiffs-v2` (see its `plan.md` for build steps). 9:16, 30fps, ~30.6s,
+Same style and pipeline as `../04-spiffs-v2` (see its `plan.md` for build steps). 9:16, 30fps, ~31.8s,
 Kokoro `af_heart` narration, -14 LUFS.
 
 > **Hold until GIFs ship.** GIFs are not in the code yet (Eric: shipping the week of 2026-11-02).
@@ -17,10 +17,16 @@ Kokoro `af_heart` narration, -14 LUFS.
 | D | Channels, DMs and mentions, all in real time. Pin the plays that matter. React in a click. | "Your floor, in one place." #closers channel: @all spiff announcement gets pinned, close gets 🔥 reactions |
 | E | And now, GIFs. Because every close deserves a celebration. | "Celebrate every close." GIF picker, search "sold", SOLD! sticker posts, 🎉 reactions |
 | F | Agents can message the floor without ever leaving the call. | "Chat without leaving the call." Dialer mid-call (timer running), floor lead's message, agent replies |
-| G | Conexus. Built for call center GMs. Book a demo at tryconexus.com | Logo, ICP line, icons, Book a demo |
+| G | Meet Conexus, the CRM built for call center GMs. Book a demo at tryconexus.com | Logo, ICP line, icons, Book a demo |
 
 GIF stickers (SOLD!, DING! bell, PAYDAY money rain, LET'S GO!, trophy, TO THE MOON) are original
 animations drawn in `src/gifs.js`, not third-party GIFs. Slack is named once in the narration as a
 comparison; no Slack logo or branding is shown.
 
 Cast: Attack on Titan (see `../../brand/CLAIMS.md` → Demo data).
+
+## Closing-line change (2026-11-01)
+
+"Conexus. Built for call center GMs." sounded choppy: the voice read "Conexus." as a one-word sentence followed by a fragment.
+Replaced with a full sentence: **"Meet Conexus, the CRM built for call center GMs."** (same style as `../05-team-chat-call-teams`).
+Only the closing line's voice was regenerated; all other narration audio is unchanged. The end-card text stays as it was.

@@ -1,6 +1,6 @@
 # Video 4 v2 — Spiffs & leaderboard (ICP: Sales Team Leader)
 
-Restyled to match the reference promo (`conexus-promo-vertical.mp4`): 1080×1920 (9:16), 30fps, ~29.6s,
+Restyled to match the reference promo (`conexus-promo-vertical.mp4`): 1080×1920 (9:16), 30fps, ~30.8s,
 narrated with karaoke-style caption pills, Poppins ExtraBold headlines, blue gradient / light dotted-grid
 scenes, navy accent dots, -14 LUFS.
 
@@ -35,6 +35,12 @@ ffmpeg -framerate 30 -i brag-output/work/frames/f%04d.png -i brag-output/work/mi
 | D | Set one up once. The moment a sale closes, it's credited to the agent, automatically. | "Credited at the close." Cursor activates spiff → order completed → balance $150 → $175 |
 | E | The leaderboard updates live, so the whole floor sees who's winning. | "Everyone sees who's winning." Jordan climbs from 3rd to 2nd |
 | F | Every dollar lands on the ledger. Payday math. Done. | "Payday math, done." Ledger rows → Balance owed $175.00 |
-| G | Conexus. Built for sales team leaders. Book a demo at tryconexus.com | Logo, ICP line, feature icons, Book a demo |
+| G | Meet Conexus, the CRM built for sales team leaders. Book a demo at tryconexus.com | Logo, ICP line, feature icons, Book a demo |
 
 People are anime characters (see `../../brand/CLAIMS.md` → Demo data); orders and amounts are made up. Claims come from `../FEATURES.md`.
+
+## Closing-line change (2026-11-01)
+
+"Conexus. Built for sales team leaders." sounded choppy: the voice read "Conexus." as a one-word sentence followed by a fragment.
+Replaced with a full sentence: **"Meet Conexus, the CRM built for sales team leaders."** (same style as `../05-team-chat-call-teams`).
+Only the closing line's voice was regenerated; all other narration audio is unchanged. The end-card text stays as it was.

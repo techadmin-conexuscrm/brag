@@ -12,7 +12,7 @@
     {"id": "l7", "scene": "E", "text": "The leaderboard updates live, so the whole floor sees who's winning.", "say": "The leaderboard updates live, so the whole floor sees who's winning.", "emph": ["live,", "winning."], "gap": 0.35},
     {"id": "l8", "scene": "F", "text": "Every dollar lands on the ledger.", "say": "Every dollar lands on the ledger.", "emph": ["ledger."], "gap": 0.15},
     {"id": "l9", "scene": "F", "text": "Payday math, done.", "say": "Payday math. Done.", "emph": ["done."], "gap": 0.4},
-    {"id": "l10", "scene": "G", "text": "Conexus. Built for sales team leaders.", "say": "Conexus. Built for sales team leaders.", "emph": ["Conexus.", "leaders."], "gap": 0.15},
+    {"id": "l10", "scene": "G", "text": "Meet Conexus, the CRM built for sales team leaders.", "say": "Meet Conexus, the CRM built for sales team leaders.", "emph": ["Conexus,", "leaders."], "gap": 0.15},
     {"id": "l11", "scene": "G", "text": "Book a demo at tryconexus.com", "say": "Book a demo at try conexus dot com.", "emph": ["tryconexus.com"], "gap": 1.2}
   ]
 }

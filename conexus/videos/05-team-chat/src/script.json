@@ -11,7 +11,7 @@
     {"id": "l6", "scene": "E", "text": "And now, GIFs.", "say": "And now, gifs.", "emph": ["GIFs."], "gap": 0.15},
     {"id": "l7", "scene": "E", "text": "Because every close deserves a celebration.", "say": "Because every close deserves a celebration.", "emph": ["close", "celebration."], "gap": 0.8},
     {"id": "l8", "scene": "F", "text": "Agents can message the floor without ever leaving the call.", "say": "Agents can message the floor, without ever leaving the call.", "emph": ["without", "call."], "gap": 0.4},
-    {"id": "l9", "scene": "G", "text": "Conexus. Built for call center GMs.", "say": "Conexus. Built for call center G Ms.", "emph": ["Conexus.", "GMs."], "gap": 0.15},
+    {"id": "l9", "scene": "G", "text": "Meet Conexus, the CRM built for call center GMs.", "say": "Meet Conexus, the CRM built for call center G Ms.", "emph": ["Conexus,", "GMs."], "gap": 0.15},
     {"id": "l10", "scene": "G", "text": "Book a demo at tryconexus.com", "say": "Book a demo at try conexus dot com.", "emph": ["tryconexus.com"], "gap": 1.2}
   ]
 }
