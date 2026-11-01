@@ -1,0 +1,423 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=block" rel="stylesheet">
+<script src="timeline.js"></script>
+<script src="gifs.js"></script>
+<style>
+  :root{
+    --navy:#111B83; --pill:#0E1C6C; --cyan:#7FE3F5; --accent:#2F8CF4;
+    --ink:#0F172A; --slate:#334155; --muted:#64748B; --border:#E5E7EB; --light:#F4F5F8;
+    --success:#059669; --success-soft:#ECFDF5; --danger:#DC2626; --blue:#2563EB; --blue-soft:#EFF6FF;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1080px;height:1920px;overflow:hidden;background:#1874D4}
+  body{font-family:"Poppins","Noto Color Emoji",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+  .mono{font-family:"Geist Mono",monospace;font-variant-numeric:tabular-nums}
+  .scene{position:absolute;inset:0;opacity:0;display:none;overflow:hidden}
+  .bg-blue{background:radial-gradient(900px 700px at 20% 8%, rgba(255,255,255,.22), transparent 60%),linear-gradient(180deg,#3094F6 0%,#2A86EC 45%,#1874D4 100%)}
+  .bg-blue::before,.bg-dark::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:72px 72px}
+  .bg-dark{background:radial-gradient(800px 600px at 80% 20%, rgba(48,148,246,.25), transparent 60%),#0A0F2C}
+  .bg-light{background:#F4F5F8}
+  .bg-light::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(15,23,42,.10) 1.6px,transparent 1.8px);background-size:36px 36px}
+  .eyebrow{position:absolute;left:72px;top:300px;font-size:30px;font-weight:600;letter-spacing:.22em;text-transform:uppercase}
+  .headline{position:absolute;left:66px;right:60px;top:345px;font-size:118px;line-height:1.0;font-weight:800;letter-spacing:-.035em}
+  .headline .l2{display:block}
+  .dot{position:absolute;border-radius:50%}
+  .card{position:absolute;background:#fff;border-radius:22px;box-shadow:0 2px 4px rgba(15,23,42,.06),0 24px 60px rgba(15,23,42,.16)}
+  .avatar{width:64px;height:64px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:#fff}
+  .badge{min-width:40px;height:40px;padding:0 10px;border-radius:999px;background:#E5283B;color:#fff;font-size:22px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
+  .cursor{position:absolute;width:56px;height:56px;z-index:40;filter:drop-shadow(0 4px 8px rgba(0,0,0,.25))}
+
+  /* captions */
+  #cap{position:absolute;left:0;right:0;top:1580px;display:flex;justify-content:center;z-index:50}
+  #cap .pill{background:var(--pill);border-radius:24px;padding:18px 36px 20px;font-size:54px;font-weight:700;color:#fff;letter-spacing:-.01em;box-shadow:0 14px 40px rgba(8,16,70,.35);white-space:nowrap}
+  #cap .w{display:inline-block;margin:0 .13em}
+  #cap .w.em{color:var(--cyan)}
+
+  /* A: tab chaos */
+  .browser{left:70px;right:70px;top:720px;height:700px;overflow:hidden}
+  .tabs{height:96px;background:#E2E8F0;display:flex;align-items:flex-end;gap:6px;padding:0 14px}
+  .tab{height:76px;flex:1;min-width:0;background:#CBD5E1;border-radius:16px 16px 0 0;display:flex;align-items:center;gap:10px;padding:0 14px;font-size:22px;font-weight:600;color:var(--slate);position:relative;white-space:nowrap;overflow:hidden}
+  .tab .fav{width:30px;height:30px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:800}
+  .tab.on{background:#fff;color:var(--ink)}
+  .tab .badge{position:absolute;right:8px;top:6px;min-width:30px;height:30px;font-size:16px;padding:0 6px}
+  .pane{position:absolute;left:0;right:0;top:96px;bottom:0;padding:40px}
+  .skel{height:30px;border-radius:10px;background:#EEF2F7;margin-bottom:22px}
+
+  /* B: on hold */
+  .hold{left:110px;right:110px;top:820px;height:430px;padding:44px;text-align:center}
+  .hold .t{font-size:150px;font-weight:600;color:var(--danger);letter-spacing:-.03em;line-height:1.1}
+
+  /* chat window */
+  .chat{left:50px;right:50px;top:700px;height:830px;display:flex;overflow:hidden}
+  .rail{width:300px;background:#0E1C6C;color:#C7D2FE;padding:28px 22px;flex:none}
+  .rail .ws{color:#fff;font-size:28px;font-weight:700;margin-bottom:26px}
+  .rail .sec{font-size:18px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8EA0E8;margin:22px 0 10px}
+  .rail .it{font-size:24px;font-weight:500;padding:8px 12px;border-radius:10px;display:flex;align-items:center;gap:10px;white-space:nowrap}
+  .rail .it.on{background:rgba(255,255,255,.14);color:#fff;font-weight:600}
+  .rail .it .badge{margin-left:auto;min-width:30px;height:30px;font-size:16px;padding:0 8px}
+  .rail .mini{width:30px;height:30px;font-size:13px}
+  .main{flex:1;display:flex;flex-direction:column;min-width:0;position:relative}
+  .chead{height:88px;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 28px;gap:12px;font-size:30px;font-weight:700}
+  .chead .meta{font-size:20px;font-weight:500;color:var(--muted)}
+  .pinbar{position:absolute;left:0;right:0;top:88px;height:58px;background:#FFFBEB;border-bottom:1px solid #FDE68A;display:flex;align-items:center;gap:10px;padding:0 28px;font-size:21px;color:#92400E;font-weight:500;white-space:nowrap;overflow:hidden}
+  .msgs{position:absolute;left:0;right:0;top:88px;bottom:110px;padding:20px 26px 0;overflow:hidden}
+  .m{display:flex;gap:16px;margin-bottom:20px;position:relative}
+  .m .who{font-size:22px;font-weight:700} .m .who span{font-size:18px;color:var(--muted);font-weight:400;margin-left:8px}
+  .m .tx{font-size:27px;line-height:1.3;color:var(--ink);margin-top:2px}
+  .mention{background:#DBEAFE;color:#1D4ED8;border-radius:6px;padding:0 6px;font-weight:600}
+  .reacts{display:flex;gap:8px;margin-top:10px}
+  .rx{display:inline-flex;align-items:center;gap:6px;height:42px;padding:0 14px;border-radius:999px;background:#EFF6FF;border:2px solid #BFDBFE;font-size:22px;font-weight:600;color:#1D4ED8}
+  .tag{font-size:16px;font-weight:600;color:#B45309;background:#FEF3C7;border-radius:6px;padding:2px 8px;margin-left:8px;vertical-align:middle}
+  .composer{position:absolute;left:22px;right:22px;bottom:20px;height:72px;border:2px solid var(--border);border-radius:16px;display:flex;align-items:center;padding:0 16px 0 22px;font-size:24px;color:#94A3B8;gap:12px}
+  .gifbtn{margin-left:auto;height:46px;padding:0 14px;border-radius:10px;border:2px solid #CBD5E1;font-size:20px;font-weight:800;color:var(--slate);display:flex;align-items:center}
+  .typing{font-size:20px;color:var(--muted);position:absolute;left:28px;bottom:96px}
+  .picker{position:absolute;right:22px;bottom:104px;width:560px;height:520px;border-radius:20px;background:#fff;box-shadow:0 20px 60px rgba(15,23,42,.28);border:1px solid var(--border);padding:20px;z-index:20}
+  .picker .search{height:60px;border-radius:12px;background:#F1F5F9;display:flex;align-items:center;padding:0 18px;font-size:26px;color:var(--ink);gap:10px}
+  .picker .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+  .picker canvas{width:254px;height:126px;display:block;border-radius:12px}
+  .gifmsg canvas{width:400px;height:250px;border-radius:16px;display:block;margin-top:8px}
+
+  /* F: dialer */
+  .dialer{left:70px;right:70px;top:700px;height:860px;overflow:hidden}
+  .callbar{height:150px;background:linear-gradient(90deg,#0E1C6C,#1E3A8A);color:#fff;display:flex;align-items:center;gap:22px;padding:0 32px}
+  .callbar .t{margin-left:auto;font-size:52px;font-weight:600}
+  .live{display:inline-flex;align-items:center;gap:8px;font-size:20px;font-weight:600;color:#86EFAC}
+  .live i{width:12px;height:12px;border-radius:50%;background:#22C55E;display:block}
+  .dnav{position:absolute;left:0;right:0;bottom:0;height:110px;border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);background:#fff}
+  .dnav div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-size:20px;font-weight:600;color:var(--muted);position:relative}
+  .dnav div.on{color:var(--blue)}
+  .dnav svg{width:34px;height:34px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .dnav .pdot{position:absolute;top:18px;left:56%;width:16px;height:16px;border-radius:50%;background:#22C55E;box-shadow:0 0 0 4px #DCFCE7}
+  .dnav .badge{position:absolute;top:10px;left:56%;min-width:30px;height:30px;font-size:16px}
+  .dmsgs{position:absolute;left:0;right:0;top:150px;bottom:110px;padding:26px 30px}
+  .bubble{max-width:620px;padding:18px 24px;border-radius:22px;font-size:30px;line-height:1.3;margin-bottom:18px}
+  .bubble.in{background:#F1F5F9;color:var(--ink);border-bottom-left-radius:6px}
+  .bubble.out{background:var(--blue);color:#fff;margin-left:auto;border-bottom-right-radius:6px}
+
+  /* C/G */
+  .ring{position:absolute;left:50%;border-radius:50%;border:2px solid rgba(255,255,255,.18);transform:translate(-50%,-50%)}
+  .logo{position:absolute;left:50%;transform:translateX(-50%)}
+  .logo img{width:100%;display:block}
+  .lsub{position:absolute;left:0;right:0;text-align:center;color:#fff;font-weight:600}
+  .icons{position:absolute;left:0;right:0;top:1060px;display:flex;justify-content:center;gap:34px}
+  .ic{width:150px;text-align:center;color:#fff;font-size:21px;font-weight:600;line-height:1.25}
+  .ic .sq{width:96px;height:96px;margin:0 auto 14px;border-radius:24px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 26px rgba(8,16,70,.22)}
+  .ic svg{width:48px;height:48px;stroke:var(--navy);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .ic .gt{font-size:26px;font-weight:800;color:var(--navy)}
+  .cta{position:absolute;left:50%;top:1330px;background:#fff;color:var(--navy);border-radius:18px;height:96px;padding:0 54px;display:flex;align-items:center;font-size:38px;font-weight:700;box-shadow:0 14px 34px rgba(8,16,70,.28);white-space:nowrap}
+  .url{position:absolute;left:0;right:0;top:1450px;text-align:center;color:#fff;font-size:34px;font-weight:600;letter-spacing:.02em}
+</style>
+</head>
+<body>
+<!-- A — five tabs -->
+<section class="scene bg-blue" id="A">
+  <div class="eyebrow" style="color:#fff">The tab problem</div>
+  <div class="headline" id="Ah"><span style="color:#fff">Five tabs.</span><span class="l2" style="color:var(--navy)">One sale.</span></div>
+  <div class="dot" style="width:120px;height:120px;background:var(--navy);right:90px;top:580px"></div>
+  <div class="dot" style="width:28px;height:28px;background:#fff;right:70px;top:700px"></div>
+  <div class="dot" style="width:24px;height:24px;background:#2FD3F0;left:60px;top:1470px"></div>
+  <div class="card browser" id="Ab">
+    <div class="tabs" id="Atabs">
+      <div class="tab"><span class="fav" style="background:#7C3AED">#</span>Slack<span class="badge">12</span></div>
+      <div class="tab"><span class="fav" style="background:#059669">☎</span>Softphone<span class="badge">1</span></div>
+      <div class="tab"><span class="fav" style="background:#16A34A">▦</span>spiffs.xlsx</div>
+      <div class="tab"><span class="fav" style="background:#2563EB">C</span>CRM<span class="badge">4</span></div>
+      <div class="tab"><span class="fav" style="background:#F59E0B">$</span>Payments</div>
+    </div>
+    <div class="pane" id="Apane"></div>
+  </div>
+</section>
+
+<!-- B — customer on hold (dark) -->
+<section class="scene bg-dark" id="B">
+  <div class="eyebrow" style="color:#7FE3F5">Meanwhile</div>
+  <div class="headline" style="font-size:100px"><span style="color:#fff">Every switch,</span><span class="l2" style="color:#7FE3F5">a customer waits.</span></div>
+  <div class="card hold" id="Bh">
+    <div style="display:flex;align-items:center;gap:18px;justify-content:center"><div class="avatar" style="background:#64748B">JK</div><div style="text-align:left"><div style="font-size:30px;font-weight:700">Jean Kirstein</div><div style="font-size:22px;color:var(--muted)">Customer · on hold</div></div></div>
+    <div class="t mono" id="Bt">0:38</div>
+    <div style="font-size:24px;color:var(--muted)">Agent is in another tab…</div>
+  </div>
+</section>
+
+<!-- C — logo -->
+<section class="scene bg-blue" id="C">
+  <div class="ring" id="Cr1" style="width:700px;height:700px;top:880px"></div>
+  <div class="ring" id="Cr2" style="width:1000px;height:1000px;top:880px"></div>
+  <div class="ring" id="Cr3" style="width:1320px;height:1320px;top:880px"></div>
+  <div class="dot" style="width:110px;height:110px;background:var(--navy);right:150px;top:640px"></div>
+  <div class="dot" style="width:22px;height:22px;background:#fff;right:120px;top:1000px"></div>
+  <div class="dot" style="width:18px;height:18px;background:#2FD3F0;left:120px;top:760px"></div>
+  <div class="logo" id="Clogo" style="top:820px;width:860px"><img src="assets/logo-reversed-white.png" alt=""></div>
+  <div class="lsub" id="Csub" style="top:990px;font-size:46px">Team chat, built in.</div>
+</section>
+
+<!-- D — chat -->
+<section class="scene bg-light" id="D">
+  <div class="eyebrow" style="color:var(--accent)">Team chat</div>
+  <div class="headline"><span style="color:var(--navy)">Your floor,</span><span class="l2" style="color:var(--accent)">in one place.</span></div>
+  <div class="card chat" id="Dchat"></div>
+</section>
+
+<!-- E — GIFs -->
+<section class="scene bg-light" id="E">
+  <div class="eyebrow" style="color:#DB2777">New · GIFs</div>
+  <div class="headline"><span style="color:var(--navy)">Celebrate</span><span class="l2" style="color:var(--accent)">every close.</span></div>
+  <div class="card chat" id="Echat"></div>
+  <svg class="cursor" id="Ecur" viewBox="0 0 24 24"><path d="M4 2l16 9.5-7 1.6L9.8 20z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</section>
+
+<!-- F — dialer -->
+<section class="scene bg-blue" id="F">
+  <div class="eyebrow" style="color:#fff">In the dialer</div>
+  <div class="headline"><span style="color:#fff">Chat without</span><span class="l2" style="color:var(--navy)">leaving the call.</span></div>
+  <div class="dot" style="width:110px;height:110px;background:var(--navy);right:90px;top:150px"></div>
+  <div class="card dialer" id="Fd">
+    <div class="callbar"><div class="avatar" style="background:#64748B;width:76px;height:76px">JK</div><div><div style="font-size:32px;font-weight:700">Jean Kirstein</div><div class="live"><i></i>On call · Mikasa Ackerman</div></div><div class="t mono" id="Ft">2:14</div></div>
+    <div class="dmsgs" id="Fm">
+      <div style="font-size:22px;color:var(--muted);font-weight:600;margin-bottom:18px">Levi Ackerman · Floor lead</div>
+      <div class="bubble in" id="Fb1">Offer the 3-month bundle. They asked about it last week.</div>
+      <div class="bubble out" id="Fb2"><span id="Fb2t"></span></div>
+    </div>
+    <div class="dnav">
+      <div><span class="pdot" id="Fpdot"></span><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Phone</div>
+      <div class="on"><span class="badge" id="Fbadge">1</span><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Messages</div>
+      <div><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Customer</div>
+      <div><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h6"/></svg>Scripts</div>
+    </div>
+  </div>
+</section>
+
+<!-- G — end card (ICP: call teams) -->
+<section class="scene bg-blue" id="G">
+  <div class="ring" id="Gr1" style="width:760px;height:760px;top:800px"></div>
+  <div class="ring" id="Gr2" style="width:1080px;height:1080px;top:800px"></div>
+  <div class="ring" id="Gr3" style="width:1400px;height:1400px;top:800px"></div>
+  <div class="dot" style="width:110px;height:110px;background:var(--navy);right:110px;top:560px"></div>
+  <div class="dot" style="width:22px;height:22px;background:#fff;left:120px;top:690px"></div>
+  <div class="logo" id="Glogo" style="top:700px;width:860px"><img src="assets/logo-reversed-white.png" alt=""></div>
+  <div class="lsub" id="Gt" style="top:870px;font-size:52px;font-weight:700">Built for call teams.</div>
+  <div class="lsub" id="Gs" style="top:950px;font-size:34px;font-weight:500;color:#D7F6FD">Chat, calls and sales on one screen.</div>
+  <div class="icons" id="Gi">
+    <div class="ic"><div class="sq"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>Team chat</div>
+    <div class="ic"><div class="sq"><span class="gt">GIF</span></div>GIFs</div>
+    <div class="ic"><div class="sq"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>Built-in dialer</div>
+    <div class="ic"><div class="sq"><svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></div>Live leaderboard</div>
+    <div class="ic"><div class="sq"><svg viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></div>AI call QA</div>
+  </div>
+  <div class="cta" id="Gcta">Book a demo</div>
+  <div class="url" id="Gurl">tryconexus.com</div>
+</section>
+
+<div id="cap"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const clamp = (x,a=0,b=1) => Math.min(b,Math.max(a,x));
+const easeOut = p => 1 - Math.pow(1-p,3);
+const easeInOut = p => p<.5 ? 4*p*p*p : 1-Math.pow(-2*p+2,3)/2;
+const backOut = p => { const c1=1.5, c3=c1+1; return 1 + c3*Math.pow(p-1,3) + c1*Math.pow(p-1,2); };
+const prog = (t,s,d) => clamp((t-s)/d);
+const SC = Object.fromEntries(TL.scenes.map(s => [s.id, s]));
+const LINE = Object.fromEntries(TL.lines.map(l => [l.id, l]));
+const WORDS = TL.captions.flatMap(c => c.words);
+const wt = (line, word) => { const w = WORDS.find(x => x.line === line && x.w.replace(/[^\w$']/g,'').toLowerCase().startsWith(word.toLowerCase())); if (!w) throw new Error(line+':'+word); return w.s; };
+
+function enter(el, t, start, dur=0.45, dy=50, scale=0){
+  const p = easeOut(prog(t,start,dur));
+  el.style.opacity = p;
+  const s = scale ? (1 - scale*(1-backOut(prog(t,start,dur)))) : 1;
+  el.style.transform = `translateY(${(1-p)*dy}px) scale(${s})`;
+}
+
+// ---- chat window markup (shared by D and E)
+const PEOPLE = {
+  LA:{name:'Levi Ackerman', c:'#334155'}, MA:{name:'Mikasa Ackerman', c:'#DC2626'},
+  AA:{name:'Armin Arlert', c:'#D97706'}, SB:{name:'Sasha Braus', c:'#7C3AED'}, CS:{name:'Connie Springer', c:'#059669'}
+};
+function av(k, cls='avatar'){ return `<div class="${cls}" style="background:${PEOPLE[k].c}">${k}</div>`; }
+function chatMarkup(prefix){
+  return `
+  <div class="rail">
+    <div class="ws">Conexus</div>
+    <div class="sec">Channels</div>
+    <div class="it on"># closers</div>
+    <div class="it"># floor-leads</div>
+    <div class="it"># wins<span class="badge" id="${prefix}wb">3</span></div>
+    <div class="sec">Direct messages</div>
+    <div class="it">${av('LA','avatar mini')}Levi A.</div>
+    <div class="it">${av('AA','avatar mini')}Armin A.<span class="badge">2</span></div>
+    <div class="it">${av('SB','avatar mini')}Sasha B.</div>
+  </div>
+  <div class="main">
+    <div class="chead"># closers <span class="meta">24 members</span><span class="meta" style="margin-left:auto" id="${prefix}pins">📌 0</span></div>
+    <div class="msgs"><div id="${prefix}msgs">
+      <div class="m" id="${prefix}m1">${av('LA')}<div><div class="who">Levi Ackerman <span>9:02 AM</span><span class="tag" id="${prefix}ptag">📌 Pinned</span></div><div class="tx"><span class="mention">@all</span> Double spiffs until 5 PM. Go get it.</div></div></div>
+      <div class="m" id="${prefix}m2">${av('MA')}<div><div class="who">Mikasa Ackerman <span>9:14 AM</span></div><div class="tx">Closed #10522, 3-month bundle 💪</div>
+        <div class="reacts" id="${prefix}rx"><span class="rx" id="${prefix}rx1">🔥 <b id="${prefix}rx1n">1</b></span><span class="rx" id="${prefix}rx2">👏 <b>2</b></span><span class="rx" id="${prefix}rx3">💰 <b>3</b></span></div></div></div>
+      <div class="m" id="${prefix}m3">${av('AA')}<div><div class="who">Armin Arlert <span>9:15 AM</span></div><div class="tx"><span class="mention">@Mikasa</span> that's 4 today 👀</div></div></div>
+      <div class="m gifmsg" id="${prefix}m4">${av('MA')}<div><div class="who">Mikasa Ackerman <span>9:31 AM</span></div><canvas id="${prefix}gif" width="800" height="500"></canvas>
+        <div class="reacts"><span class="rx" id="${prefix}g1">🎉 <b id="${prefix}g1n">1</b></span><span class="rx" id="${prefix}g2">🔥 <b id="${prefix}g2n">1</b></span></div></div></div>
+    </div></div>
+    <div class="typing" id="${prefix}typing">Sasha Braus is typing…</div>
+    <div class="composer">Message #closers<span class="gifbtn" id="${prefix}gifbtn">GIF</span></div>
+    <div class="picker" id="${prefix}picker" style="display:none">
+      <div class="search">🔍 <span id="${prefix}q"></span><span id="${prefix}caret" style="width:2px;height:30px;background:#0F172A;display:inline-block"></span></div>
+      <div class="grid">
+        <canvas width="508" height="252" data-k="sold"></canvas><canvas width="508" height="252" data-k="bell"></canvas>
+        <canvas width="508" height="252" data-k="money"></canvas><canvas width="508" height="252" data-k="letsgo"></canvas>
+        <canvas width="508" height="252" data-k="trophy"></canvas><canvas width="508" height="252" data-k="rocket"></canvas>
+      </div>
+    </div>
+  </div>`;
+}
+$('Dchat').innerHTML = chatMarkup('D');
+$('Echat').innerHTML = chatMarkup('E');
+
+// wrap scene content so backgrounds stay solid during the cut
+document.querySelectorAll('.scene').forEach(sec => {
+  const c = document.createElement('div'); c.className = 'content'; c.style.cssText = 'position:absolute;inset:0';
+  while (sec.firstChild) c.appendChild(sec.firstChild); sec.appendChild(c);
+});
+function sceneOpacity(id, t){
+  const s = SC[id]; const last = id === 'G';
+  if (t < s.s || (!last && t >= s.e + 0.3)) return 0;
+  return s.s === 0 ? 1 : easeOut(prog(t, s.s, 0.3));
+}
+function contentOpacity(id, t){ const s = SC[id]; if (id === 'G') return 1; return 1 - easeInOut(prog(t, s.e - 0.22, 0.22)); }
+
+let capKey = '';
+function renderCaption(t){
+  const c = TL.captions.find(c => t >= c.s - 0.05 && t < c.e);
+  const box = $('cap');
+  if (!c){ box.innerHTML = ''; capKey = ''; return; }
+  if (capKey !== c.s){ box.innerHTML = '<div class="pill">' + c.words.map(w => `<span class="w${w.em?' em':''}">${w.w}</span>`).join('') + '</div>'; capKey = c.s; }
+  const pill = box.firstChild; const pin = easeOut(prog(t, c.s - 0.05, 0.18));
+  pill.style.opacity = pin; pill.style.transform = `translateY(${(1-pin)*16}px) scale(${0.96+0.04*pin})`;
+  [...pill.children].forEach((el, i) => { const w = c.words[i]; const p = easeOut(prog(t, w.s - 0.04, 0.16)); el.style.opacity = 0.18 + 0.82*p; el.style.transform = `translateY(${(1-p)*8}px)`; });
+}
+
+const PANES = [
+  '<div style="display:flex;gap:16px;align-items:center;margin-bottom:26px"><div class="avatar" style="background:#7C3AED">#</div><div class="skel" style="width:300px;margin:0"></div></div><div class="skel" style="width:90%"></div><div class="skel" style="width:70%"></div><div class="skel" style="width:80%"></div><div class="skel" style="width:60%"></div>',
+  '<div style="font-size:90px;font-weight:600;text-align:center;margin-top:40px" class="mono">☎ 0:00</div><div class="skel" style="width:50%;margin:30px auto"></div>',
+  '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">' + Array.from({length:24},(_,i)=>`<div style="height:56px;background:${i%4===3&&i>8?'#FEE2E2':'#F1F5F9'};border-radius:6px"></div>`).join('') + '</div>',
+  '<div class="skel" style="width:40%;height:44px"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:18px"><div class="skel" style="height:160px"></div><div class="skel" style="height:160px"></div></div><div class="skel" style="width:85%"></div>',
+  '<div class="skel" style="width:55%;height:44px"></div><div class="skel" style="height:90px"></div><div class="skel" style="height:90px;width:70%"></div><div style="height:70px;width:280px;border-radius:14px;background:#F59E0B;margin-top:20px"></div>'
+];
+let paneIdx = -1;
+
+window.renderAt = function(t){
+  for (const id of ['A','B','C','D','E','F','G']){
+    const o = sceneOpacity(id, t); const el = $(id);
+    el.style.opacity = o; el.style.display = o > 0 ? 'block' : 'none';
+    el.querySelector('.content').style.opacity = contentOpacity(id, t);
+  }
+  renderCaption(t);
+  const A=SC.A.s, B=SC.B.s, C=SC.C.s, D=SC.D.s, E=SC.E.s, F=SC.F.s, G=SC.G.s;
+
+  // A — tabs pop in on each tool the narrator names; the active tab keeps flipping
+  enter($('Ah'), t, A+0.05, 0.5, 40); enter($('Ab'), t, A+0.2, 0.5, 60);
+  const tabT = [wt('l1','slack'), wt('l1','softphone'), wt('l1','spreadsheets'), wt('l1','crm'), wt('l1','crm')+0.35];
+  const tabs = [...$('Atabs').children];
+  let active = 0;
+  tabs.forEach((tb,i)=>{ const p = backOut(prog(t, tabT[i]-0.1, 0.35)); tb.style.opacity = clamp(p); tb.style.transform = `translateY(${(1-clamp(p))*30}px)`; if (t >= tabT[i]-0.1) active = i; });
+  if (t > tabT[4] + 0.2) active = Math.floor((t - tabT[4]) * 5) % 5;             // frantic switching
+  tabs.forEach((tb,i)=> tb.classList.toggle('on', i===active));
+  if (paneIdx !== active){ $('Apane').innerHTML = PANES[active]; paneIdx = active; }
+
+  // B — hold timer
+  enter($('Bh'), t, B+0.2, 0.45, 60, 0.05);
+  const secs = 38 + Math.floor(Math.max(0, t - B) * 4);
+  $('Bt').textContent = '0:' + String(Math.min(59, secs)).padStart(2,'0');
+  $('Bt').style.opacity = 0.75 + 0.25*Math.abs(Math.sin(t*4));
+
+  // C
+  const lp = easeInOut(prog(t, C+0.15, 0.8));
+  $('Clogo').style.clipPath = `inset(0 ${100-lp*100}% 0 0)`;
+  enter($('Csub'), t, wt('l3','team'), 0.45, 24);
+  ['Cr1','Cr2','Cr3'].forEach((r,i)=>{ const p = prog(t, C+0.1+i*0.15, 1.2); $(r).style.opacity = 0.9*easeOut(p); $(r).style.transform = `translate(-50%,-50%) scale(${0.85+0.15*easeOut(p)+0.02*Math.sin(t*2+i)})`; });
+
+  // D — messages land on "channels / mentions / real time"; pin + reactions on l5
+  enter($('Dchat'), t, D+0.25, 0.5, 60);
+  enter($('Dm1'), t, wt('l4','channels'), 0.35, 24);
+  enter($('Dm2'), t, wt('l4','mentions'), 0.35, 24);
+  enter($('Dm3'), t, wt('l4','real'), 0.35, 24);
+  $('Dm4').style.display = 'none';
+  const pinT = wt('l5','pin'), reactT = wt('l5','react');
+  $('Dptag').style.opacity = easeOut(prog(t, pinT, 0.3)); $('Dptag').style.transform = `scale(${0.6+0.4*backOut(prog(t,pinT,0.35))})`;
+  $('Dpins').textContent = t >= pinT ? '📌 1' : '📌 0';
+  $('Drx').style.opacity = easeOut(prog(t, reactT-0.1, 0.25));
+  const n = 1 + Math.min(3, Math.max(0, Math.floor((t - reactT) * 4)));
+  $('Drx1n').textContent = n; $('Drx1').style.transform = `scale(${t>reactT? 1 + 0.15*Math.max(0, Math.sin((t-reactT)*12))*Math.exp(-(t-reactT)*3) : 1})`;
+  $('Dtyping').style.opacity = t > wt('l4','real') + 0.5 ? 0.5 + 0.5*Math.abs(Math.sin(t*3)) : 0;
+  $('Dpicker').style.display = 'none';
+
+  // E — open GIF picker on "GIFs", type "sold", pick the SOLD! sticker on "close", it posts
+  enter($('Echat'), t, E+0.2, 0.01, 0);
+  $('Eptag').style.opacity = 1; $('Epins').textContent = '📌 1'; $('Erx').style.opacity = 1; $('Erx1n').textContent = '4';
+  $('Etyping').style.opacity = 0;
+  const gifT = wt('l6','gifs'), pickT = wt('l7','close'), postT = pickT + 0.45, celebT = wt('l7','celebration');
+  const cur = $('Ecur');
+  // cursor path: rest → GIF button → SOLD tile
+  const bx = 920, by = 1440, sx = 640, sy = 1035;
+  const p1 = easeInOut(prog(t, E+0.3, gifT - E - 0.35)), p2 = easeInOut(prog(t, gifT+0.6, pickT - gifT - 0.65));
+  let cx = 760 + (bx-760)*p1, cy = 1300 + (by-1300)*p1;
+  if (t > gifT+0.6){ cx = bx + (sx-bx)*p2; cy = by + (sy-by)*p2; }
+  cur.style.left = cx+'px'; cur.style.top = cy+'px';
+  cur.style.opacity = t < E+0.3 ? 0 : (t > postT+0.4 ? 1 - prog(t, postT+0.4, 0.3) : 1);
+  const clickPulse = (t>gifT && t<gifT+0.15) || (t>pickT && t<pickT+0.15);
+  cur.style.transform = `scale(${clickPulse?0.85:1})`;
+  $('Egifbtn').style.background = t>=gifT && t<postT ? '#DBEAFE' : 'transparent';
+  $('Egifbtn').style.color = t>=gifT && t<postT ? '#1D4ED8' : 'var(--slate)';
+  const picker = $('Epicker');
+  const open = t >= gifT && t < postT;
+  picker.style.display = open ? 'block' : 'none';
+  if (open){
+    const po = easeOut(prog(t, gifT, 0.25)), pc = 1 - easeOut(prog(t, postT-0.2, 0.2));
+    picker.style.opacity = Math.min(po, pc); picker.style.transform = `translateY(${(1-po)*30}px) scale(${0.95+0.05*po})`;
+    const q = 'sold'; const k = Math.floor(clamp((t - gifT - 0.3)/0.45) * q.length);
+    $('Eq').textContent = q.slice(0, k); $('Ecaret').style.opacity = Math.floor(t*4)%2 ? 1 : 0;
+    picker.querySelectorAll('canvas').forEach((cv,i)=>{ drawGif(cv, cv.dataset.k, t + i*0.37); cv.style.outline = (i===0 && t>pickT-0.2) ? '5px solid #2563EB' : 'none'; });
+  }
+  // after posting: scroll the list up so the GIF message is fully visible
+  const posted = t >= postT;
+  $('Em4').style.display = posted ? 'flex' : 'none';
+  if (posted){
+    const pp = easeOut(prog(t, postT, 0.45));
+    $('Em4').style.opacity = pp; $('Em4').style.transform = `translateY(${(1-pp)*40}px)`;
+    $('Emsgs').style.transform = `translateY(${-205*pp}px)`;
+    drawGif($('Egif'), 'sold', t - postT);
+    const g = Math.max(0, t - celebT);
+    $('Eg1n').textContent = 1 + Math.min(5, Math.floor(g*6)); $('Eg2n').textContent = 1 + Math.min(3, Math.floor(g*4));
+    $('Eg1').style.opacity = easeOut(prog(t, celebT-0.2, 0.25)); $('Eg2').style.opacity = easeOut(prog(t, celebT, 0.25));
+  } else { $('Emsgs').style.transform = 'none'; }
+
+  // F — dialer: call keeps running, message arrives, agent replies
+  enter($('Fd'), t, F+0.25, 0.5, 60);
+  const ft = 134 + Math.floor(Math.max(0, t - F));
+  $('Ft').textContent = Math.floor(ft/60) + ':' + String(ft%60).padStart(2,'0');
+  $('Fpdot').style.transform = `scale(${1 + 0.2*Math.abs(Math.sin(t*3))})`;
+  enter($('Fb1'), t, wt('l8','message'), 0.35, 20);
+  const typeS = wt('l8','floor') + 0.2, reply = 'On it 👍 adding it now';
+  const chars = [...reply]; const kk = Math.floor(clamp((t - typeS)/0.9) * chars.length);
+  $('Fb2t').textContent = chars.slice(0,kk).join('');
+  $('Fb2').style.opacity = t >= typeS ? 1 : 0;
+  $('Fbadge').style.opacity = t < wt('l8','message') + 0.2 ? 1 : 0;
+
+  // G
+  const gp = easeInOut(prog(t, G+0.2, 0.8));
+  $('Glogo').style.clipPath = `inset(0 ${100-gp*100}% 0 0)`;
+  ['Gr1','Gr2','Gr3'].forEach((r,i)=>{ const p = prog(t, G+0.1+i*0.15, 1.2); $(r).style.opacity = 0.9*easeOut(p); $(r).style.transform = `translate(-50%,-50%) scale(${0.85+0.15*easeOut(p)+0.02*Math.sin(t*2+i)})`; });
+  enter($('Gt'), t, wt('l9','built'), 0.45, 24);
+  enter($('Gs'), t, wt('l9','built')+0.5, 0.45, 24);
+  [...$('Gi').children].forEach((c,i)=> enter(c, t, wt('l9','teams')+0.1+i*0.1, 0.4, 30));
+  const bk = wt('l10','book'); const cp = easeOut(prog(t, bk, 0.45));
+  $('Gcta').style.opacity = cp; $('Gcta').style.transform = `translateX(-50%) scale(${0.85 + 0.15*backOut(prog(t,bk,0.45))})`;
+  enter($('Gurl'), t, wt('l10','tryconexus'), 0.4, 16);
+};
+window.renderAt(0);
+</script>
+</body>
+</html>

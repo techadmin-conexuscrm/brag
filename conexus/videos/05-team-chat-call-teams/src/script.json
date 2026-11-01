@@ -1,0 +1,115 @@
+{
+  "voice": "af_heart",
+  "speed": 1.0,
+  "icp": "Call teams",
+  "lines": [
+    {
+      "id": "l1",
+      "scene": "A",
+      "text": "Your agents bounce between Slack, a softphone, spreadsheets and the CRM.",
+      "say": "Your agents bounce between Slack, a softphone, spreadsheets, and the CRM.",
+      "emph": [
+        "Slack,",
+        "CRM."
+      ],
+      "gap": 0.3
+    },
+    {
+      "id": "l2",
+      "scene": "B",
+      "text": "Every switch is a customer on hold.",
+      "say": "Every switch is a customer on hold.",
+      "emph": [
+        "switch",
+        "hold."
+      ],
+      "gap": 0.35
+    },
+    {
+      "id": "l3",
+      "scene": "C",
+      "text": "Conexus puts your team chat inside the CRM.",
+      "say": "Conexus puts your team chat inside the CRM.",
+      "emph": [
+        "Conexus",
+        "inside"
+      ],
+      "gap": 0.35
+    },
+    {
+      "id": "l4",
+      "scene": "D",
+      "text": "Channels, DMs and mentions, all in real time.",
+      "say": "Channels, D Ms, and mentions, all in real time.",
+      "emph": [
+        "mentions,",
+        "time."
+      ],
+      "gap": 0.15
+    },
+    {
+      "id": "l5",
+      "scene": "D",
+      "text": "Pin the plays that matter. React in a click.",
+      "say": "Pin the plays that matter. React in a click.",
+      "emph": [
+        "Pin",
+        "click."
+      ],
+      "gap": 0.35
+    },
+    {
+      "id": "l6",
+      "scene": "E",
+      "text": "And now, GIFs.",
+      "say": "And now, gifs.",
+      "emph": [
+        "GIFs."
+      ],
+      "gap": 0.15
+    },
+    {
+      "id": "l7",
+      "scene": "E",
+      "text": "Because every close deserves a celebration.",
+      "say": "Because every close deserves a celebration.",
+      "emph": [
+        "close",
+        "celebration."
+      ],
+      "gap": 0.8
+    },
+    {
+      "id": "l8",
+      "scene": "F",
+      "text": "Agents can message the floor without ever leaving the call.",
+      "say": "Agents can message the floor, without ever leaving the call.",
+      "emph": [
+        "without",
+        "call."
+      ],
+      "gap": 0.4
+    },
+    {
+      "id": "l9",
+      "scene": "G",
+      "text": "Conexus. Built for call teams.",
+      "say": "Conexus. Built for call teams.",
+      "emph": [
+        "Conexus.",
+        "teams."
+      ],
+      "gap": 0.15
+    },
+    {
+      "id": "l10",
+      "scene": "G",
+      "text": "Book a demo at tryconexus.com",
+      "say": "Book a demo at try conexus dot com.",
+      "emph": [
+        "tryconexus.com"
+      ],
+      "gap": 1.2
+    }
+  ]
+}
