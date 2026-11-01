@@ -37,4 +37,4 @@ ffmpeg -framerate 30 -i brag-output/work/frames/f%04d.png -i brag-output/work/mi
 | F | Every dollar lands on the ledger. Payday math. Done. | "Payday math, done." Ledger rows → Balance owed $175.00 |
 | G | Conexus. Built for sales team leaders. Book a demo at tryconexus.com | Logo, ICP line, feature icons, Book a demo |
 
-All names, orders and amounts are fictional. Claims come from `../FEATURES.md`.
+People are anime characters (see `../../brand/CLAIMS.md` → Demo data); orders and amounts are made up. Claims come from `../FEATURES.md`.

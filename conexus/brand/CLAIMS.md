@@ -32,3 +32,16 @@ No savings or revenue figures go on screen unless they are either:
 ## Product features
 
 See `conexus/videos/FEATURES.md` (verified against the FE and BE code).
+
+## Demo data in videos (decision: Eric, 2026-11-01)
+
+- People and companies shown in product UI use **anime character names** (names only — never
+  character artwork, logos or likenesses).
+- Each ad gets its own cast; don't reuse the reference promo's cast (Dragon Ball, Naruto, Bleach,
+  One Piece, Solo Leveling, Black Clover, Shikamaru, etc.).
+- Never real customer, agent or user data. Order numbers and amounts are made up and must add up
+  on screen.
+
+| Video | Cast |
+|---|---|
+| 04 spiffs (v2) | Demon Slayer (Tanjiro Kamado — main, Zenitsu, Inosuke, Nezuko, Giyu), Satoru Gojo, Katsuki Bakugo, Anya Forger, Shoyo Hinata |
