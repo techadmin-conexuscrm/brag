@@ -45,3 +45,4 @@ See `conexus/videos/FEATURES.md` (verified against the FE and BE code).
 | Video | Cast |
 |---|---|
 | 04 spiffs (v2) | Demon Slayer (Tanjiro Kamado — main, Zenitsu, Inosuke, Nezuko, Giyu), Satoru Gojo, Katsuki Bakugo, Anya Forger, Shoyo Hinata |
+| 05 team chat | Attack on Titan: Mikasa Ackerman (main agent), Levi Ackerman (floor lead), Armin Arlert, Sasha Braus, Connie Springer; customer Jean Kirstein |

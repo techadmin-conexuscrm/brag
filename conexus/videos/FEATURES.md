@@ -14,6 +14,8 @@ frontend `ConexusCRM-FE` (master). Only claims in the **Safe to say** column go 
 | Supervisor tools | ✅ (whisper/barge need dialer add-on) | "Listen, whisper or barge into live calls." "Live wallboard and agent activity log." | — |
 | Calling-hours protection | ✅ (strict on dialer orgs) | "Calls are blocked outside 8am–9pm in the customer's local time, max 3 attempts per day, blocked numbers never dialed — enforced by the server." | National DNC registry scrubbing · "TCPA compliant" |
 | Team chat | ✅ | "Built-in team chat — channels, DMs, @mentions, reactions, pins, file sharing — inside the CRM and the dialer." | "Replaces Slack" as a hard claim (fine as a tone line: "no more switching to Slack") |
+| Team chat in the dialer | ✅ (dialer add-on) | "Message the floor without leaving the call." The dialer's Messages tab works during a live call (`DialerNav.tsx`). | — |
+| GIFs in team chat | ⏳ shipping week of 2026-11-02 (not in code yet) | Only once live in production. | Anything about GIFs before it ships |
 | Customer SMS | ❌ | — | Any texting customers |
 | Conexus Sheets / Docs | ❌ not in code | — | Shared spreadsheets / docs / co-editing |
 | Email customers | ⚠️ automated only | "Automatic emails on order events (completed, tracking, payment link, refund, failed payment), logged on the customer timeline." | Writing a one-off email from the CRM |
