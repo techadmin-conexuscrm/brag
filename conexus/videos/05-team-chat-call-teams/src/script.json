@@ -93,10 +93,10 @@
     {
       "id": "l9",
       "scene": "G",
-      "text": "Conexus. Built for call teams.",
-      "say": "Conexus. Built for call teams.",
+      "text": "Meet Conexus, the CRM built for call teams.",
+      "say": "Meet Conexus, the CRM built for call teams.",
       "emph": [
-        "Conexus.",
+        "Conexus,",
         "teams."
       ],
       "gap": 0.15
