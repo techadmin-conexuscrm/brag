@@ -1,0 +1,12 @@
+{
+  "voice": "af_heart",
+  "speed": 1.0,
+  "cast": "Frieren: Beyond Journey's End: Fern (new-hire agent, main), Himmel (admin); customer Heiter",
+  "lines": [
+    {"id": "l1", "scene": "A", "text": "It's Fern's first day, and she can just ask Nexa.", "say": "It's Fern's first day, and she can just ask Nexa.", "emph": ["first", "Nexa."], "gap": 0.15},
+    {"id": "l2", "scene": "A", "text": "Nexa answers from your own docs, and looks up the orders she's allowed to see.", "say": "Nexa answers from your own docs, and looks up the orders she's allowed to see.", "emph": ["docs,", "allowed"], "gap": 0.35},
+    {"id": "l3", "scene": "B", "text": "Upload a Word or PDF script, and every call fills in the customer's details.", "say": "Upload a Word or PDF script, and every call fills in the customer's details.", "emph": ["Word", "details."], "gap": 0.35},
+    {"id": "l4", "scene": "C", "text": "Publish a new version, or roll back to an old one in one click.", "say": "Publish a new version, or roll back to an old one in one click.", "emph": ["Publish", "back"], "gap": 0.6}
+  ],
+  "sfx": []
+}

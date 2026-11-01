@@ -1,0 +1,364 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/base.css">
+<script src="out/timeline.js"></script>
+<style>
+  svg.i{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+  /* A — the dialer window */
+  .dwin{left:56px;right:56px;top:650px;height:830px;overflow:hidden;display:flex;flex-direction:column}
+  .dhead{height:92px;flex:none;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:18px;padding:0 28px}
+  .dhead img{height:34px;display:block}
+  .dhead .role{font-size:22px;color:var(--muted);font-weight:500}
+  .ready{margin-left:auto;display:flex;align-items:center;gap:14px;font-size:24px;font-weight:700;color:var(--success)}
+  .sw{width:66px;height:38px;border-radius:999px;background:var(--success);position:relative}
+  .sw::after{content:"";position:absolute;right:4px;top:4px;width:30px;height:30px;border-radius:50%;background:#fff}
+  .dbody{flex:1;display:flex;min-height:0}
+  .rail{width:132px;flex:none;border-right:1px solid var(--border);padding:16px 12px;display:flex;flex-direction:column;gap:8px;background:#FBFCFE}
+  .rail .it{height:96px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-size:21px;font-weight:600;color:var(--muted);position:relative}
+  .rail .it.on{background:var(--blue-soft);color:var(--blue)}
+  .rail .pdot{position:absolute;left:68px;top:16px;width:16px;height:16px;border-radius:50%;background:var(--success);border:3px solid #fff}
+  .rail .badge{position:absolute;left:70px;top:8px;min-width:30px;height:30px;font-size:17px;padding:0 7px}
+  .dmain{flex:1;padding:26px 28px;position:relative;min-width:0}
+
+  .cust{border:1px solid var(--border);border-radius:18px;padding:22px 24px;display:flex;align-items:center;gap:20px}
+  .cust .nm{font-size:34px;font-weight:700;line-height:1.15}
+  .cust .ph{font-size:24px;color:var(--muted)}
+  .cust .meta{font-size:22px;color:var(--muted);margin-top:2px}
+  .dialbtn{margin-left:auto;height:68px;padding:0 26px;gap:12px;font-size:26px;border-radius:14px;white-space:nowrap}
+  .dialbtn svg.i{width:28px;height:28px}
+
+  .acall{margin-top:22px;border:1px solid var(--border);border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 10px 30px rgba(15,23,42,.10)}
+  .acall .stripe{height:8px;background:#7C3AED}
+  .acall .top{display:flex;align-items:flex-start;padding:22px 24px 6px}
+  .cchip{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 14px;border-radius:999px;font-size:21px;font-weight:700;border:1.5px solid #DDD6FE;background:#F5F3FF;color:#6D28D9}
+  .cchip i{width:10px;height:10px;border-radius:50%;background:#7C3AED;display:block}
+  .dchip{display:inline-flex;align-items:center;height:38px;padding:0 14px;border-radius:999px;font-size:21px;font-weight:700;background:var(--blue-soft);color:var(--blue)}
+  .acall .nm{font-size:38px;font-weight:700;margin-top:10px;line-height:1.15}
+  .acall .ph{font-size:24px;color:var(--muted)}
+  .acall .tmr{margin-left:auto;text-align:right}
+  .acall .tmr .c{font-size:52px;font-weight:600;line-height:1.1}
+  .acall .tmr .s{font-size:22px;color:var(--muted)}
+  .ctls{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px 24px 24px}
+  .ctl{height:100px;border:1.5px solid var(--border);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-size:22px;font-weight:600;color:var(--slate)}
+  .ctl.end{background:var(--danger);border-color:var(--danger);color:#fff}
+  .tags{display:flex;gap:14px;margin-top:20px}
+  .stage{position:relative;margin-top:22px;height:418px}
+  .stage .acall{position:absolute;left:0;right:0;top:0;margin-top:0}
+  .q .qh{font-size:20px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin:6px 0 10px}
+  .q .r{display:flex;align-items:center;gap:16px;height:92px;border-bottom:1px solid var(--border);font-size:26px;font-weight:600}
+  .q .r .avatar{width:56px;height:56px;font-size:21px}
+  .q .r .s{margin-left:auto;font-size:22px;font-weight:500;color:var(--muted)}
+  .tag{display:inline-flex;align-items:center;gap:10px;height:56px;padding:0 22px;border-radius:999px;font-size:24px;font-weight:700}
+  .tag.lock{background:var(--success-soft);color:var(--success)}
+  .tag.rec{background:var(--danger-soft);color:var(--danger)}
+  .tag.rec b{width:14px;height:14px;border-radius:50%;background:var(--danger);display:block}
+  .tag svg.i{width:26px;height:26px}
+
+  /* B — inbound */
+  .flow{position:absolute;left:56px;right:56px;top:640px;display:flex;align-items:center;gap:12px}
+  .node{flex:1;background:#fff;border-radius:18px;box-shadow:0 8px 24px rgba(15,23,42,.10);padding:14px 18px;display:flex;align-items:center;gap:12px;min-width:0}
+  .node .k{font-size:19px;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+  .node .v{font-size:24px;font-weight:700;color:var(--navy);white-space:nowrap}
+  .node .ico{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;flex:none}
+  .arrow{color:var(--accent);font-size:34px;font-weight:800;flex:none}
+  .inc{left:56px;right:56px;top:820px;border:3px solid rgba(47,140,244,.45);overflow:hidden}
+  .inc .bar{height:8px;background:var(--accent)}
+  .inc .pad{padding:26px 30px 28px}
+  .inc .row1{display:flex;align-items:center;gap:14px}
+  .inc .lbl{font-size:21px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .inc .rng{margin-left:auto;font-size:22px;color:var(--muted)}
+  .inc .route{font-size:23px;color:var(--muted);margin-top:12px}
+  .inc .nm{font-size:46px;font-weight:700;margin-top:10px;line-height:1.15}
+  .inc .ph{font-size:24px;color:var(--muted)}
+  .inc .last{font-size:22px;color:var(--muted);margin-top:6px}
+  .inc .btns{display:flex;justify-content:flex-end;gap:14px;margin-top:20px}
+  .inc .btn{height:66px;gap:10px}
+  .inc .btn svg.i{width:26px;height:26px}
+  .btn.ans{background:var(--success)}
+  .vm{left:56px;right:56px;top:1290px;height:200px;display:flex;align-items:center;gap:24px;padding:0 30px}
+  .vm .clock{width:96px;height:96px;border-radius:24px;background:var(--warning-soft);color:var(--warning);display:flex;align-items:center;justify-content:center;flex:none}
+  .vm .clock svg.i{width:50px;height:50px}
+  .vm .t1{font-size:30px;font-weight:700;color:var(--navy)}
+  .vm .t2{font-size:22px;color:var(--muted);margin-top:2px}
+  .vm .chip{margin-left:auto;font-size:24px;padding:10px 20px}
+
+  /* C — transfer */
+  .xfer{left:56px;right:56px;top:640px;padding:28px 30px;overflow:hidden}
+  .xfer h3{font-size:34px;font-weight:700;color:var(--ink)}
+  .tabs{display:flex;background:#F1F5F9;border:1px solid var(--border);border-radius:14px;padding:4px;margin-top:16px}
+  .tabs div{flex:1;height:54px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:23px;font-weight:600;color:var(--muted)}
+  .tabs .on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(15,23,42,.12)}
+  .xfer .hint{font-size:22px;color:var(--muted);margin-top:12px}
+  .glabel{font-size:19px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin:18px 0 6px}
+  .opt{display:flex;align-items:center;gap:14px;height:66px;padding:0 16px;border-radius:12px;font-size:25px;font-weight:600;color:var(--ink)}
+  .opt .d{margin-left:auto;font-size:22px;font-weight:500;color:var(--muted);display:flex;align-items:center;gap:8px}
+  .opt .d i{width:12px;height:12px;border-radius:50%;display:block}
+  .opt svg.i{width:26px;height:26px;color:var(--muted)}
+  .opt.sel{background:var(--blue-soft);box-shadow:inset 0 0 0 2px rgba(37,99,235,.35)}
+  .nlabel{font-size:23px;font-weight:600;margin-top:16px} .nlabel span{font-weight:400;color:var(--muted)}
+  .ta{margin-top:8px;border:1.5px solid var(--border);border-radius:12px;height:96px;padding:14px 16px;font-size:25px;color:var(--ink);line-height:1.3}
+  .ta .car{display:inline-block;width:2px;height:28px;background:var(--blue);vertical-align:-5px;margin-left:2px}
+  .ta .ph{color:#94A3B8}
+  .xfoot{display:flex;justify-content:flex-end;gap:14px;margin-top:18px}
+  .xfoot .btn{height:62px;font-size:24px}
+  .shoto{left:56px;right:56px;top:700px;border:3px solid rgba(47,140,244,.45);overflow:hidden}
+  .shoto .bar{height:8px;background:var(--accent)}
+  .shoto .pad{padding:22px 28px 24px}
+  .shoto .who{position:absolute;right:30px;top:34px;display:flex;align-items:center;gap:10px;font-size:21px;font-weight:600;color:var(--muted)}
+  .shoto .who .avatar{width:44px;height:44px;font-size:17px}
+  .shoto .nm{font-size:46px;font-weight:700;margin-top:10px;line-height:1.15}
+  .shoto .ph{font-size:24px;color:var(--muted)}
+  .shoto .lbl{font-size:21px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .shoto .pad{padding:26px 30px 28px}
+  .shoto .tnote{margin-top:18px}
+  .sbtns{display:flex;justify-content:flex-end;align-items:center;gap:14px;margin-top:22px}
+  .sbtns .rg{margin-right:auto;font-size:22px;color:var(--muted)}
+  .sbtns .btn{height:66px;gap:10px} .sbtns .btn svg.i{width:26px;height:26px}
+  .wrap{left:56px;right:56px;top:1160px;height:130px;display:flex;align-items:center;gap:20px;padding:0 30px}
+  .tnote{margin-top:14px;border:1.5px solid #BFDBFE;background:var(--blue-soft);border-radius:14px;padding:14px 18px}
+  .tnote .h{display:flex;align-items:center;gap:10px;font-size:23px;font-weight:700;color:var(--blue)}
+  .tnote .h svg.i{width:24px;height:24px}
+  .tnote .b{font-size:25px;color:var(--ink);margin-top:4px}
+</style>
+</head>
+<body>
+<!-- A — click-to-call -->
+<section class="scene bg-blue" id="A">
+  <div class="chtag light">02 · Built-in dialer</div>
+  <div class="eyebrow" style="color:#fff">Click to call</div>
+  <div class="headline" id="Ah"><span style="color:#fff">Dial from</span><span class="l2" style="color:var(--navy)">the browser.</span></div>
+  <div class="dot" style="width:110px;height:110px;background:var(--navy);right:90px;top:200px"></div>
+  <div class="card dwin" id="Aw">
+    <div class="dhead">
+      <img src="../../shared/assets/logo-full-color.png" alt="">
+      <span class="role">Agent · Izuku Midoriya</span>
+      <span class="ready">Ready <span class="sw"></span></span>
+    </div>
+    <div class="dbody">
+      <div class="rail">
+        <div class="it on"><span data-ic="phone"></span>Phone<span class="pdot" id="Apdot"></span></div>
+        <div class="it"><span data-ic="msg"></span>Messages<span class="badge">2</span></div>
+        <div class="it"><span data-ic="user"></span>Customer</div>
+        <div class="it"><span data-ic="history"></span>History</div>
+      </div>
+      <div class="dmain">
+        <div class="cust" id="Acust">
+          <div class="avatar" style="background:#DC2626;width:76px;height:76px;font-size:28px">EK</div>
+          <div style="min-width:0">
+            <div class="nm">Eijiro Kirishima</div>
+            <div class="ph mono">(312) 555-0148</div>
+          </div>
+          <div class="btn dialbtn" id="Adial"><span data-ic="phone"></span><span id="Adialt">Dial Now</span></div>
+        </div>
+        <div class="stage">
+        <div class="q" id="Aq">
+          <div class="qh">Recent calls</div>
+          <div class="r"><div class="avatar" style="background:#7C3AED">MY</div>Momo Yaoyorozu<span class="s">Inbound · 9:12 AM</span></div>
+          <div class="r"><div class="avatar" style="background:#CA8A04">DK</div>Denki Kaminari<span class="s">Outbound · 9:40 AM</span></div>
+        </div>
+        <div class="acall" id="Acall">
+          <div class="stripe"></div>
+          <div class="top">
+            <div style="min-width:0">
+              <div style="display:flex;gap:10px"><span class="cchip"><i></i>U.A. Supply</span><span class="dchip">Outbound</span></div>
+              <div class="nm">Eijiro Kirishima</div>
+              <div class="ph mono">(312) 555-0148</div>
+            </div>
+            <div class="tmr"><div class="c mono" id="Atmr">--:--</div><div class="s" id="Atmrs">Connecting…</div></div>
+          </div>
+          <div class="ctls">
+            <div class="ctl"><span data-ic="mic"></span>Mute</div>
+            <div class="ctl"><span data-ic="pause"></span>Hold</div>
+            <div class="ctl"><span data-ic="grid"></span>Keypad</div>
+            <div class="ctl"><span data-ic="xfer"></span>Transfer</div>
+            <div class="ctl"><span data-ic="card"></span>Take payment</div>
+            <div class="ctl end"><span data-ic="hang"></span>End call</div>
+          </div>
+        </div>
+        </div>
+        <div class="tags">
+          <span class="tag lock" id="Atag1"><span data-ic="lock"></span>Encrypted call</span>
+          <span class="tag rec" id="Atag2"><b id="Arecdot"></b>Recording</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <svg class="cursor" id="Acur" viewBox="0 0 24 24"><path d="M4 2l16 9.5-7 1.6L9.8 20z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</section>
+
+<!-- B — inbound: IVR, queue, business hours, voicemail -->
+<section class="scene bg-light" id="B">
+  <div class="eyebrow" style="color:var(--accent)">Inbound</div>
+  <div class="headline sm" id="Bh"><span style="color:var(--navy)">IVR, queues,</span><span class="l2" style="color:var(--accent)">voicemail.</span></div>
+  <div class="flow">
+    <div class="node" id="Bn1"><div class="ico" style="background:var(--navy)"><span data-ic="phone"></span></div><div><div class="k">Line</div><div class="v mono">(800) 555-0199</div></div></div>
+    <div class="arrow" id="Ba1">›</div>
+    <div class="node" id="Bn2"><div class="ico" style="background:#7C3AED"><span data-ic="grid"></span></div><div><div class="k">IVR</div><div class="v">1 · Sales</div></div></div>
+    <div class="arrow" id="Ba2">›</div>
+    <div class="node" id="Bn3"><div class="ico" style="background:var(--success)"><span data-ic="users"></span></div><div><div class="k">Queue</div><div class="v">Sales</div></div></div>
+  </div>
+  <div class="card inc" id="Binc">
+    <div class="bar" id="Bbar"></div>
+    <div class="pad">
+      <div class="row1"><span class="lbl" id="Blbl">Incoming call</span><span class="cchip"><i></i>U.A. Supply</span><span class="rng mono" id="Bring">ringing 1s</span></div>
+      <div class="route">From the Sales queue · Line <span class="mono">(800) 555-0199</span></div>
+      <div class="nm">Momo Yaoyorozu</div>
+      <div class="ph mono">(646) 555-0172</div>
+      <div class="last">Last order Oct 28, 2:14 PM · completed · <span class="mono">$89.00</span></div>
+      <div class="btns" id="Bbtns">
+        <div class="btn ghost"><span data-ic="hang"></span>Decline</div>
+        <div class="btn ans" id="Bans"><span data-ic="phone"></span>Answer</div>
+      </div>
+      <div class="btns" id="Bconn" style="justify-content:space-between;align-items:center">
+        <span class="chip ok" style="font-size:24px;padding:10px 20px">Connected · Recording</span>
+        <span class="mono" style="font-size:44px;font-weight:600" id="Btmr">00:01</span>
+      </div>
+    </div>
+  </div>
+  <div class="card vm" id="Bvm">
+    <div class="clock"><span data-ic="clock"></span></div>
+    <div><div class="t1">Business hours</div><div class="t2">Mon–Fri · 9:00 AM – 6:00 PM</div></div>
+    <span class="chip warn" id="Bvmchip"><span data-ic="vm"></span>Closed · to voicemail</span>
+  </div>
+  <svg class="cursor" id="Bcur" viewBox="0 0 24 24"><path d="M4 2l16 9.5-7 1.6L9.8 20z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</section>
+
+<!-- C — transfer with a note -->
+<section class="scene bg-blue" id="C">
+  <div class="eyebrow" style="color:#fff">Transfers</div>
+  <div class="headline" id="Ch"><span style="color:#fff">Hand off</span><span class="l2" style="color:var(--navy)">with context.</span></div>
+  <div class="dot" style="width:110px;height:110px;background:var(--navy);right:90px;top:200px"></div>
+  <div class="card xfer" id="Cx">
+    <h3>Transfer Eijiro Kirishima</h3>
+    <div class="tabs"><div class="on">Transfer</div><div>Add to call</div></div>
+    <div class="hint">The caller goes straight to them and you move to wrap-up.</div>
+    <div class="glabel">Teams and people</div>
+    <div class="opt"><span data-ic="user"></span>Tenya Iida<span class="d"><i style="background:var(--success)"></i>Online · 1001</span></div>
+    <div class="opt" id="Cshoto"><span data-ic="user"></span>Shoto Todoroki<span class="d"><i style="background:var(--success)"></i>Online · 1042</span></div>
+    <div class="opt"><span data-ic="user"></span>Ochaco Uraraka<span class="d"><i style="background:#CBD5E1"></i>Offline · 1018</span></div>
+    <div class="opt"><span data-ic="users"></span>Sales<span class="d">Queue</span></div>
+    <div class="nlabel">Note for Shoto Todoroki <span>(optional)</span></div>
+    <div class="ta" id="Cta"></div>
+    <div class="xfoot"><div class="btn ghost">Cancel</div><div class="btn" id="Cgo">Transfer to Shoto Todoroki</div></div>
+  </div>
+  <div class="card shoto" id="Cs">
+    <div class="bar" id="Csbar"></div>
+    <div class="pad">
+      <div class="who"><div class="avatar" style="background:#0EA5E9">ST</div>Shoto's dialer</div>
+      <div style="display:flex;align-items:center;gap:14px"><span class="lbl">Incoming call</span><span class="cchip"><i></i>U.A. Supply</span></div>
+      <div class="nm">Eijiro Kirishima</div>
+      <div class="ph mono">(312) 555-0148</div>
+      <div class="tnote" id="Cnote">
+        <div class="h"><span data-ic="share"></span>Transferred by Izuku Midoriya</div>
+        <div class="b">Wants express shipping on order <span class="mono">#20452</span>.</div>
+      </div>
+      <div class="sbtns"><span class="rg mono" id="Csring">ringing 1s</span><div class="btn ghost"><span data-ic="hang"></span>Decline</div><div class="btn ans"><span data-ic="phone"></span>Answer</div></div>
+    </div>
+  </div>
+  <div class="card wrap" id="Cw">
+    <div class="avatar" style="background:#16A34A;width:64px;height:64px">IM</div>
+    <div><div style="font-size:28px;font-weight:700">Izuku Midoriya</div><div style="font-size:22px;color:var(--muted)">Call handed to Shoto Todoroki</div></div>
+    <span class="chip warn" style="margin-left:auto;font-size:24px;padding:8px 20px">Wrap-up</span>
+  </div>
+  <svg class="cursor" id="Ccur" viewBox="0 0 24 24"><path d="M4 2l16 9.5-7 1.6L9.8 20z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</section>
+
+<div id="cap"></div>
+<script src="../../shared/runtime.js"></script>
+<script>
+// lucide-style line icons (the dialer uses lucide-react)
+const P = d => `<svg class="i" viewBox="0 0 24 24">${d}</svg>`;
+const PHONE = '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>';
+const IC = {
+  phone: P(PHONE),
+  hang: P(`<g transform="rotate(135 12 12)">${PHONE}</g>`),
+  msg: P('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'),
+  user: P('<circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/>'),
+  users: P('<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>'),
+  history: P('<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/>'),
+  mic: P('<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/>'),
+  pause: P('<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>'),
+  grid: P('<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/>'),
+  xfer: P('<path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/>'),
+  card: P('<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>'),
+  lock: P('<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>'),
+  clock: P('<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>'),
+  vm: P('<circle cx="6" cy="12" r="4"/><circle cx="18" cy="12" r="4"/><path d="M6 16h12"/>'),
+  share: P('<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"/>'),
+};
+document.querySelectorAll('[data-ic]').forEach(el => { el.outerHTML = IC[el.dataset.ic]; });
+
+const clk = s => { s = Math.max(0, Math.floor(s)); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
+const NOTE = 'Wants express shipping on order #20452.';
+
+window.renderChapter = function (t) {
+  const A = SC.A.s, B = SC.B.s, C = SC.C.s;
+
+  // ---- A: click-to-call
+  enter($('Ah'), t, A + 0.05, 0.5, 40);
+  enter($('Aw'), t, A + 0.2, 0.55, 80);
+  const tClick = wt('l1', 'one') + 0.05;
+  cursor($('Acur'), t, [[A + 0.9, 760, 1500], [tClick - 0.35, 850, 812], [tClick + 0.6, 850, 812], [tClick + 1.4, 1000, 1560]], [tClick]);
+  $('Acur').style.opacity = Math.min(+$('Acur').style.opacity, 1 - prog(t, tClick + 1.0, 0.4));
+  const tConn = tClick + 0.9;                      // call connects
+  $('Adialt').textContent = t < tClick ? 'Dial Now' : t < tConn ? 'Calling…' : 'On call';
+  $('Adial').style.background = t < tConn ? 'var(--blue)' : 'var(--success)';
+  enter($('Acall'), t, tClick + 0.25, 0.45, 60, 0.06);
+  $('Aq').style.opacity = 1 - prog(t, tClick + 0.25, 0.3);
+  $('Atmr').textContent = t < tConn ? '--:--' : clk(t - tConn + 1);
+  $('Atmrs').textContent = t < tConn ? 'Connecting…' : 'Connected';
+  $('Apdot').style.opacity = t >= tClick + 0.25 ? 1 : 0;
+  enter($('Atag1'), t, wt('l2', 'encrypted') - 0.05, 0.4, 30, 0.1);
+  enter($('Atag2'), t, wt('l2', 'recorded') - 0.05, 0.4, 30, 0.1);
+  $('Arecdot').style.opacity = 0.45 + 0.55 * (0.5 + 0.5 * Math.cos((t - wt('l2', 'recorded')) * 5));
+
+  // ---- B: inbound via IVR + queue, then after-hours voicemail
+  enter($('Bh'), t, B + 0.05, 0.5, 40);
+  enter($('Bn1'), t, B + 0.35, 0.4, 30, 0.08);
+  enter($('Ba1'), t, wt('l3', 'ivr') - 0.25, 0.3, 0);
+  enter($('Bn2'), t, wt('l3', 'ivr') - 0.1, 0.4, 30, 0.08);
+  enter($('Ba2'), t, wt('l3', 'queues') - 0.25, 0.3, 0);
+  enter($('Bn3'), t, wt('l3', 'queues') - 0.1, 0.4, 30, 0.08);
+  const tRing = wt('l3', 'ivr') + 0.3, tAns = wt('l3', 'queues') + 0.75;
+  enter($('Binc'), t, tRing, 0.45, 70, 0.05);
+  $('Bring').textContent = 'ringing ' + Math.max(1, Math.floor(t - tRing) + 1) + 's';
+  $('Bring').style.opacity = t < tAns ? 1 : 0;
+  $('Bbar').style.opacity = t < tAns ? 0.55 + 0.45 * Math.cos((t - tRing) * 8) : 1;
+  $('Bbar').style.background = t < tAns ? 'var(--accent)' : 'var(--success)';
+  $('Binc').style.borderColor = t < tAns ? 'rgba(47,140,244,.45)' : 'rgba(5,150,105,.35)';
+  $('Blbl').textContent = t < tAns ? 'Incoming call' : 'On a call';
+  $('Bbtns').style.display = t < tAns + 0.12 ? 'flex' : 'none';
+  $('Bconn').style.display = t < tAns + 0.12 ? 'none' : 'flex';
+  $('Btmr').textContent = clk(t - tAns + 1);
+  cursor($('Bcur'), t, [[tRing + 0.05, 1000, 1500], [tAns - 0.12, 862, 1045], [tAns + 0.7, 862, 1045], [tAns + 1.3, 1020, 1500]], [tAns]);
+  $('Bcur').style.opacity = Math.min(+$('Bcur').style.opacity, 1 - prog(t, tAns + 0.9, 0.4));
+  enter($('Bvm'), t, wt('l4', 'after') - 0.05, 0.45, 50, 0.05);
+  enter($('Bvmchip'), t, wt('l4', 'voicemail') - 0.05, 0.35, 0, 0.15);
+
+  // ---- C: transfer with a note; Shoto sees it before answering
+  enter($('Ch'), t, C + 0.05, 0.5, 40);
+  enter($('Cx'), t, C + 0.15, 0.5, 70);
+  const tPick = wt('l5', 'transfer') + 0.15;
+  $('Cshoto').classList.toggle('sel', t >= tPick);
+  const tType = wt('l5', 'note') - 0.1, txt = typed(NOTE, t, tType, 0.8);
+  $('Cta').innerHTML = txt ? txt.replace('#20452', '<span class="mono">#20452</span>') + (t < tType + 1.1 ? '<span class="car"></span>' : '') : '<span class="ph">e.g. Wants the 24-month plan…</span>';
+  const tGo = wt('l6', 'shoto') - 0.1;
+  cursor($('Ccur'), t, [[C + 0.6, 700, 1500], [tPick - 0.1, 520, 1000], [tType, 520, 1000], [tGo - 0.15, 800, 1368], [tGo + 0.6, 800, 1368]], [tPick, tGo]);
+  $('Ccur').style.opacity = Math.min(+$('Ccur').style.opacity, 1 - prog(t, tGo + 0.3, 0.3));
+  const dim = easeInOut(prog(t, tGo + 0.1, 0.35));
+  $('Cx').style.opacity = 1 - dim;
+  $('Cx').style.transform = `translateY(${-60 * dim}px) scale(${1 - 0.05 * dim})`;
+  const tS = tGo + 0.3;
+  enter($('Cs'), t, tS, 0.5, 90, 0.05);
+  $('Csring').textContent = 'ringing ' + Math.max(1, Math.floor(t - tS) + 1) + 's';
+  $('Csbar').style.opacity = 0.55 + 0.45 * Math.cos((t - tS) * 8);
+  enter($('Cw'), t, tS + 0.35, 0.45, 50);
+  enter($('Cnote'), t, wt('l6', 'reads') - 0.1, 0.4, 24);
+};
+</script>
+</body>
+</html>

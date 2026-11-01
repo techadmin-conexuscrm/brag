@@ -1,0 +1,28 @@
+{
+  "voice": "af_heart",
+  "speed": 1.0,
+  "cast": "My Hero Academia: Izuku Midoriya (agent), Eijiro Kirishima, Momo Yaoyorozu and Denki Kaminari (customers)",
+  "lines": [
+    {"id": "l1", "scene": "A", "text": "It's 9:42 PM in Chicago, and Izuku tries to call Eijiro.", "say": "It's nine forty-two P M in Chicago, and Izuku tries to call Eijiro.", "emph": ["9:42", "PM"], "gap": 0.15},
+    {"id": "l2", "scene": "A", "text": "With the dialer, the server blocks it. Calls go out from 8 AM to 9 PM, their time.", "say": "With the dialer, the server blocks it. Calls go out from eight A M to nine P M, their time.", "emph": ["blocks", "time."], "gap": 0.35},
+    {"id": "l3", "scene": "B", "text": "Each customer gets three attempts in any 24 hours.", "say": "Each customer gets three attempts in any twenty-four hours.", "emph": ["three", "attempts"], "gap": 0.15},
+    {"id": "l4", "scene": "B", "text": "And blocked numbers are never dialed.", "say": "And blocked numbers are never dialed.", "emph": ["never", "dialed."], "gap": 0.35},
+    {"id": "l5", "scene": "C", "text": "It's built to keep your whole floor inside calling-hours rules.", "say": "It's built to keep your whole floor inside calling hours rules.", "emph": ["calling-hours", "rules."], "gap": 0.6}
+  ],
+  "sfx": [
+    {"at": "l1:tries", "offset": 0.1, "kind": "click"},
+    {"at": "l2:server", "kind": "thud"},
+    {"at": "l2:calls", "kind": "tick"},
+    {"at": "l3:three", "offset": -0.3, "kind": "pluck", "notes": [76]},
+    {"at": "l3:three", "offset": -0.15, "kind": "pluck", "notes": [79]},
+    {"at": "l3:three", "kind": "pluck", "notes": [81]},
+    {"at": "l3:24", "kind": "thud", "level": 0.22},
+    {"at": "l4:blocked", "kind": "pluck", "notes": [72]},
+    {"at": "l4:never", "kind": "click"},
+    {"at": "l4:dialed", "kind": "thud", "level": 0.22},
+    {"at": "l5:built", "kind": "tick"},
+    {"at": "l5:built", "offset": 0.15, "kind": "tick"},
+    {"at": "l5:built", "offset": 0.3, "kind": "tick"},
+    {"at": "l5:rules", "kind": "bell", "notes": [81, 88], "level": 0.12}
+  ]
+}

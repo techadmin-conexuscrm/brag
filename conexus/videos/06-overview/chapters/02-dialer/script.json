@@ -1,0 +1,161 @@
+{
+ "voice": "af_heart",
+ "speed": 1.0,
+ "cast": "My Hero Academia: Izuku Midoriya (agent), Shoto Todoroki (agent), Ochaco Uraraka (agent), Tenya Iida (team lead), Eijiro Kirishima and Momo Yaoyorozu (customers)",
+ "lines": [
+  {
+   "id": "l1",
+   "scene": "A",
+   "text": "Izuku calls Eijiro straight from the browser, in one click.",
+   "say": "Izuku calls Eijiro straight from the browser, in one click.",
+   "emph": [
+    "browser,",
+    "click."
+   ],
+   "gap": 0.15
+  },
+  {
+   "id": "l2",
+   "scene": "A",
+   "text": "Calls are encrypted and recorded automatically.",
+   "say": "Calls are encrypted, and recorded automatically.",
+   "emph": [
+    "encrypted",
+    "recorded"
+   ],
+   "gap": 0.35
+  },
+  {
+   "id": "l3",
+   "scene": "B",
+   "text": "Inbound calls ring in through your IVR and queues.",
+   "say": "Inbound calls ring in through your I V R and queues.",
+   "emph": [
+    "IVR",
+    "queues."
+   ],
+   "gap": 0.15
+  },
+  {
+   "id": "l4",
+   "scene": "B",
+   "text": "After hours, callers go straight to voicemail.",
+   "say": "After hours, callers go straight to voicemail.",
+   "emph": [
+    "voicemail."
+   ],
+   "gap": 0.35
+  },
+  {
+   "id": "l5",
+   "scene": "C",
+   "text": "Transfer the call with a note for the next agent.",
+   "say": "Transfer the call with a note for the next agent.",
+   "emph": [
+    "note"
+   ],
+   "gap": 0.15
+  },
+  {
+   "id": "l6",
+   "scene": "C",
+   "text": "Shoto reads it before he even answers.",
+   "say": "Shoto reads it before he even answers.",
+   "emph": [
+    "before"
+   ],
+   "gap": 0.6
+  }
+ ],
+ "sfx": [
+  {
+   "at": "l1:one",
+   "offset": 0.05,
+   "kind": "click"
+  },
+  {
+   "at": "l1:click",
+   "offset": 0.1,
+   "kind": "pluck",
+   "notes": [
+    76
+   ]
+  },
+  {
+   "at": "l2:encrypted",
+   "kind": "pluck",
+   "notes": [
+    81
+   ]
+  },
+  {
+   "at": "l2:recorded",
+   "kind": "pluck",
+   "notes": [
+    84
+   ]
+  },
+  {
+   "at": "l3:inbound",
+   "kind": "tick"
+  },
+  {
+   "at": "l3:ivr",
+   "kind": "pluck",
+   "notes": [
+    76
+   ]
+  },
+  {
+   "at": "l3:queues",
+   "kind": "pluck",
+   "notes": [
+    79
+   ]
+  },
+  {
+   "at": "l3:queues",
+   "offset": 0.75,
+   "kind": "click"
+  },
+  {
+   "at": "l4:voicemail",
+   "kind": "pluck",
+   "notes": [
+    72
+   ]
+  },
+  {
+   "at": "l5:transfer",
+   "offset": 0.15,
+   "kind": "click"
+  },
+  {
+   "at": "l5:note",
+   "kind": "typing",
+   "count": 10,
+   "spacing": 0.09
+  },
+  {
+   "at": "l6:shoto",
+   "offset": -0.1,
+   "kind": "click"
+  },
+  {
+   "at": "l6:reads",
+   "kind": "pluck",
+   "notes": [
+    81
+   ]
+  },
+  {
+   "at": "l6:answers",
+   "kind": "bell",
+   "notes": [
+    81,
+    88
+   ],
+   "level": 0.12
+  }
+ ]
+}

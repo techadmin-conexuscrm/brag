@@ -1,0 +1,27 @@
+{
+  "voice": "af_heart",
+  "speed": 1.0,
+  "cast": "Jujutsu Kaisen: Yuji Itadori, Megumi Fushiguro, Nobara Kugisaki, Maki Zenin (agents), Kento Nanami (QA manager); customers Aoi Todo, Kasumi Miwa, Toge Inumaki",
+  "lines": [
+    {"id": "l1", "scene": "A", "text": "Sales tied to a call only complete when the call passes QA.", "say": "Sales tied to a call only complete when the call passes Q A.", "emph": ["complete", "passes"], "gap": 0.15},
+    {"id": "l2", "scene": "A", "text": "A failing call sends the order to review instead.", "say": "A failing call sends the order to review instead.", "emph": ["failing", "review"], "gap": 0.35},
+    {"id": "l3", "scene": "B", "text": "Managers approve, reject or re-analyze it from one QA queue.", "say": "Managers approve, reject, or re-analyze it from one Q A queue.", "emph": ["approve,", "queue."], "gap": 0.35},
+    {"id": "l4", "scene": "C", "text": "Bad calls get caught early, before they turn into refunds or chargebacks.", "say": "Bad calls get caught early, before they turn into refunds or chargebacks.", "emph": ["caught", "chargebacks."], "gap": 0.6}
+  ],
+  "sfx": [
+    {"at": "l1:only", "kind": "tick"},
+    {"at": "l1:passes", "kind": "pluck", "notes": [76]},
+    {"at": "l1:passes", "offset": 0.3, "kind": "bell", "notes": [81, 88], "level": 0.12},
+    {"at": "l2:failing", "kind": "pluck", "notes": [64]},
+    {"at": "l2:review", "kind": "thud", "level": 0.22},
+    {"at": "l3:managers", "kind": "click"},
+    {"at": "l3:approve", "kind": "click"},
+    {"at": "l3:approve", "offset": 0.3, "kind": "bell", "notes": [81, 88], "level": 0.12},
+    {"at": "l3:rej", "kind": "tick"},
+    {"at": "l3:rea", "kind": "tick"},
+    {"at": "l4:caught", "offset": -0.05, "kind": "click"},
+    {"at": "l4:caught", "offset": 0.25, "kind": "thud", "level": 0.2},
+    {"at": "l4:refunds", "kind": "pluck", "notes": [72]},
+    {"at": "l4:chargebacks", "kind": "pluck", "notes": [76]}
+  ]
+}

@@ -1,0 +1,258 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/base.css">
+<script src="out/timeline.js"></script>
+<style>
+  /* ---- chat window (CRM Messages: drawer + chat with Messages / Pins / Files / Links tabs) */
+  .chat{left:50px;right:50px;top:690px;height:760px;display:flex;overflow:hidden}
+  .rail{width:292px;background:#0E1C6C;color:#C7D2FE;padding:26px 18px;flex:none}
+  .rail .ws{color:#fff;font-size:28px;font-weight:700;margin:0 0 18px 8px}
+  .rail .sec{font-size:17px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8EA0E8;margin:22px 0 8px 10px}
+  .rail .it{font-size:23px;font-weight:500;padding:9px 10px;border-radius:12px;display:flex;align-items:center;gap:10px;white-space:nowrap}
+  .rail .it.on{background:rgba(255,255,255,.14);color:#fff;font-weight:600}
+  .rail .it .hash{width:32px;height:32px;border-radius:9px;background:rgba(255,255,255,.10);display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700;flex:none}
+  .rail .it .badge{margin-left:auto;min-width:30px;height:30px;font-size:16px;padding:0 8px}
+  .rail .mini{width:32px;height:32px;font-size:13px}
+  .main{flex:1;display:flex;flex-direction:column;min-width:0;position:relative;background:#fff}
+  .chead{height:84px;display:flex;align-items:center;padding:0 26px;gap:14px}
+  .chead .nm{font-size:30px;font-weight:700} .chead .meta{font-size:20px;font-weight:500;color:var(--muted)}
+  .chead .ico{margin-left:auto;display:flex;gap:18px;color:var(--muted)}
+  .ctabs{height:56px;border-bottom:1px solid var(--border);display:flex;gap:6px;padding:0 18px}
+  .ctab{display:flex;align-items:center;gap:8px;padding:0 14px;font-size:21px;font-weight:600;color:var(--muted);border-bottom:3px solid transparent}
+  .ctab.on{color:var(--blue);border-bottom-color:var(--blue)}
+  .ctab .n{min-width:26px;height:26px;border-radius:999px;background:#FDE68A;color:#78350F;font-size:15px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;padding:0 6px}
+  .msgs{position:absolute;left:0;right:0;top:140px;bottom:104px;padding:14px 16px 0;overflow:hidden}
+  .m{display:flex;gap:16px;padding:12px 12px;border-radius:14px;position:relative}
+  .m .who{font-size:22px;font-weight:700} .m .who span{font-size:18px;color:var(--muted);font-weight:400;margin-left:8px}
+  .m .tx{font-size:26px;line-height:1.32;color:var(--ink);margin-top:2px}
+  .m .avatar{width:56px;height:56px;font-size:21px}
+  .pinlab{display:flex;align-items:center;gap:6px;font-size:18px;font-weight:600;color:var(--slate);margin-bottom:4px;height:0;overflow:hidden}
+  .pinlab svg{width:18px;height:18px;transform:rotate(-45deg)}
+.hover{position:absolute;right:14px;top:-18px;display:flex;gap:4px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:6px;box-shadow:0 6px 16px rgba(15,23,42,.12);opacity:0}
+  .hover span{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+  .hover svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .mention{background:#DBEAFE;color:#1D4ED8;border-radius:6px;padding:0 6px;font-weight:600}
+  .reacts{display:flex;gap:8px;margin-top:10px}
+  .rx{display:inline-flex;align-items:center;gap:6px;height:42px;padding:0 14px;border-radius:999px;background:#F1F5F9;border:2px solid #E2E8F0;font-size:22px;font-weight:600;color:var(--slate)}
+  .rx.mine{background:#EFF6FF;border-color:#93C5FD;color:#1D4ED8}
+  .typing{font-size:20px;color:var(--muted);position:absolute;left:28px;bottom:100px}
+  .composer{position:absolute;left:20px;right:20px;bottom:18px;height:70px;border:2px solid var(--border);border-radius:16px;display:flex;align-items:center;padding:0 18px 0 22px;font-size:23px;color:#94A3B8;gap:12px}
+  .composer .tools{margin-left:auto;display:flex;gap:16px;color:#94A3B8}
+  .composer svg,.chead svg{width:28px;height:28px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+  /* ---- dialer (bottom-bar layout: Phone · Messages · Customer · History) */
+  .dialer{left:70px;right:70px;top:690px;height:830px;overflow:hidden}
+  .dhead{height:78px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;padding:0 24px}
+  .dhead img{height:30px}
+  .dchip{font-size:16px;font-weight:700;letter-spacing:.06em;color:var(--blue);background:var(--blue-soft);padding:4px 10px;border-radius:8px}
+  .pready{margin-left:auto;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border-radius:999px;border:2px solid #A7F3D0;background:var(--success-soft);color:var(--success);font-size:19px;font-weight:600}
+  .pready i{width:10px;height:10px;border-radius:50%;background:#22C55E;display:block}
+  .screen{position:absolute;left:0;right:0;top:78px;bottom:110px}
+  .callcard{position:absolute;left:24px;right:24px;top:24px;border:1px solid var(--border);border-radius:18px;overflow:hidden}
+  .callcard .stripe{height:6px;background:#7C3AED}
+  .callcard .body{padding:22px 26px;display:flex;gap:18px}
+  .cchip{display:inline-flex;align-items:center;height:32px;padding:0 12px;border-radius:999px;font-size:17px;font-weight:600}
+  .ctrls{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0 26px 24px}
+  .ctrl{height:84px;border:1px solid var(--border);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:18px;font-weight:600;color:var(--slate)}
+  .ctrl svg{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .ctrl.end{background:var(--danger);border-color:var(--danger);color:#fff}
+  .skelrow{position:absolute;left:24px;right:24px;height:92px;border:1px solid var(--border);border-radius:16px;display:flex;align-items:center;gap:16px;padding:0 20px}
+  .sk{height:20px;border-radius:8px;background:#EEF2F7}
+  .dchat{position:absolute;inset:0;background:#fff}
+  .dchat .chead{border-bottom:1px solid var(--border);height:80px}
+  .dmsgs{position:absolute;left:0;right:0;top:80px;bottom:100px;padding:12px 14px 0;overflow:hidden}
+  .dnav{position:absolute;left:0;right:0;bottom:0;height:110px;border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);background:#fff}
+  .dnav>div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-size:20px;font-weight:600;color:var(--muted);position:relative;margin:10px 8px;border-radius:14px}
+  .dnav>div.on{color:var(--blue);background:var(--blue-soft)}
+  .dnav .ic{position:relative;width:34px;height:34px}
+  .dnav svg{width:34px;height:34px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .dnav .pdot{position:absolute;right:-6px;top:-6px;width:18px;height:18px;border-radius:50%;background:#22C55E;border:3px solid #fff}
+  .dnav .badge{position:absolute;left:22px;top:-12px;min-width:30px;height:30px;font-size:16px;padding:0 8px}
+  .live{position:absolute;right:70px;top:618px;display:inline-flex;align-items:center;gap:12px;height:54px;padding:0 22px;border-radius:999px;background:#fff;color:var(--navy);font-size:23px;font-weight:600;box-shadow:0 10px 26px rgba(8,16,70,.22)}
+  .live i{width:14px;height:14px;border-radius:50%;background:#22C55E;display:block;box-shadow:0 0 0 5px #DCFCE7}
+</style>
+</head>
+<body>
+<!-- A — the #closers channel -->
+<section class="scene bg-light" id="A">
+  <div class="chtag dark">04 · Team chat</div>
+  <div class="eyebrow" style="color:var(--accent)">Built into the CRM</div>
+  <div class="headline" id="Ah"><span style="color:var(--navy)">Your floor,</span><span class="l2" style="color:var(--accent)">in one place.</span></div>
+  <div class="dot" style="width:46px;height:46px;background:var(--accent);right:80px;top:620px"></div>
+  <div class="card chat" id="Achat">
+    <div class="rail">
+      <div class="ws">Messages</div>
+      <div class="sec" id="Asec1">Channels</div>
+      <div class="it on" id="Ach1"><span class="hash">#</span>closers</div>
+      <div class="it" id="Ach2"><span class="hash">#</span>floor-leads</div>
+      <div class="it" id="Ach3"><span class="hash">#</span>wins<span class="badge">3</span></div>
+      <div class="sec" id="Asec2">Direct Messages</div>
+      <div class="it" id="Adm1"><div class="avatar mini" style="background:#334155">LA</div>Levi Ackerman</div>
+      <div class="it" id="Adm2"><div class="avatar mini" style="background:#D97706">AA</div>Armin Arlert<span class="badge" id="Adm2b">2</span></div>
+      <div class="it" id="Adm3"><div class="avatar mini" style="background:#7C3AED">SB</div>Sasha Braus</div>
+      <div class="it" id="Adm4"><div class="avatar mini" style="background:#059669">CS</div>Connie Springer</div>
+    </div>
+    <div class="main">
+      <div class="chead"><span class="nm"># closers</span><span class="meta">18 online</span>
+        <span class="ico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span></div>
+      <div class="ctabs"><div class="ctab on">Messages</div><div class="ctab">Pins <span class="n" id="Apinn">0</span></div><div class="ctab">Files</div><div class="ctab">Links</div></div>
+      <div class="msgs">
+        <div class="m" id="Am1">
+          <div class="hover" id="Ahov"><span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01M15 9h.01"/></svg></span><span><svg viewBox="0 0 24 24"><path d="m9 17-5-5 5-5"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg></span><span id="Ahpin"><svg viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></svg></span></div>
+          <div class="avatar" style="background:#334155">LA</div>
+          <div style="flex:1;min-width:0">
+            <div class="pinlab" id="Apin"><svg viewBox="0 0 24 24" fill="#e8912d" stroke="#e8912d" stroke-width="2"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></svg>Pinned by Levi Ackerman</div>
+            <div class="who">Levi Ackerman <span>9:02 AM</span></div>
+            <div class="tx"><span class="mention">@all</span> Double spiffs on bundles until 5 PM. Go get it.</div>
+          </div>
+        </div>
+        <div class="m" id="Am2">
+          <div class="avatar" style="background:#DC2626">MA</div>
+          <div><div class="who">Mikasa Ackerman <span>9:14 AM</span></div><div class="tx">Closed #10522, 3-month bundle 💪</div>
+            <div class="reacts" id="Arx"><span class="rx" id="Arx1">🔥 <b id="Arx1n">1</b></span><span class="rx" id="Arx2">👏 <b id="Arx2n">2</b></span><span class="rx" id="Arx3">💰 <b>1</b></span></div></div>
+        </div>
+        <div class="m" id="Am3">
+          <div class="avatar" style="background:#D97706">AA</div>
+          <div><div class="who">Armin Arlert <span>9:15 AM</span></div><div class="tx"><span class="mention" id="Amen">@Mikasa Ackerman</span> that's 4 today 👀</div></div>
+        </div>
+      </div>
+      <div class="typing" id="Atyping">Sasha Braus is typing…</div>
+      <div class="composer">Type a message...<span class="tools"><svg viewBox="0 0 24 24"><path d="m21.4 11.1-9.2 9.2a6 6 0 0 1-8.5-8.5l8.6-8.6a4 4 0 0 1 5.7 5.7l-8.6 8.6a2 2 0 0 1-2.8-2.8l8.5-8.5"/></svg><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01M15 9h.01"/></svg></span></div>
+    </div>
+  </div>
+  <svg class="cursor" id="Acur" viewBox="0 0 24 24"><path d="M4 2l16 9.5-7 1.6L9.8 20z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</section>
+
+<!-- B — the dialer's Messages tab, mid-call -->
+<section class="scene bg-blue" id="B">
+  <div class="eyebrow" style="color:#fff">In the dialer</div>
+  <div class="headline"><span style="color:#fff">Never leave</span><span class="l2" style="color:var(--navy)">the call.</span></div>
+  <div class="dot" style="width:110px;height:110px;background:var(--navy);right:90px;top:160px"></div>
+  <div class="live" id="Blive"><i></i>On call · Jean Kirstein · <span class="mono" id="Blt">2:14</span></div>
+  <div class="card dialer" id="Bd">
+    <div class="dhead"><img src="../../shared/assets/logo-full-color.png" alt=""><span class="dchip">DIALER</span><span class="pready"><i></i>Phone ready</span></div>
+    <div class="screen">
+      <!-- Phone screen: the live call -->
+      <div id="Bphone" style="position:absolute;inset:0">
+        <div class="callcard">
+          <div class="stripe"></div>
+          <div class="body">
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;gap:8px"><span class="cchip" style="background:#F3E8FF;color:#7C3AED">Survey Corps</span><span class="cchip" style="background:var(--blue-soft);color:var(--blue)">Inbound</span></div>
+              <div style="font-size:40px;font-weight:600;margin-top:10px">Jean Kirstein</div>
+              <div class="mono" style="font-size:22px;color:var(--muted)">(555) 014-2290</div>
+            </div>
+            <div style="text-align:right"><div class="mono" id="Bt" style="font-size:52px;font-weight:600">2:14</div><div style="font-size:19px;color:var(--muted)">Connected</div></div>
+          </div>
+          <div class="ctrls">
+            <div class="ctrl"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4"/></svg>Mute</div>
+            <div class="ctrl"><svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>Hold</div>
+            <div class="ctrl"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="1.5"/><circle cx="12" cy="6" r="1.5"/><circle cx="18" cy="6" r="1.5"/><circle cx="6" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="18" cy="12" r="1.5"/><circle cx="12" cy="18" r="1.5"/></svg>Keypad</div>
+            <div class="ctrl"><svg viewBox="0 0 24 24"><path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/></svg>Transfer</div>
+            <div class="ctrl"><svg viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>New order</div>
+            <div class="ctrl end"><svg viewBox="0 0 24 24"><path d="M10.7 13.3a16 16 0 0 0 3.4 2.6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-3.3-2.6m-2.6-3.3a19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.4 2.1L8.1 9.9"/><path d="M22 2 2 22"/></svg>End call</div>
+          </div>
+        </div>
+        <div class="skelrow" style="top:440px"><div class="avatar" style="width:52px;height:52px;background:#E2E8F0"></div><div style="flex:1"><div class="sk" style="width:55%"></div><div class="sk" style="width:35%;margin-top:10px"></div></div></div>
+        <div class="skelrow" style="top:548px"><div class="avatar" style="width:52px;height:52px;background:#E2E8F0"></div><div style="flex:1"><div class="sk" style="width:45%"></div><div class="sk" style="width:30%;margin-top:10px"></div></div></div>
+      </div>
+      <!-- Messages screen: #closers -->
+      <div class="dchat" id="Bchat">
+        <div class="chead"><svg viewBox="0 0 24 24" style="color:var(--muted)"><path d="m12 19-7-7 7-7M19 12H5"/></svg><span class="nm" style="font-size:28px"># closers</span><span class="meta">18 online</span></div>
+        <div class="dmsgs"><div id="Bms">
+          <div class="m"><div class="avatar" style="background:#334155">LA</div><div style="flex:1;min-width:0"><div class="who">Levi Ackerman <span>9:02 AM</span></div><div class="tx"><span class="mention">@all</span> Double spiffs on bundles until 5 PM.</div></div></div>
+          <div class="m"><div class="avatar" style="background:#7C3AED">SB</div><div><div class="who">Sasha Braus <span>9:40 AM</span></div><div class="tx">Two bundles before lunch 🍞</div></div></div>
+          <div class="m" id="Bm1"><div class="avatar" style="background:#334155">LA</div><div style="flex:1;min-width:0"><div class="who">Levi Ackerman <span>9:52 AM</span></div><div class="tx"><span class="mention">@Mikasa Ackerman</span> Jean asked about the 3-month bundle last week. Offer it.</div></div></div>
+          <div class="m" id="Bm2"><div class="avatar" style="background:#DC2626">MA</div><div><div class="who">Mikasa Ackerman <span>9:52 AM</span></div><div class="tx">On it 👍 adding it now</div></div></div>
+        </div></div>
+        <div class="composer" id="Bcomp"><span id="Bct" style="color:var(--ink)"></span><span id="Bph">Type a message...</span><span id="Bcaret" style="width:2px;height:30px;background:#0F172A;display:inline-block;margin-left:-10px"></span>
+          <span class="tools"><svg viewBox="0 0 24 24" style="color:var(--blue)"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg></span></div>
+      </div>
+    </div>
+    <div class="dnav">
+      <div id="Bnp"><span class="ic"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span class="pdot" id="Bpdot"></span></span>Phone</div>
+      <div id="Bnm"><span class="ic"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="badge" id="Bbadge">1</span></span>Messages</div>
+      <div><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>Customer</div>
+      <div><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg></span>History</div>
+    </div>
+  </div>
+  <svg class="cursor" id="Bcur" viewBox="0 0 24 24"><path d="M4 2l16 9.5-7 1.6L9.8 20z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</section>
+
+<div id="cap"></div>
+<script src="../../shared/runtime.js"></script>
+<script>
+const clock = s => Math.floor(s / 60) + ':' + String(Math.floor(s) % 60).padStart(2, '0');
+
+window.renderChapter = function (t) {
+  const A = SC.A.s, B = SC.B.s;
+
+  // ---- A: the channel. Rail rows land on "channels" / "DMs", Armin's @mention on "mentions".
+  enter($('Ah'), t, A + 0.05, 0.5, 40);
+  enter($('Achat'), t, A + 0.2, 0.5, 60);
+  enter($('Am1'), t, A + 0.45, 0.35, 20);
+  enter($('Am2'), t, A + 0.6, 0.35, 20);
+  const chT = wt('l1', 'channels'), dmT = wt('l1', 'dms'), mnT = wt('l1', 'mentions');
+  // rail is there from the start; each section lights up as it is named
+  ['Asec1', 'Ach1', 'Ach2', 'Ach3', 'Asec2', 'Adm1', 'Adm2', 'Adm3', 'Adm4'].forEach((id, i) => enter($(id), t, A + 0.5 + i * 0.06, 0.3, 14));
+  const glow = (ids, at) => { const g = Math.max(0, 1 - Math.abs(t - at - 0.35) / 0.55); ids.forEach(id => { $(id).style.boxShadow = g > 0 ? `0 0 0 ${3 * g}px rgba(127,227,245,${g})` : 'none'; }); };
+  glow(['Ach1', 'Ach2', 'Ach3'], chT); glow(['Adm1', 'Adm2', 'Adm3', 'Adm4'], dmT);
+  $('Adm2b').style.transform = `scale(${t < dmT ? 1 : 1 + 0.35 * Math.sin(prog(t, dmT, 0.4) * Math.PI)})`;
+  enter($('Am3'), t, mnT, 0.35, 24);
+  const mg = t > mnT + 0.2 && t < mnT + 1.6;
+  $('Amen').style.boxShadow = mg ? '0 0 0 4px #93C5FD' : 'none';
+
+  // pin on "pin": the label slides open, row tints, Pins tab counts 1
+  const pinT = wt('l2', 'pin'), rxT = wt('l2', 'react');
+  const pp = easeOut(prog(t, pinT, 0.35));
+  $('Apin').style.height = (pp * 28) + 'px'; $('Apin').style.opacity = pp;
+  $('Am1').style.background = `rgba(242,199,68,${0.16 * pp})`;
+  $('Apinn').textContent = t >= pinT ? '1' : '0';
+  $('Apinn').style.transform = `scale(${t >= pinT ? 1 + 0.25 * (1 - prog(t, pinT, 0.35)) : 1})`;
+  // reactions on "react": the cursor taps 🔥, the count ticks up as the floor piles on
+  const n = t < rxT ? 1 : 2 + Math.min(4, Math.floor((t - rxT) * 4));
+  $('Arx1n').textContent = n;
+  $('Arx1').classList.toggle('mine', t >= rxT);
+  $('Arx1').style.transform = `scale(${t > rxT ? 1 + 0.14 * Math.max(0, Math.sin((t - rxT) * 12)) * Math.exp(-(t - rxT) * 2.5) : 1})`;
+  $('Arx2n').textContent = t < rxT + 0.6 ? 2 : 3;
+  cursor($('Acur'), t, [[pinT - 0.9, 760, 1250], [pinT - 0.1, 968, 830], [rxT - 0.15, 398, 1106], [rxT + 0.9, 430, 1160]], [pinT, rxT]);
+  $('Ahov').style.opacity = (t > pinT - 0.5 && t < pinT + 0.5) ? easeOut(prog(t, pinT - 0.5, 0.2)) * (1 - prog(t, pinT + 0.3, 0.2)) : 0;
+  $('Ahpin').style.background = t >= pinT ? '#FEF3C7' : 'transparent'; $('Ahpin').style.color = t >= pinT ? '#e8912d' : 'var(--muted)';
+  if (t > rxT + 1.0) $('Acur').style.opacity = 1 - prog(t, rxT + 1.0, 0.3);
+  $('Atyping').style.opacity = t > rxT + 0.8 ? 0.55 + 0.45 * Math.abs(Math.sin(t * 3)) : 0;
+
+  // ---- B: the dialer mid-call. Cursor taps Messages on "message"; Levi's play lands on "play";
+  // Mikasa types back and sends on "customer". The Phone tab keeps its green in-call dot.
+  enter($('Bd'), t, B + 0.2, 0.5, 60);
+  enter($('Blive'), t, B + 0.5, 0.4, 14);
+  const secs = 134 + Math.max(0, t - B);
+  $('Bt').textContent = clock(secs); $('Blt').textContent = clock(secs);
+  $('Bpdot').style.transform = `scale(${1 + 0.18 * Math.abs(Math.sin(t * 3))})`;
+  const badgeT = B + 0.7, tapT = wt('l3', 'message');
+  $('Bbadge').style.transform = `scale(${t < tapT + 0.1 ? backOut(prog(t, badgeT, 0.35)) : 0})`;
+  cursor($('Bcur'), t, [[B + 0.6, 760, 1420], [tapT - 0.1, 340, 1440], [tapT + 1.2, 560, 1300]], [tapT]);
+  const onMsgs = t >= tapT + 0.08;
+  $('Bnp').classList.toggle('on', !onMsgs); $('Bnm').classList.toggle('on', onMsgs);
+  $('Bphone').style.display = onMsgs ? 'none' : 'block';
+  $('Bchat').style.display = onMsgs ? 'block' : 'none';
+  if (onMsgs) { const p = easeOut(prog(t, tapT + 0.08, 0.25)); $('Bchat').style.opacity = p; $('Bchat').style.transform = `translateX(${(1 - p) * 40}px)`; }
+  const playT = wt('l4', 'play'), typeS = playT + 0.35, sendT = wt('l4', 'customer');
+  const reply = 'On it 👍 adding it now';
+  const typedTxt = typed(reply, t, typeS, Math.max(0.4, sendT - typeS - 0.15));
+  const sent = t >= sendT;
+  $('Bct').textContent = sent ? '' : typedTxt;
+  $('Bph').style.display = (!sent && typedTxt) ? 'none' : 'inline';
+  $('Bcaret').style.opacity = (!sent && t > typeS - 0.3 && Math.floor(t * 4) % 2) ? 1 : 0;
+  $('Bcaret').style.marginLeft = typedTxt && !sent ? '0' : '-10px';
+  // message list: Levi's play arrives, then Mikasa's reply; scroll the list up to keep both in view
+  $('Bm1').style.display = t >= playT - 0.1 ? 'flex' : 'none'; enter($('Bm1'), t, playT - 0.1, 0.35, 24);
+  $('Bm2').style.display = sent ? 'flex' : 'none'; enter($('Bm2'), t, sendT, 0.35, 24);
+  $('Bms').style.transform = `translateY(${-0 * easeOut(prog(t, sendT, 0.4))}px)`;
+  if (t >= tapT + 1.4) $('Bcur').style.opacity = 1 - prog(t, tapT + 1.4, 0.3);
+};
+</script>
+</body>
+</html>

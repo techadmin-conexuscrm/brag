@@ -1,0 +1,24 @@
+{
+  "voice": "af_heart",
+  "speed": 1.0,
+  "cast": "Demon Slayer: Tanjiro Kamado (agent), Zenitsu Agatsuma, Inosuke Hashibira, Nezuko Kamado, Giyu Tomioka; leaderboard also Satoru Gojo, Katsuki Bakugo, Anya Forger, Shoyo Hinata",
+  "lines": [
+    {"id": "l1", "scene": "A", "text": "Set up a spiff once, and Conexus does the counting for you.", "say": "Set up a spiff once, and Conexus does the counting for you.", "emph": ["once,", "counting"], "gap": 0.15},
+    {"id": "l2", "scene": "A", "text": "The moment Tanjiro closes a sale, his balance is credited automatically.", "say": "The moment Tanjiro closes a sale, his balance is credited, automatically.", "emph": ["closes", "automatically."], "gap": 0.35},
+    {"id": "l3", "scene": "B", "text": "The leaderboard updates live, so the whole floor sees who's winning.", "say": "The leaderboard updates live, so the whole floor sees who's winning.", "emph": ["live,", "winning."], "gap": 0.35},
+    {"id": "l4", "scene": "C", "text": "Every dollar lands on his ledger, so payday math is already done.", "say": "Every dollar lands on his ledger, so payday math is already done.", "emph": ["ledger,", "done."], "gap": 0.6}
+  ],
+  "sfx": [
+    {"at": "l1:once", "kind": "click"},
+    {"at": "l1:once", "offset": 0.05, "kind": "pluck", "notes": [76, 84]},
+    {"at": "l2:closes", "kind": "pluck", "notes": [79]},
+    {"at": "l2:credited", "kind": "bell", "notes": [81, 88]},
+    {"at": "l3:live", "offset": 0.15, "kind": "pluck", "notes": [76, 81]},
+    {"at": "l3:live", "offset": 0.7, "kind": "bell", "notes": [84, 88], "level": 0.1},
+    {"at": "scene:C", "offset": 0.5, "kind": "tick"},
+    {"at": "scene:C", "offset": 0.68, "kind": "tick"},
+    {"at": "scene:C", "offset": 0.86, "kind": "tick"},
+    {"at": "scene:C", "offset": 1.04, "kind": "tick"},
+    {"at": "l4:payday", "kind": "bell", "notes": [81, 88], "level": 0.14}
+  ]
+}

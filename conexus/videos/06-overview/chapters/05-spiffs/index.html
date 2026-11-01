@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/base.css">
+<script src="out/timeline.js"></script>
+<style>
+  /* A: create spiff → order completed → balance */
+  .spiff{left:72px;right:72px;top:690px;height:250px;padding:26px 32px}
+  .spiff .hd{display:flex;align-items:center;justify-content:space-between;height:62px}
+  .spiff .ttl{font-size:32px;font-weight:700;color:var(--ink)}
+  .fields{display:grid;grid-template-columns:1.25fr 1.25fr .9fr;gap:16px;margin-top:18px}
+  .fld .lb{font-size:20px;font-weight:600;color:var(--slate);margin-bottom:8px}
+  .fld .in{height:64px;border:2px solid var(--border);border-radius:12px;display:flex;align-items:center;padding:0 18px;font-size:27px;font-weight:500;color:var(--ink);white-space:nowrap}
+  .state{display:inline-flex;align-items:center;gap:10px;height:62px;padding:0 26px;border-radius:14px;font-size:26px;font-weight:600}
+  .toast{left:72px;right:72px;top:1330px;height:130px;display:flex;align-items:center;gap:24px;padding:0 32px}
+  .check{width:64px;height:64px;border-radius:50%;background:var(--success);display:flex;align-items:center;justify-content:center;flex:none}
+  .balance{left:72px;right:72px;top:970px;height:330px;padding:32px 40px}
+  .balance .row{display:flex;align-items:center;gap:18px}
+  .award{width:68px;height:68px;border-radius:16px;background:#FEF3C7;display:flex;align-items:center;justify-content:center;flex:none}
+  .award svg{width:38px;height:38px;stroke:#F59E0B;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .bal-amt{font-size:112px;font-weight:600;letter-spacing:-.03em;line-height:1.1;margin-top:18px}
+  .credit{position:absolute;right:40px;bottom:58px;padding:14px 24px;border-radius:14px;background:var(--success-soft);color:var(--success);font-size:36px;font-weight:600}
+
+  /* B: leaderboard */
+  .lb{left:72px;right:72px;top:690px;height:790px;padding:26px 30px}
+  .lbhead{display:flex;justify-content:space-between;padding:0 26px 0 112px}
+  .lbrow{position:absolute;left:30px;right:30px;height:120px;border-radius:16px;background:#F8FAFC;border:1px solid var(--border);display:flex;align-items:center;gap:20px;padding:0 26px}
+  .lbrow .rank{width:62px;height:62px;flex:none;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:700;color:var(--muted)}
+  .lbrow .rank img{width:62px;height:62px}
+  .lbrow .av{width:64px;height:64px;border-radius:50%;background:#E2E8F0;color:var(--slate);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:600;flex:none}
+  .lbrow .nm{font-size:33px;font-weight:600;white-space:nowrap}
+  .lbrow .pl{font-size:20px;color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+  .lbrow .rev{margin-left:auto;font-size:40px;font-weight:600}
+  .up{position:absolute;right:56px;top:-22px;padding:6px 16px;border-radius:999px;background:var(--success);color:#fff;font-size:24px;font-weight:700;box-shadow:0 8px 20px rgba(5,150,105,.3)}
+
+  /* C: ledger */
+  .ledger{left:72px;right:72px;top:690px;height:790px;padding:30px 36px}
+  .lrow{position:absolute;left:36px;right:36px;height:124px;display:grid;grid-template-columns:84px 1fr 190px;align-items:center;border-bottom:1px solid var(--border)}
+  .lrow .day{font-size:26px;color:var(--muted);font-weight:500}
+  .lrow .why{font-size:31px;font-weight:600} .lrow .why small{display:block;font-size:22px;color:var(--muted);font-weight:400;margin-top:2px}
+  .lrow .amt{font-size:34px;font-weight:600;color:var(--success);text-align:right}
+  .ltotal{position:absolute;left:36px;right:36px;bottom:34px;height:140px;display:flex;align-items:center;justify-content:space-between;background:var(--blue-soft);border-radius:16px;padding:0 30px}
+</style>
+</head>
+<body>
+<!-- A — set it once; credited at the close -->
+<section class="scene bg-light" id="A">
+  <div class="chtag dark">05 · Spiffs &amp; leaderboard</div>
+  <div class="eyebrow" style="color:var(--accent)">Spiffs, automatic</div>
+  <div class="headline" id="Ah"><span style="color:var(--navy)">Credited at</span><span class="l2" style="color:var(--accent)">the close.</span></div>
+  <div class="card spiff" id="Aspiff">
+    <div class="hd"><span class="ttl" id="Attl">Create Spiff</span><span class="btn" id="Abtn">Create</span><span class="state" id="Aact" style="background:var(--success-soft);color:var(--success);display:none">● active</span></div>
+    <div class="fields">
+      <div class="fld"><div class="lb">Name</div><div class="in">Friday Push</div></div>
+      <div class="fld"><div class="lb">Type</div><div class="in">Flat / Per Sale</div></div>
+      <div class="fld"><div class="lb">Reward amount ($)</div><div class="in mono">25.00</div></div>
+    </div>
+  </div>
+  <div class="card toast" id="Atoast">
+    <div class="check"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+    <div><div style="font-size:32px;font-weight:600">Order completed</div><div style="font-size:24px;color:var(--muted)"><span class="mono">#10482</span> · <span class="mono">$189.00</span> · Tanjiro Kamado</div></div>
+  </div>
+  <div class="card balance" id="Abal">
+    <div class="row"><div class="award"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.48 12.89 17 22l-5-3-5 3 1.52-9.11"/></svg></div>
+      <div><div style="font-size:30px;font-weight:600">Spiff Balance</div><div style="font-size:23px;color:var(--muted)">Tanjiro Kamado · total earned spiff rewards</div></div></div>
+    <div class="bal-amt mono" id="Aamt">$150.00</div>
+    <div class="credit mono" id="Acredit">+$25.00</div>
+  </div>
+  <svg class="cursor" id="Acur" viewBox="0 0 24 24"><path d="M4 2l16 9.5-7 1.6L9.8 20z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</section>
+
+<!-- B — live leaderboard -->
+<section class="scene bg-blue" id="B">
+  <div class="eyebrow" style="color:#fff">Live leaderboard</div>
+  <div class="headline sm"><span style="color:#fff">Everyone sees</span><span class="l2" style="color:var(--navy)">who's winning.</span></div>
+  <div class="dot" style="width:110px;height:110px;background:var(--navy);right:90px;top:160px"></div>
+  <div class="card lb" id="Blb">
+    <div class="lbhead th"><span>Name</span><span>Total Revenue</span></div>
+    <div id="Brows" style="position:absolute;left:0;right:0;top:66px;bottom:0"></div>
+  </div>
+</section>
+
+<!-- C — the ledger -->
+<section class="scene bg-light" id="C">
+  <div class="eyebrow" style="color:var(--accent)">Balance ledger</div>
+  <div class="headline"><span style="color:var(--navy)">Payday math,</span><span class="l2" style="color:var(--accent)">done.</span></div>
+  <div class="dot" style="width:46px;height:46px;background:var(--accent);right:80px;top:620px"></div>
+  <div class="card ledger" id="Cl">
+    <div class="th" style="display:flex;justify-content:space-between"><span>Tanjiro Kamado</span><span>This week</span></div>
+    <div class="lrow" id="Cr1" style="top:76px"><div class="day">Fri</div><div class="why">Friday Push<small>Spiff payout · per sale · order <span class="mono">#10482</span></small></div><div class="amt mono">+$25.00</div></div>
+    <div class="lrow" id="Cr2" style="top:200px"><div class="day">Fri</div><div class="why">Friday Push<small>Spiff payout · per sale · order <span class="mono">#10477</span></small></div><div class="amt mono">+$25.00</div></div>
+    <div class="lrow" id="Cr3" style="top:324px"><div class="day">Thu</div><div class="why">20 Sales by Thursday<small>Spiff payout · deadline target reached</small></div><div class="amt mono">+$100.00</div></div>
+    <div class="lrow" id="Cr4" style="top:448px"><div class="day">Wed</div><div class="why">Manual adjustment<small>Double-shift bonus · added by admin</small></div><div class="amt mono">+$25.00</div></div>
+    <div class="ltotal" id="Ctot"><div style="font-size:32px;font-weight:600;color:var(--navy)">Spiff balance</div><div class="mono" style="font-size:60px;font-weight:600;color:var(--navy)">$175.00</div></div>
+  </div>
+</section>
+
+<div id="cap"></div>
+<script src="../../shared/runtime.js"></script>
+<script>
+// Leaderboard rows (ranked by Total Revenue). Tanjiro's close (+$189) lifts him past Bakugo.
+const ROWS = [
+  ['Satoru Gojo', 48250], ['Katsuki Bakugo', 42110], ['Tanjiro Kamado', 41980], ['Anya Forger', 37410], ['Shoyo Hinata', 33870]
+];
+const MEDAL = ['gold', 'silver', 'bronze'], PLACE = ['1st Place', '2nd Place', '3rd Place'];
+$('Brows').innerHTML = ROWS.map(([n], i) => `<div class="lbrow" id="Br${i}"><div class="rank"></div><div class="av">${n[0]}</div><div><div class="nm">${n}</div><div class="pl"></div></div><div class="rev mono">${money(ROWS[i][1], 0)}</div>${i === 2 ? '<div class="up mono" id="Bup">▲ +$189</div>' : ''}</div>`).join('');
+const setRank = (el, r) => {
+  const rk = el.querySelector('.rank'), key = String(r);
+  if (rk.dataset.r === key) return; rk.dataset.r = key;
+  rk.innerHTML = r < 3 ? `<img src="../../shared/assets/${MEDAL[r]}_medal.svg" alt="">` : (r + 1);
+  el.querySelector('.pl').textContent = r < 3 ? PLACE[r] : '';
+  el.querySelector('.pl').style.display = r < 3 ? 'block' : 'none';
+};
+
+window.renderChapter = function (t) {
+  const A = SC.A.s, B = SC.B.s, C = SC.C.s;
+
+  // ---- A: cursor clicks Create on "once" → active; order completes on "closes"; balance counts up on "credited"
+  enter($('Ah'), t, A + 0.05, 0.5, 40);
+  enter($('Aspiff'), t, A + 0.25, 0.45, 60);
+  const clickT = wt('l1', 'once');
+  cursor($('Acur'), t, [[A + 0.6, 700, 1300], [clickT - 0.08, 905, 742], [clickT + 1.0, 860, 860]], [clickT]);
+  if (t > clickT + 1.0) $('Acur').style.opacity = 1 - prog(t, clickT + 1.0, 0.3);
+  const made = t >= clickT + 0.08;
+  $('Abtn').style.display = made ? 'none' : 'inline-flex';
+  $('Aact').style.display = made ? 'inline-flex' : 'none';
+  $('Aact').style.transform = `scale(${made ? 0.8 + 0.2 * backOut(prog(t, clickT + 0.08, 0.35)) : 1})`;
+  $('Attl').textContent = made ? 'Friday Push' : 'Create Spiff';
+  $('Abtn').style.transform = `scale(${t > clickT - 0.02 && t < clickT + 0.1 ? 0.93 : 1})`;
+  const closeT = wt('l2', 'closes'), credT = wt('l2', 'credited');
+  const tp = easeOut(prog(t, closeT - 0.1, 0.4));
+  $('Atoast').style.opacity = tp; $('Atoast').style.transform = `translateX(${(1 - tp) * -120}px)`;
+  enter($('Abal'), t, A + 0.7, 0.45, 50);
+  const cnt = easeInOut(prog(t, credT, 0.6));
+  $('Aamt').textContent = money(150 + 25 * cnt);
+  $('Aamt').style.color = (t > credT && t < credT + 1.4) ? 'var(--success)' : 'var(--ink)';
+  enter($('Acredit'), t, credT, 0.4, 0, 0.3);
+
+  // ---- B: rows slide in; on "live" Tanjiro's revenue ticks up and he climbs from 3rd to 2nd
+  enter($('Blb'), t, B + 0.2, 0.5, 60);
+  const liveT = wt('l3', 'live');
+  const sw = easeInOut(prog(t, liveT + 0.2, 0.6));
+  const pos = [0, 1 + sw, 2 - sw, 3, 4];
+  ROWS.forEach((_, i) => {
+    const el = $('Br' + i); el.style.top = (pos[i] * 138) + 'px';
+    const p = easeOut(prog(t, B + 0.4 + i * 0.1, 0.4)); el.style.opacity = p; el.style.transform = `translateX(${(1 - p) * 40}px)`;
+    setRank(el, i === 1 ? (sw > 0.5 ? 2 : 1) : i === 2 ? (sw > 0.5 ? 1 : 2) : i);
+  });
+  $('Br2').querySelector('.rev').textContent = money(41980 + 189 * easeInOut(prog(t, liveT, 0.5)), 0);
+  const hl = t > liveT && t < liveT + 2.2;
+  $('Br2').style.zIndex = 5;
+  $('Br2').style.background = hl ? '#EFF6FF' : '#F8FAFC';
+  $('Br2').style.borderColor = hl ? '#93C5FD' : 'var(--border)';
+  $('Br2').style.boxShadow = hl ? '0 10px 30px rgba(37,99,235,.18)' : 'none';
+  enter($('Bup'), t, liveT, 0.35, 10, 0.2);
+
+  // ---- C: ledger rows land, newest first, then the balance total on "payday"
+  enter($('Cl'), t, C + 0.2, 0.5, 60);
+  ['Cr1', 'Cr2', 'Cr3', 'Cr4'].forEach((r, i) => enter($(r), t, C + 0.5 + i * 0.18, 0.35, 24));
+  $('Cr1').style.background = t < C + 2.5 ? '#ECFDF5' : 'transparent';
+  enter($('Ctot'), t, wt('l4', 'payday'), 0.4, 0, 0.1);
+};
+</script>
+</body>
+</html>

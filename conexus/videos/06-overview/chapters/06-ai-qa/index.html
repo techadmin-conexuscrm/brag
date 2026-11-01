@@ -1,0 +1,232 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/base.css">
+<script src="out/timeline.js"></script>
+<style>
+  /* shared bits for this chapter */
+  .av{width:52px;height:52px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff}
+  .sc{display:inline-flex;align-items:center;justify-content:center;min-width:86px;height:50px;padding:0 14px;border-radius:999px;font-size:30px;font-weight:700;font-family:"Geist Mono",monospace;font-variant-numeric:tabular-nums}
+  .s-hi{background:#DCFCE7;color:#166534;box-shadow:inset 0 0 0 2px rgba(22,163,74,.25)}
+  .s-mid{background:#FEF3C7;color:#92400E;box-shadow:inset 0 0 0 2px rgba(217,119,6,.25)}
+  .s-lo{background:#FEE2E2;color:#991B1B;box-shadow:inset 0 0 0 2px rgba(220,38,38,.25)}
+  .s-none{background:#F1F5F9;color:#94A3B8}
+  .spill{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 18px;border-radius:999px;font-size:23px;font-weight:600;white-space:nowrap}
+
+  /* A — toggle + call grid */
+  .tog{left:60px;width:960px;top:700px;height:104px;padding:0 30px;display:flex;align-items:center;gap:20px}
+  .tog .t1{font-size:30px;font-weight:700;color:var(--ink)} .tog .t2{font-size:22px;color:var(--muted)}
+  .sw{margin-left:auto;width:96px;height:52px;border-radius:999px;background:#CBD5E1;position:relative;flex:none}
+  .sw i{position:absolute;top:5px;left:5px;width:42px;height:42px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+  .tog .st{font-size:24px;font-weight:700;width:60px;text-align:right}
+  .grid{position:absolute;left:60px;right:60px;top:830px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .ct{position:relative;background:#fff;border-radius:18px;height:152px;padding:18px 18px;box-shadow:0 10px 30px rgba(15,23,42,.12);display:flex;flex-direction:column;justify-content:space-between}
+  .ct .r1{display:flex;align-items:center;gap:12px}
+  .ct .nm{font-size:25px;font-weight:700;color:var(--ink);line-height:1.1} .ct .cu{font-size:21px;color:var(--muted)}
+  .ct .r2{display:flex;align-items:center;justify-content:space-between}
+  .ct .dur{font-size:25px;color:var(--slate);font-weight:600}
+  .ct .rev{position:absolute;top:-16px;right:-8px;box-shadow:0 6px 16px rgba(15,23,42,.25);height:36px;padding:0 12px;border-radius:999px;background:var(--blue);color:#fff;font-size:19px;font-weight:700;display:flex;align-items:center}
+
+  /* B — transcript + scorecard */
+  .tr{left:60px;width:960px;top:690px;padding:24px 30px}
+  .tr .hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+  .tr .who{font-size:21px;color:var(--muted);font-weight:500}
+  .tl{display:flex;gap:16px;align-items:flex-start;margin-top:10px;font-size:24px;line-height:1.35;color:var(--ink)}
+  .tl .sp{flex:none;width:132px;height:36px;border-radius:8px;font-size:18px;font-weight:700;letter-spacing:.06em;display:flex;align-items:center;justify-content:center;margin-top:2px}
+  .sp.sa{background:#E0E7FF;color:var(--navy)} .sp.sc2{background:#F1F5F9;color:var(--slate)}
+  .scard{left:60px;width:960px;top:900px;padding:26px 30px}
+  .srow{display:flex;align-items:flex-end;justify-content:space-between}
+  .big{font-size:92px;font-weight:800;line-height:.95;color:#16A34A;letter-spacing:-.03em}
+  .big small{font-size:38px;color:var(--muted);font-weight:600;letter-spacing:0}
+  .appr{display:inline-flex;align-items:center;gap:10px;height:56px;padding:0 24px;border-radius:14px;background:#DCFCE7;color:#166534;font-size:28px;font-weight:700}
+  .thr{font-size:21px;color:var(--muted);text-align:right;margin-top:10px}
+  .summ{margin-top:14px;font-size:23px;color:var(--slate);line-height:1.35}
+  .summ b{color:var(--ink)}
+  .cr{border:1.5px solid var(--border);border-radius:14px;padding:12px 16px;margin-top:12px}
+  .cr .h{display:flex;align-items:center;gap:12px}
+  .cr .ty{flex:none;font-size:17px;font-weight:700;letter-spacing:.04em;padding:4px 10px;border-radius:8px}
+  .ty.b{background:#DBEAFE;color:#1D4ED8} .ty.s{background:#EDE9FE;color:#6D28D9}
+  .cr .d{font-size:23px;font-weight:600;color:var(--ink);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cr .res{flex:none;font-size:21px;font-weight:700;padding:4px 14px;border-radius:999px;background:#DCFCE7;color:#166534}
+  .cr .why{margin-top:8px;background:#F4F5F8;border-radius:8px;padding:7px 12px;font-size:20px;color:var(--slate);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+  /* C — critical flag */
+  .fl{left:60px;width:960px;top:690px;padding:24px 30px;border:3px solid #FCA5A5}
+  .fl .h{display:flex;align-items:center;gap:14px}
+  .fl .ttl{font-size:30px;font-weight:800;color:#B91C1C}
+  .fl .crit{font-size:20px;font-weight:700;padding:5px 12px;border-radius:8px;background:#FEE2E2;color:#B91C1C;letter-spacing:.04em}
+  .fl .d{margin-top:12px;font-size:24px;font-weight:600;color:var(--ink);line-height:1.3}
+  .fl .why{margin-top:12px;background:#FEF2F2;border-radius:10px;padding:12px 16px;font-size:22px;color:#7F1D1D;line-height:1.35}
+  .fl .meta{margin-top:12px;font-size:21px;color:var(--muted)}
+  .agc{left:60px;width:960px;top:990px;height:112px;padding:0 28px;display:flex;align-items:center;gap:18px}
+  .agc .nm{font-size:30px;font-weight:700}
+  .agc .sb{font-size:21px;color:var(--muted)}
+  .agc .state{margin-left:auto}
+  .mail{left:60px;width:960px;top:1122px;padding:20px 28px;display:flex;gap:18px;align-items:center}
+  .mail .ic{width:60px;height:60px;border-radius:14px;background:#FEE2E2;color:#B91C1C;font-size:30px;display:flex;align-items:center;justify-content:center;flex:none}
+  .mail .to{font-size:21px;color:var(--muted)} .mail .sj{font-size:25px;font-weight:700;color:var(--ink);line-height:1.25}
+  .un{left:60px;width:960px;top:1270px;height:196px;padding:22px 28px}
+  .un .t{font-size:24px;font-weight:700;color:var(--ink)}
+  .un .row{display:flex;align-items:center;gap:18px;margin-top:18px;position:relative;height:120px}
+  .gen{display:inline-flex;align-items:center;gap:10px;height:64px;padding:0 26px;border-radius:14px;background:var(--danger);color:#fff;font-size:26px;font-weight:700}
+  .code{position:absolute;left:0;top:0;display:flex;align-items:center;gap:20px}
+  .code .box{height:84px;padding:0 26px;border-radius:14px;border:2px dashed #93C5FD;background:#EFF6FF;font-size:52px;font-weight:600;letter-spacing:.18em;color:var(--navy);display:flex;align-items:center}
+  .code .n{font-size:22px;color:var(--slate);line-height:1.35}
+</style>
+</head>
+<body>
+<section class="scene bg-blue" id="A">
+  <div class="chtag light">06 · AI call QA</div>
+  <div class="eyebrow" style="color:#fff">Quality assurance</div>
+  <div class="headline" id="Ah"><span style="color:#fff">No more</span><span class="l2" style="color:var(--navy)">sampling.</span></div>
+  <div class="card tog" id="Atog"><div><div class="t1">Enable QA System</div><div class="t2">Score threshold 7.0/10 · your own criteria</div></div><span class="st" id="Ast">Off</span><div class="sw" id="Asw"><i id="Aknob"></i></div></div>
+  <div class="grid" id="Agrid"></div>
+  <div class="cursor" id="Acur"><svg viewBox="0 0 24 24" width="56" height="56"><path d="M4 2 L4 20 L9 15 L12.5 22 L15.5 20.6 L12 13.8 L19 13.8 Z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+</section>
+
+<section class="scene bg-light" id="B">
+  <div class="eyebrow" style="color:var(--accent)">Your scorecard</div>
+  <div class="headline sm"><span style="color:var(--navy)">Your rules,</span><span class="l2" style="color:var(--accent)">with reasons.</span></div>
+  <div class="card tr" id="Btr">
+    <div class="hd"><span class="th">Transcription</span><span class="who">Yuji Itadori → Toge Inumaki · <span class="mono">4:12</span></span></div>
+    <div class="tl" id="Bt1"><span class="sp sa">AGENT</span><span id="Bt1x"></span></div>
+    <div class="tl" id="Bt2"><span class="sp sc2">CUSTOMER</span><span id="Bt2x"></span></div>
+  </div>
+  <div class="card scard" id="Bsc">
+    <div class="srow">
+      <div><div class="th" style="margin-bottom:10px">QA Score Summary</div><div class="big" id="Bbig">0.0<small>/10</small></div></div>
+      <div><div class="appr" id="Bappr">✓ Approved</div><div class="thr">Pass Threshold <b class="mono" style="color:var(--ink)">7.0/10</b></div></div>
+    </div>
+    <div class="summ" id="Bsum"><b>Summary:</b> friendly reorder; total confirmed before payment.</div>
+    <div id="Bcr"></div>
+  </div>
+</section>
+
+<section class="scene bg-dark" id="C">
+  <div class="eyebrow" style="color:#FCA5A5">QA enforcement</div>
+  <div class="headline sm"><span style="color:#fff">Critical flag,</span><span class="l2" style="color:#F87171">agent paused.</span></div>
+  <div class="card fl" id="Cfl">
+    <div class="h"><span style="font-size:32px">⚑</span><span class="ttl">Issues Detected</span><span class="crit">FLAG · CRITICAL</span></div>
+    <div class="d">“Flag the call if the agent promises a refund or guarantee we don't offer.”</div>
+    <div class="why">Agent told Kasumi Miwa she could cancel any time for a full refund, which the policy on file doesn't offer.</div>
+    <div class="meta">Nobara Kugisaki → Kasumi Miwa · <span class="mono">3:48</span> · Jujutsu High</div>
+  </div>
+  <div class="card agc" id="Cag">
+    <div class="av" style="width:64px;height:64px;font-size:24px;background:#DB2777">NK</div>
+    <div><div class="nm">Nobara Kugisaki</div><div class="sb">Agent · Jujutsu High</div></div>
+    <div class="state" id="Cstate"></div>
+  </div>
+  <div class="card mail" id="Cem">
+    <div class="ic">✉</div>
+    <div><div class="to">To: Yuta Okkotsu and all admins</div><div class="sj">User Access Blocked - Nobara Kugisaki in Jujutsu High</div></div>
+  </div>
+  <div class="card un" id="Cun">
+    <div class="t">Critical flag · Nobara Kugisaki is paused in Jujutsu High.</div>
+    <div class="row">
+      <div class="gen" id="Cgen">⚿ Generate unflag code</div>
+      <div class="code" id="Ccode"><div class="box mono">482913</div><div class="n"><b>Works once,</b><br>for 24 hours</div><div class="btn ghost" style="height:56px;font-size:22px;padding:0 22px">Copy</div></div>
+    </div>
+  </div>
+  <div class="cursor" id="Ccur"><svg viewBox="0 0 24 24" width="56" height="56"><path d="M4 2 L4 20 L9 15 L12.5 22 L15.5 20.6 L12 13.8 L19 13.8 Z" fill="#0F172A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+</section>
+
+<div id="cap"></div>
+<script src="../../shared/runtime.js"></script>
+<script>
+// Agents and customers: Jujutsu Kaisen cast (see notes.md)
+const AG = { YI:['Yuji','#E11D48'], MF:['Megumi','#1E3A8A'], NK:['Nobara','#DB2777'], MZ:['Maki','#059669'] };
+const CALLS = [ // [agent, customer, duration, score, sampled-by-hand]
+  ['YI','Toge I.','4:12',9.3,0], ['MF','Aoi T.','2:37',8.6,1], ['NK','Kasumi M.','3:48',6.0,0],
+  ['MZ','Toge I.','1:54',8.2,0], ['YI','Aoi T.','5:06',9.1,0], ['MF','Kasumi M.','1:21',7.4,0],
+  ['NK','Aoi T.','2:10',8.8,0], ['MZ','Kasumi M.','6:33',4.7,0], ['YI','Kasumi M.','3:02',8.9,1],
+  ['MF','Toge I.','1:08',7.9,0], ['NK','Toge I.','4:45',9.0,0], ['MZ','Aoi T.','2:26',8.4,0],
+];
+const band = s => s >= 8 ? 's-hi' : s >= 6 ? 's-mid' : 's-lo';
+$('Agrid').innerHTML = CALLS.map(([a, c, d, s, r], i) => `
+  <div class="ct" id="ct${i}">
+    <div class="r1"><div class="av" style="background:${AG[a][1]}">${a}</div><div><div class="nm">${AG[a][0]}</div><div class="cu">→ ${c}</div></div></div>
+    <div class="r2"><span class="mono dur" id="du${i}">${d}</span><span class="sc s-none" id="sc${i}">—</span></div>
+    ${r ? `<div class="rev" id="rv${i}">✓ Reviewed</div>` : ''}
+  </div>`).join('');
+
+const CRIT = [ // boolean pass = 10, scaled as given → (10 + 8 + 10) / 3 = 9.3 (analyze-call.ts calculateScore)
+  ['b','BOOLEAN','Did the agent greet the customer professionally?','Pass','Opened with his name and the company, then asked how he could help.'],
+  ['s','SCALED','Rate the agent\'s communication clarity','8/10','Explained the reorder clearly; repeated one price detail once.'],
+  ['b','BOOLEAN','Did the agent confirm the total before charging?','Pass','Read back $89.00 and got a clear yes before taking payment.'],
+];
+$('Bcr').innerHTML = CRIT.map(([k, ty, d, res, why], i) => `
+  <div class="cr" id="cr${i}"><div class="h"><span class="ty ${k}">${ty}</span><span class="d">${d}</span><span class="res">${res === 'Pass' ? '✓ Pass' : res}</span></div>
+  <div class="why" id="why${i}">${why}</div></div>`).join('');
+
+function statePill(t, at) {
+  if (t < at) return `<span class="spill" style="background:#DBEAFE;color:#1D4ED8;border:2px solid #93C5FD">On a call <span class="mono" style="opacity:.8">${'0:' + String(41 + Math.max(0, Math.floor(t - SC.C.s))).padStart(2, '0')}</span></span>`;
+  return `<span class="spill" style="background:#FEE2E2;color:#B91C1C;border:2px solid #FCA5A5">Not ready · Paused by QA</span>`;
+}
+
+window.renderChapter = function (t) {
+  const A = SC.A.s, B = SC.B.s, C = SC.C.s;
+
+  // A — a few calls get a hand review… then QA switches on and every call lands a score
+  enter($('Ah'), t, A + 0.05, 0.5, 40);
+  enter($('Atog'), t, A + 0.15, 0.45, 40);
+  const tSample = wt('l1', 'sample'), tQa = wt('l2', 'qa'), tScore = wt('l2', 'scores'), tMin = wt('l2', 'minute');
+  CALLS.forEach((c, i) => {
+    const el = $('ct' + i);
+    enter(el, t, A + 0.3 + i * 0.05, 0.4, 40);
+    const land = tScore + i * 0.105;
+    const sampled = c[4];
+    // unsampled calls fade back while the "small sample" is named, then return when scored
+    const dim = sampled ? 0 : prog(t, tSample, 0.35) * (1 - prog(t, land - 0.1, 0.25));
+    el.style.opacity = Number(el.style.opacity) * (1 - 0.55 * dim);
+    const sc = $('sc' + i);
+    if (t >= land) {
+      const p = backOut(prog(t, land, 0.35));
+      sc.className = 'sc ' + band(c[3]); sc.textContent = c[3].toFixed(1);
+      sc.style.transform = `scale(${0.6 + 0.4 * p})`;
+    } else { sc.className = 'sc s-none'; sc.textContent = '—'; sc.style.transform = ''; }
+    if (sampled) { const rv = $('rv' + i); const p = backOut(prog(t, tSample + (i === 1 ? 0 : 0.2), 0.35)); rv.style.opacity = prog(t, tSample, 0.15) * (1 - prog(t, tScore - 0.2, 0.3)); rv.style.transform = `scale(${0.6 + 0.4 * p})`; }
+    // "over a minute": durations flash
+    const fl = prog(t, tMin, 0.25) * (1 - prog(t, tMin + 0.9, 0.4));
+    $('du' + i).style.color = fl > 0.01 ? `rgba(47,140,244,${0.4 + 0.6 * fl})` : '';
+  });
+  // the QA switch flips on as "QA on" is said
+  const on = easeInOut(prog(t, tQa - 0.05, 0.25));
+  $('Asw').style.background = on > 0.5 ? '#16A34A' : '#CBD5E1';
+  $('Aknob').style.transform = `translateX(${on * 44}px)`;
+  $('Ast').textContent = on > 0.5 ? 'On' : 'Off'; $('Ast').style.color = on > 0.5 ? '#16A34A' : 'var(--muted)';
+  cursor($('Acur'), t, [[tQa - 1.0, 760, 980], [tQa - 0.15, 950, 748], [tQa + 0.6, 950, 748], [tQa + 1.4, 1100, 860]], [tQa - 0.1]);
+
+  // B — transcript, then the score counts up and the criteria land with their reasons
+  enter($('Btr'), t, B + 0.05, 0.45, 40);
+  $('Bt1x').textContent = typed("Thanks for calling Jujutsu High, this is Yuji.", t, B + 0.25, 0.8);
+  $('Bt2x').textContent = typed("Hi Yuji, I'd like to reorder the starter kit.", t, B + 0.9, 0.8);
+  enter($('Bsc'), t, B + 0.35, 0.45, 50);
+  const tG = wt('l3', 'graded');
+  const v = 9.3 * easeOut(prog(t, tG - 0.1, 0.8));
+  $('Bbig').innerHTML = v.toFixed(1) + '<small>/10</small>';
+  enter($('Bappr'), t, tG + 0.7, 0.4, 0, 0.3);
+  enter($('Bsum'), t, wt('l3', 'summary') - 0.3, 0.4, 16);
+  CRIT.forEach((c, i) => {
+    enter($('cr' + i), t, wt('l3', 'scorecard') + i * 0.25, 0.4, 30);
+    const w = $('why' + i); w.style.opacity = easeOut(prog(t, wt('l3', 'reasons') + i * 0.15, 0.35));
+  });
+
+  // C — critical flag → agent paused → admins emailed → one-time unflag code
+  const tCrit = wt('l4', 'critical'), tPause = wt('l4', 'pauses'), tMail = wt('l4', 'emails'), tUn = wt('l5', 'unlocks');
+  enter($('Cfl'), t, tCrit - 0.25, 0.45, 50, 0.08);
+  enter($('Cag'), t, C + 0.2, 0.4, 40);
+  $('Cstate').innerHTML = statePill(t, tPause);
+  const pp = backOut(prog(t, tPause, 0.35)); $('Cstate').style.transform = t >= tPause ? `scale(${0.8 + 0.2 * pp})` : '';
+  enter($('Cem'), t, tMail - 0.1, 0.4, 40);
+  enter($('Cun'), t, wt('l5', 'an') - 0.2, 0.4, 40);
+  const tClick = tUn;
+  const shown = prog(t, tClick + 0.2, 0.3);
+  $('Cgen').style.opacity = 1 - shown; $('Cgen').style.transform = `scale(${t >= tClick && t < tClick + 0.15 ? 0.96 : 1})`;
+  $('Ccode').style.opacity = easeOut(shown); $('Ccode').style.transform = `translateY(${(1 - easeOut(shown)) * 14}px)`;
+  cursor($('Ccur'), t, [[wt('l5', 'an') + 0.1, 760, 1520], [tClick - 0.1, 300, 1385], [tClick + 0.6, 300, 1385], [tClick + 1.3, 640, 1455]], [tClick]);
+};
+</script>
+</body>
+</html>

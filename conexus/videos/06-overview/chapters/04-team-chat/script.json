@@ -1,0 +1,27 @@
+{
+  "voice": "af_heart",
+  "speed": 1.0,
+  "cast": "Attack on Titan: Mikasa Ackerman (agent), Levi Ackerman (floor lead), Armin Arlert, Sasha Braus, Connie Springer; customer Jean Kirstein",
+  "lines": [
+    {"id": "l1", "scene": "A", "text": "Your team chat lives right inside Conexus, with channels, DMs and mentions.", "say": "Your team chat lives right inside Conexus, with channels, D Ms, and mentions.", "emph": ["inside", "mentions."], "gap": 0.15},
+    {"id": "l2", "scene": "A", "text": "Pin the announcement everyone needs, and react to a big close in one click.", "say": "Pin the announcement everyone needs, and react to a big close in one click.", "emph": ["Pin", "click."], "gap": 0.35},
+    {"id": "l3", "scene": "B", "text": "With the dialer add-on, agents can message the floor without leaving the call.", "say": "With the dialer add-on, agents can message the floor without leaving the call.", "emph": ["without", "call."], "gap": 0.15},
+    {"id": "l4", "scene": "B", "text": "The floor lead sends the play, and the customer never waits.", "say": "The floor lead sends the play, and the customer never waits.", "emph": ["play,", "waits."], "gap": 0.6}
+  ],
+  "sfx": [
+    {"at": "l1:channels", "offset": -0.05, "kind": "pluck", "notes": [76]},
+    {"at": "l1:dms", "offset": -0.05, "kind": "pluck", "notes": [79]},
+    {"at": "l1:mentions", "offset": 0.0, "kind": "pluck", "notes": [81, 88]},
+    {"at": "l2:pin", "kind": "click"},
+    {"at": "l2:pin", "offset": 0.05, "kind": "pluck", "notes": [84]},
+    {"at": "l2:react", "kind": "click"},
+    {"at": "l2:react", "offset": 0.25, "kind": "tick"},
+    {"at": "l2:react", "offset": 0.5, "kind": "tick"},
+    {"at": "l2:react", "offset": 0.75, "kind": "tick"},
+    {"at": "l2:react", "offset": 1.0, "kind": "tick"},
+    {"at": "scene:B", "offset": 0.7, "kind": "pluck", "notes": [81]},
+    {"at": "l3:message", "kind": "click"},
+    {"at": "l4:and", "offset": 0.2, "kind": "typing", "count": 8, "spacing": 0.1},
+    {"at": "l4:customer", "kind": "bell", "notes": [81, 88], "level": 0.12}
+  ]
+}

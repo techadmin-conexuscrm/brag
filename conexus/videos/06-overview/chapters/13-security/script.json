@@ -1,0 +1,51 @@
+{
+ "voice": "af_heart",
+ "speed": 1.0,
+ "cast": "Frieren: Beyond Journey's End: Himmel (admin), Stark (agent), Fern (agent); customer Eisen",
+ "lines": [
+  {
+   "id": "l1",
+   "scene": "A",
+   "text": "Browser calls are encrypted, and saved cards are kept only as a token.",
+   "say": "Browser calls are encrypted, and saved cards are kept only as a token.",
+   "emph": [
+    "encrypted,",
+    "token."
+   ],
+   "gap": 0.35
+  },
+  {
+   "id": "l2",
+   "scene": "B",
+   "text": "Custom roles decide who sees what, and each company's data stays separate.",
+   "say": "Custom roles decide who sees what, and each company's data stays separate.",
+   "emph": [
+    "roles",
+    "separate."
+   ],
+   "gap": 0.15
+  },
+  {
+   "id": "l3",
+   "scene": "B",
+   "text": "Agent activity lands in an append-only log.",
+   "say": "Agent activity lands in an append only log.",
+   "emph": [
+    "append-only"
+   ],
+   "gap": 0.35
+  },
+  {
+   "id": "l4",
+   "scene": "C",
+   "text": "PCI self-assessed, HIPAA-ready, GDPR-aligned. SOC 2 and ISO 27001 are in progress.",
+   "say": "P C I self-assessed, HIPAA ready, G D P R aligned. SOC 2 and I S O 27001 are in progress.",
+   "emph": [
+    "HIPAA-ready,",
+    "progress."
+   ],
+   "gap": 0.6
+  }
+ ],
+ "sfx": []
+}

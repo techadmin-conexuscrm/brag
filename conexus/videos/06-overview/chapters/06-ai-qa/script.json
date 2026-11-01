@@ -1,0 +1,32 @@
+{
+  "voice": "af_heart",
+  "speed": 1.0,
+  "cast": "Jujutsu Kaisen: Yuji Itadori, Megumi Fushiguro, Nobara Kugisaki, Maki Zenin (agents), Yuta Okkotsu (admin); customers Toge Inumaki, Aoi Todo, Kasumi Miwa",
+  "lines": [
+    {"id": "l1", "scene": "A", "text": "Most teams review a small sample of calls by hand.", "say": "Most teams review a small sample of calls by hand.", "emph": ["sample"], "gap": 0.15},
+    {"id": "l2", "scene": "A", "text": "With QA on, Conexus scores every recorded call over a minute.", "say": "With Q A on, Conexus scores every recorded call over a minute.", "emph": ["every", "minute."], "gap": 0.35},
+    {"id": "l3", "scene": "B", "text": "Each call is graded on your scorecard, with reasons and a summary.", "say": "Each call is graded on your scorecard, with reasons and a summary.", "emph": ["scorecard,", "reasons"], "gap": 0.35},
+    {"id": "l4", "scene": "C", "text": "A critical flag pauses the agent and emails your admins.", "say": "A critical flag pauses the agent, and emails your admins.", "emph": ["critical", "pauses"], "gap": 0.15},
+    {"id": "l5", "scene": "C", "text": "An admin unlocks them with a one-time code.", "say": "An admin unlocks them with a one-time code.", "emph": ["one-time"], "gap": 0.6}
+  ],
+  "sfx": [
+    {"at": "l1:sample", "kind": "tick"},
+    {"at": "l1:sample", "offset": 0.2, "kind": "tick"},
+    {"at": "l2:qa", "offset": -0.1, "kind": "click"},
+    {"at": "l2:scores", "offset": 0.0, "kind": "pluck", "notes": [69]},
+    {"at": "l2:scores", "offset": 0.21, "kind": "pluck", "notes": [72]},
+    {"at": "l2:scores", "offset": 0.42, "kind": "pluck", "notes": [76]},
+    {"at": "l2:scores", "offset": 0.63, "kind": "pluck", "notes": [79]},
+    {"at": "l2:scores", "offset": 0.84, "kind": "pluck", "notes": [81]},
+    {"at": "l2:scores", "offset": 1.05, "kind": "pluck", "notes": [84]},
+    {"at": "l3:graded", "offset": 0.8, "kind": "bell", "notes": [81, 88], "level": 0.12},
+    {"at": "l3:scorecard", "kind": "tick"},
+    {"at": "l3:scorecard", "offset": 0.25, "kind": "tick"},
+    {"at": "l3:scorecard", "offset": 0.5, "kind": "tick"},
+    {"at": "l4:critical", "kind": "thud"},
+    {"at": "l4:pauses", "kind": "pluck", "notes": [57], "level": 0.16},
+    {"at": "l4:emails", "kind": "pluck", "notes": [76, 81]},
+    {"at": "l5:unlocks", "kind": "click"},
+    {"at": "l5:unlocks", "offset": 0.3, "kind": "bell", "notes": [76, 84], "level": 0.12}
+  ]
+}

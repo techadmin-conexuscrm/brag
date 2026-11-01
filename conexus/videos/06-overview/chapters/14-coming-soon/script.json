@@ -1,0 +1,14 @@
+{
+  "voice": "af_heart",
+  "speed": 1.0,
+  "cast": "Frieren: Beyond Journey's End: Fern, Stark (agents), Frieren (team lead), Himmel (admin); customers Sein, Eisen, Übel",
+  "lines": [
+    {"id": "l1", "scene": "A", "text": "Coming soon: AI that can take and make calls alongside your team.", "say": "Coming soon: A I that can take and make calls alongside your team.", "emph": ["soon:", "calls"], "gap": 0.15},
+    {"id": "l2", "scene": "A", "text": "GIFs are coming to team chat, for every big sale.", "say": "GIFs are coming to team chat, for every big sale.", "emph": ["GIFs", "sale."], "gap": 0.15},
+    {"id": "l3", "scene": "A", "text": "Secure keypad payments are on the way: customers key in their card, and the agent hears silence.", "say": "Secure keypad payments are on the way: customers key in their card, and the agent hears silence.", "emph": ["keypad", "silence."], "gap": 0.35},
+    {"id": "l4", "scene": "B", "text": "Texting your customers by SMS is coming next.", "say": "Texting your customers by S M S is coming next.", "emph": ["SMS"], "gap": 0.15},
+    {"id": "l5", "scene": "B", "text": "And we're building Conexus Sheets and Docs, for your whole team to edit together.", "say": "And we're building Conexus Sheets and Docs, for your whole team to edit together.", "emph": ["Sheets", "Docs,"], "gap": 0.35},
+    {"id": "l6", "scene": "C", "text": "And there's plenty more on the way.", "say": "And there's plenty more on the way.", "emph": ["more"], "gap": 0.6}
+  ],
+  "sfx": []
+}
