@@ -1,0 +1,249 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@500;600&display=block" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0F2288; --blue:#2563EB; --blue-soft:#EFF6FF; --ink:#0F172A; --slate:#334155;
+    --muted:#64748B; --border:#E5E7EB; --surface:#F8FAFC; --muted-bg:#F1F5F9; --white:#fff;
+    --success:#059669; --success-soft:#ECFDF5; --cyan:#00CFFF; --blue400:#60A5FA;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1080px;height:1350px;overflow:hidden;background:var(--surface)}
+  body{font-family:"Geist",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+  .mono{font-family:"Geist Mono",monospace;font-variant-numeric:tabular-nums}
+  #stage{position:absolute;inset:0;background:var(--surface)}
+  .scene{position:absolute;inset:0;opacity:0}
+  .brandbar{position:absolute;left:72px;top:64px;height:34px}
+  .headline{position:absolute;left:72px;right:72px;top:150px;font-size:72px;line-height:1.08;font-weight:650;letter-spacing:-0.025em;color:var(--ink)}
+  .headline .accent{color:var(--blue)}
+  .card{position:absolute;background:var(--white);border:1px solid var(--border);border-radius:14px;
+        box-shadow:0 1px 2px rgba(15,23,42,.04),0 12px 32px rgba(15,23,42,.07)}
+  .label{font-size:22px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+  /* S1 chat */
+  .chat{left:72px;right:72px;top:470px;height:620px;padding:0}
+  .chat-head{height:92px;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 36px;gap:14px;font-size:32px;font-weight:600}
+  .chat-head .hash{color:var(--muted);font-weight:500}
+  .chat-head .members{margin-left:auto;font-size:24px;color:var(--muted);font-weight:500}
+  .msg{position:absolute;left:36px;right:36px;display:flex;gap:22px;align-items:flex-start}
+  .avatar{width:76px;height:76px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:600;color:#fff}
+  .msg .who{font-size:26px;font-weight:600;color:var(--ink)} .msg .who span{font-weight:400;color:var(--muted);margin-left:10px;font-size:22px}
+  .msg .text{font-size:40px;line-height:1.25;color:var(--ink);margin-top:6px;font-weight:450}
+  .typing{position:absolute;left:134px;top:150px;display:flex;gap:10px;padding:20px 26px;background:var(--muted-bg);border-radius:22px}
+  .typing i{width:14px;height:14px;border-radius:50%;background:var(--muted);display:block}
+
+  /* S2 spiff */
+  .spiff{left:72px;right:72px;top:420px;height:210px;padding:30px 36px}
+  .row-grid{display:grid;grid-template-columns:1.45fr 1.25fr .7fr .8fr;gap:18px;align-items:center}
+  .th{font-size:20px;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+  .td{font-size:32px;font-weight:500;color:var(--ink);margin-top:22px}
+  .pill{display:inline-flex;align-items:center;gap:10px;padding:6px 16px;border-radius:999px;font-size:22px;font-weight:600}
+  .pill.active{background:var(--success-soft);color:var(--success)}
+  .toast{left:72px;right:72px;top:670px;height:120px;display:flex;align-items:center;gap:24px;padding:0 32px}
+  .check{width:60px;height:60px;border-radius:50%;background:var(--success);display:flex;align-items:center;justify-content:center;flex:none}
+  .toast .t1{font-size:30px;font-weight:600} .toast .t2{font-size:24px;color:var(--muted);margin-top:4px}
+  .balance{left:72px;right:72px;top:830px;height:360px;padding:36px 40px}
+  .balance .who{display:flex;align-items:center;gap:20px;font-size:30px;font-weight:600}
+  .balance .amt{font-size:112px;line-height:1.1;font-weight:600;letter-spacing:-.03em;margin-top:24px;color:var(--ink)}
+  .credit{position:absolute;right:40px;bottom:62px;padding:14px 24px;border-radius:12px;background:var(--success-soft);color:var(--success);font-size:34px;font-weight:600}
+
+  /* S3 leaderboard */
+  .rank{left:72px;right:72px;height:150px;padding:0 36px;display:flex;align-items:center;gap:26px;overflow:hidden}
+  .rank .accentline{position:absolute;left:0;top:0;bottom:0;width:8px}
+  .rank .medal{width:72px;height:72px;flex:none}
+  .rank .place{font-size:20px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .rank .name{font-size:38px;font-weight:600;margin-top:4px}
+  .rank .rev{margin-left:auto;text-align:right}
+  .rank .rev .v{font-size:44px;font-weight:600}
+  .rank .rev .l{font-size:20px;color:var(--muted);font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+  .hl{top:1000px;height:200px;width:452px;padding:30px 32px}
+  .hl .k{font-size:22px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+  .hl .n{font-size:36px;font-weight:600;margin-top:18px}
+  .hl .d{font-size:26px;color:var(--muted);margin-top:8px}
+
+  /* S4 ledger */
+  .ledger{left:72px;right:72px;top:560px;height:640px;padding:30px 36px}
+  .lrow{position:absolute;left:36px;right:36px;height:100px;display:grid;grid-template-columns:110px 1fr 190px;align-items:center;border-bottom:1px solid var(--border)}
+  .lrow .day{font-size:26px;color:var(--muted);font-weight:500}
+  .lrow .why{font-size:30px;font-weight:500} .lrow .why small{display:block;font-size:22px;color:var(--muted);font-weight:400;margin-top:4px}
+  .lrow .amt{font-size:34px;font-weight:600;color:var(--success);text-align:right}
+  .ltotal{position:absolute;left:36px;right:36px;bottom:34px;height:110px;display:flex;align-items:center;justify-content:space-between;background:var(--blue-soft);border-radius:12px;padding:0 30px}
+  .ltotal .k{font-size:30px;font-weight:600;color:var(--navy)}
+  .ltotal .v{font-size:54px;font-weight:600;color:var(--navy)}
+
+  /* S5 end */
+  #s5{background:var(--navy)}
+  .endlogo{position:absolute;left:50%;top:520px;width:760px;transform:translateX(-50%)}
+  .endlogo img{width:100%;display:block}
+  .tag{position:absolute;left:0;right:0;top:700px;text-align:center;font-size:48px;font-weight:500;color:#fff;letter-spacing:-.01em}
+  .url{position:absolute;left:0;right:0;top:800px;text-align:center;font-size:44px;font-weight:600;color:var(--cyan);font-family:"Geist Mono",monospace}
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- S1 -->
+  <section class="scene" id="s1">
+    <img class="brandbar" src="assets/logo-full-color.png" alt="">
+    <div class="headline" id="s1h">Sound familiar?</div>
+    <div class="card chat" id="s1chat">
+      <div class="chat-head"><span class="hash">#</span>sales-floor<span class="members">24 members</span></div>
+      <div class="msg" id="s1m1" style="top:132px">
+        <div class="avatar" style="background:#2563EB">J</div>
+        <div><div class="who">Jordan T. <span>4:52 PM</span></div><div class="text">Hey — did my spiff from Tuesday count?</div></div>
+      </div>
+      <div class="msg" id="s1m2" style="top:330px">
+        <div class="avatar" style="background:#7C3AED">P</div>
+        <div><div class="who">Priya S. <span>4:52 PM</span></div><div class="text">Wait, how much am I owed?</div></div>
+      </div>
+      <div class="typing" id="s1typing" style="top:470px"><i></i><i></i><i></i></div>
+    </div>
+  </section>
+
+  <!-- S2 -->
+  <section class="scene" id="s2">
+    <img class="brandbar" src="assets/logo-full-color.png" alt="">
+    <div class="headline" id="s2h">Spiffs credit the moment <span class="accent">the sale closes.</span></div>
+    <div class="card spiff" id="s2spiff">
+      <div class="row-grid"><div class="th">Spiff</div><div class="th">Type</div><div class="th">Reward</div><div class="th">Deadline</div></div>
+      <div class="row-grid">
+        <div class="td" style="font-weight:600">Friday Push <span class="pill active" style="margin-left:8px;vertical-align:middle">Active</span></div>
+        <div class="td">Flat / Per Sale</div><div class="td mono">$25</div><div class="td">Today</div>
+      </div>
+    </div>
+    <div class="card toast" id="s2toast">
+      <div class="check"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <div><div class="t1">Order completed</div><div class="t2"><span class="mono">#10482</span> · <span class="mono">$189.00</span> · Jordan T.</div></div>
+    </div>
+    <div class="card balance" id="s2bal">
+      <div class="label">Spiff balance</div>
+      <div class="who" style="margin-top:14px"><div class="avatar" style="background:#2563EB;width:52px;height:52px;font-size:24px">J</div>Jordan T.</div>
+      <div class="amt mono" id="s2amt">$150.00</div>
+      <div class="credit mono" id="s2credit">+$25.00</div>
+    </div>
+  </section>
+
+  <!-- S3 -->
+  <section class="scene" id="s3">
+    <img class="brandbar" src="assets/logo-full-color.png" alt="">
+    <div class="headline" id="s3h">Everyone sees <span class="accent">who's winning.</span></div>
+    <div class="card rank" id="s3r1" style="top:430px"><div class="accentline" style="background:#5088FF"></div>
+      <img class="medal" src="assets/gold_medal.svg" alt=""><div><div class="place">1st Place</div><div class="name">Maya R.</div></div>
+      <div class="rev"><div class="l">Total revenue</div><div class="v mono">$48,250</div></div></div>
+    <div class="card rank" id="s3r2" style="top:610px"><div class="accentline" style="background:#0CAF60"></div>
+      <img class="medal" src="assets/silver_medal.svg" alt=""><div><div class="place">2nd Place</div><div class="name">Jordan T.</div></div>
+      <div class="rev"><div class="l">Total revenue</div><div class="v mono">$41,980</div></div></div>
+    <div class="card rank" id="s3r3" style="top:790px"><div class="accentline" style="background:#FF7B00"></div>
+      <img class="medal" src="assets/bronze_medal.svg" alt=""><div><div class="place">3rd Place</div><div class="name">Luis M.</div></div>
+      <div class="rev"><div class="l">Total revenue</div><div class="v mono">$37,410</div></div></div>
+    <div class="card hl" id="s3a" style="left:72px"><div class="k" style="color:var(--blue)">Top performer</div><div class="n">Maya R.</div><div class="d">Highest revenue this week</div></div>
+    <div class="card hl" id="s3b" style="left:556px"><div class="k" style="color:var(--success)">Most improved</div><div class="n">Jordan T.</div><div class="d">QA score up week over week</div></div>
+  </section>
+
+  <!-- S4 -->
+  <section class="scene" id="s4">
+    <img class="brandbar" src="assets/logo-full-color.png" alt="">
+    <div class="headline" id="s4h">Every dollar on the ledger.<br><span class="accent">Payday math, done.</span></div>
+    <div class="card ledger" id="s4card">
+      <div class="label" style="display:flex;justify-content:space-between"><span>Balance ledger · Jordan T.</span><span>This week</span></div>
+      <div class="lrow" id="s4r1" style="top:80px"><div class="day">Fri</div><div class="why">Friday Push<small>Order <span class="mono">#10482</span></small></div><div class="amt mono">+$25.00</div></div>
+      <div class="lrow" id="s4r2" style="top:180px"><div class="day">Fri</div><div class="why">Friday Push<small>Order <span class="mono">#10477</span></small></div><div class="amt mono">+$25.00</div></div>
+      <div class="lrow" id="s4r3" style="top:280px"><div class="day">Thu</div><div class="why">20 Sales by Thursday<small>Deadline spiff · target hit</small></div><div class="amt mono">+$100.00</div></div>
+      <div class="lrow" id="s4r4" style="top:380px"><div class="day">Wed</div><div class="why">Adjustment<small>Coaching shift bonus · added by admin</small></div><div class="amt mono">+$25.00</div></div>
+      <div class="ltotal" id="s4tot"><div class="k">Balance owed</div><div class="v mono">$175.00</div></div>
+    </div>
+  </section>
+
+  <!-- S5 -->
+  <section class="scene" id="s5">
+    <div class="endlogo" id="s5logo"><img src="assets/logo-reversed-white.png" alt="Conexus"></div>
+    <div class="tag" id="s5tag">Customer relationships, connected.</div>
+    <div class="url" id="s5url">tryconexus.com</div>
+  </section>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const clamp = (x,a=0,b=1) => Math.min(b,Math.max(a,x));
+const easeOut = p => 1 - Math.pow(1-p,3);
+const easeInOut = p => p<.5 ? 4*p*p*p : 1-Math.pow(-2*p+2,3)/2;
+const prog = (t,s,d) => clamp((t-s)/d);
+
+// Scene windows (seconds). Cuts on the 120 BPM beat grid.
+const SCENES = [['s1',0,4.0],['s2',4.0,9.5],['s3',9.5,14.5],['s4',14.5,18.5],['s5',18.5,22.0]];
+const FADE_OUT = 0.28, FADE_IN = 0.3;
+
+// entrance: fade + rise
+function enter(el, t, start, dur=0.45, dy=36, scale=0){
+  const p = easeOut(prog(t,start,dur));
+  el.style.opacity = p;
+  const s = scale ? (1 - scale*(1-p)) : 1;
+  el.style.transform = `translateY(${(1-p)*dy}px) scale(${s})`;
+}
+function money(v){ return '$' + v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+window.renderAt = function(t){
+  for (const [id,s,e] of SCENES){
+    const el = $(id);
+    const last = id==='s5';
+    let o = 0;
+    if (t>=s && t<e+(last?1:0)){
+      o = (id==='s1') ? 1 : easeOut(prog(t,s,FADE_IN));
+      if (!last) o *= 1 - easeInOut(prog(t,e-FADE_OUT,FADE_OUT));
+    }
+    el.style.opacity = o;
+    el.style.display = o>0 ? 'block' : 'none';
+  }
+
+  // S1
+  enter($('s1chat'), t, -1, 0.01, 0);
+  enter($('s1m1'), t, 0.5, 0.4, 28);
+  enter($('s1m2'), t, 1.5, 0.4, 28);
+  enter($('s1h'), t, 2.0, 0.5, 30);
+  const ty = $('s1typing');
+  ty.style.opacity = (t>2.5 && t<4.0) ? 1 : 0;
+  // typing dots bounce (also shown before first message)
+  const pre = t < 0.5;
+  if (pre){ ty.style.opacity = 1; ty.style.top = '150px'; } else { ty.style.top = '470px'; }
+  [...ty.children].forEach((d,i)=>{ const ph = (t*2.0 - i*0.18)%1; d.style.transform = `translateY(${-8*Math.max(0,Math.sin(ph*Math.PI*2))}px)`; d.style.opacity = .5 + .5*Math.max(0,Math.sin(ph*Math.PI*2)); });
+
+  // S2
+  enter($('s2h'), t, 4.0, 0.5, 30);
+  enter($('s2spiff'), t, 4.5, 0.45, 40);
+  enter($('s2toast'), t, 6.0, 0.4, 0, 0.06);
+  if (t>=6.0){ const p = easeOut(prog(t,6.0,0.4)); $('s2toast').style.transform = `translateX(${(1-p)*-80}px)`; }
+  enter($('s2bal'), t, 6.5, 0.45, 40);
+  const cp = easeInOut(prog(t,7.0,0.6));
+  $('s2amt').textContent = money(150 + 25*cp);
+  $('s2amt').style.color = (t>7.0 && t<7.9) ? '#059669' : '#0F172A';
+  enter($('s2credit'), t, 7.0, 0.35, 0, 0.25);
+
+  // S3
+  enter($('s3h'), t, 9.5, 0.5, 30);
+  enter($('s3r1'), t, 10.0, 0.45, 40);
+  enter($('s3r2'), t, 10.5, 0.45, 40);
+  enter($('s3r3'), t, 11.0, 0.45, 40);
+  enter($('s3a'), t, 12.0, 0.45, 40);
+  enter($('s3b'), t, 12.5, 0.45, 40);
+
+  // S4
+  enter($('s4h'), t, 14.5, 0.5, 30);
+  enter($('s4card'), t, 14.75, 0.4, 30);
+  enter($('s4r1'), t, 15.0, 0.35, 20);
+  enter($('s4r2'), t, 15.25, 0.35, 20);
+  enter($('s4r3'), t, 15.5, 0.35, 20);
+  enter($('s4r4'), t, 15.75, 0.35, 20);
+  enter($('s4tot'), t, 16.5, 0.4, 0, 0.08);
+
+  // S5 — mask reveal left→right, then lines
+  const lp = easeInOut(prog(t,18.75,0.8));
+  $('s5logo').style.clipPath = `inset(0 ${100-lp*100}% 0 0)`;
+  enter($('s5tag'), t, 19.5, 0.5, 24);
+  enter($('s5url'), t, 20.0, 0.5, 24);
+};
+window.renderAt(0);
+</script>
+</body>
+</html>
